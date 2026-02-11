@@ -7,7 +7,10 @@
       "WebFetch(domain:github.com)",
       "Bash(bunx shadcn-svelte@latest --help:*)",
       "Bash(bunx shadcn-svelte@latest add:*)",
-      "Bash(bunx:*)"
+      "Bash(bunx:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nchore: replace Inter with Source Sans 3 for body typography\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)"
     ]
   }
 }
