@@ -54,9 +54,13 @@ Before writing code, do a short internal plan and then execute. Commit to a BOLD
 - Keep custom components consistent with shadcn patterns and tokens.
 
 ### 4) Typography must be distinctive (no generic defaults)
-- Avoid: Arial, Roboto, “system” stacks, and tired AI defaults.
-- Choose a characterful display font + clean body font pairing.
-- Must be implemented (e.g., via `app.html` or CSS import) and used consistently.
+- Avoid generic system fonts (Arial, Roboto, plain "system" stacks). Source Sans 3 is the adopted project body font; do not replace it without deliberate reason.
+- Keep a distinctive display font (Cormorant Garamond) for headlines.
+- **Current Divine Detail font pairing:**
+  - `--font-display`: Cormorant Garamond (headlines, hero text, section titles)
+  - `--font-sans`: Source Sans 3 (body, UI, navigation)
+- Fonts are loaded via Google Fonts in `app.html` and mapped to Tailwind tokens in `layout.css` (`@theme inline`).
+- **If changing fonts, do it deliberately and update `app.html` + tokens together.**
 - Typography should feel editorial and premium (intentional sizes, line heights, letter-spacing).
 
 ### 5) Motion: one signature sequence beats lots of noise
@@ -104,7 +108,7 @@ When the user asks for UI work:
 
 ## Anti-Slop Checklist (Fail the work if any are true)
 
-- Uses generic fonts (Inter/Roboto/system) without a deliberate reason.
+- Uses generic fonts (Roboto/system-only stacks) or replaces the established Source Sans 3 + Cormorant Garamond pairing without deliberate reason.
 - Uses generic purple gradients or template-y hero sections.
 - Repeats “SaaS landing page” layout clichés.
 - Hardcodes random colors instead of tokens.
