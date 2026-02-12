@@ -4,12 +4,17 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-		<link rel="preconnect" href="https://fonts.googleapis.com" />
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link
-			href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600;700&display=swap"
-			rel="stylesheet"
-		/>
+		<link rel="dns-prefetch" href="https://wa.me" />
+		<script type="speculationrules">
+			{
+				"prerender": [
+					{
+						"where": { "href_matches": ["/services", "/contact"] },
+						"eagerness": "moderate"
+					}
+				]
+			}
+		</script>
 		<script>
 			(function () {
 				const stored = localStorage.getItem('theme');
@@ -20,7 +25,7 @@
 		</script>
 		%sveltekit.head%
 	</head>
-	<body data-sveltekit-preload-data="hover">
+	<body data-sveltekit-preload-data="hover" data-sveltekit-preload-code="eager">
 		<div style="display: contents">%sveltekit.body%</div>
 	</body>
 </html>

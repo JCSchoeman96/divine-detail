@@ -226,7 +226,7 @@
           Book a Consultation
           <ArrowRight class="size-4" />
         </Button>
-        <Button href="https://wa.me/" variant="outline" size="lg">
+        <Button href="https://wa.me/27816098157" variant="outline" size="lg">
           WhatsApp Me
         </Button>
       </div>

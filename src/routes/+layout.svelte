@@ -55,7 +55,7 @@
       <!-- Desktop right side -->
       <div class="hidden items-center gap-2 md:flex">
         <ThemeToggle />
-        <Button href="https://wa.me/" size="sm">Book on WhatsApp</Button>
+        <Button href="https://wa.me/27816098157" size="sm">Book on WhatsApp</Button>
       </div>
 
       <!-- Mobile right side -->
@@ -89,7 +89,7 @@
                 </SheetClose>
               {/each}
               <Separator />
-              <Button href="https://wa.me/" size="sm" class="w-full">Book on WhatsApp</Button>
+              <Button href="https://wa.me/27816098157" size="sm" class="w-full">Book on WhatsApp</Button>
             </nav>
           </SheetContent>
         </Sheet>
@@ -131,7 +131,7 @@
             <Instagram class="size-5" />
           </a>
           <a
-            href="https://wa.me/"
+            href="https://wa.me/27816098157"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp"

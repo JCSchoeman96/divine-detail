@@ -247,7 +247,7 @@
 							<div>
 								<p class="text-sm font-medium">WhatsApp</p>
 								<a
-									href="https://wa.me/"
+									href="https://wa.me/27816098157"
 									class="text-sm text-muted-foreground transition-colors hover:text-foreground"
 								>
 									Message on WhatsApp
