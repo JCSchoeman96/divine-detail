@@ -1,93 +1,65 @@
 <script lang="ts">
   import { Button } from '$lib/components/ui/button/index.js';
-  import {
-    Card,
-    CardContent,
-    CardFooter,
-  } from '$lib/components/ui/card/index.js';
+  import { Card, CardContent } from '$lib/components/ui/card/index.js';
   import { Badge } from '$lib/components/ui/badge/index.js';
   import { Separator } from '$lib/components/ui/separator/index.js';
-  import Gem from '@lucide/svelte/icons/gem';
-  import Sparkles from '@lucide/svelte/icons/sparkles';
-  import Star from '@lucide/svelte/icons/star';
-  import Check from '@lucide/svelte/icons/check';
-  import MapPin from '@lucide/svelte/icons/map-pin';
-  import Clock from '@lucide/svelte/icons/clock';
-  import CreditCard from '@lucide/svelte/icons/credit-card';
   import ArrowRight from '@lucide/svelte/icons/arrow-right';
-  import Scissors from '@lucide/svelte/icons/scissors';
-  import Users from '@lucide/svelte/icons/users';
-  import { WHATSAPP_URL } from '$lib/config/social.js';
   import { abs_url } from '$lib/config/site.js';
-
-  type Tab = 'makeup' | 'hair' | 'combo';
-  let activeTab = $state<Tab>('combo');
-
-  const tabs: { id: Tab; label: string; mobileLabel: string }[] = [
-    { id: 'makeup', label: 'Makeup', mobileLabel: 'Makeup' },
-    { id: 'hair', label: 'Hair', mobileLabel: 'Hair' },
-    { id: 'combo', label: 'Makeup & Hair', mobileLabel: 'Both' },
-  ];
-
-  const notes = [
-    {
-      icon: MapPin,
-      title: 'Travel',
-      text: 'Based in Moreleta Park, Pretoria. Available across Centurion, Midrand, Sandton, and Johannesburg. Travel charged at R5\u00A0/\u00A0km (to venue and back).',
-    },
-    {
-      icon: Clock,
-      title: 'Timing',
-      text: 'Bridal bookings require a 3-hour minimum window. Early-morning starts (before 06:00) carry a small surcharge.',
-    },
-    {
-      icon: CreditCard,
-      title: 'Booking',
-      text: 'A 50% deposit secures your date. Final payment is due on the day of your appointment.',
-    },
-  ] as const;
+  import { build_whatsapp_url } from '$lib/config/social.js';
 
   const pageUrl = abs_url('/services');
   const socialImage = abs_url('/og-default.svg');
-  const pageTitle = 'Divine Detail | Services & Pricing';
+  const pageTitle = 'Makeup & Hair Services Hub Pretoria | Divine Detail';
   const pageDescription =
-    'Professional makeup and hair styling services for weddings, special events, and matric farewells in Pretoria, Centurion, Midrand, and Gauteng. View packages and book your session.';
+    'Browse bridal, wedding, special event, and matric makeup services in Pretoria and Gauteng. Compare options, then open the dedicated service page for full details and booking.';
+
+  const whatsappBookingUrl = build_whatsapp_url(
+    "Hi Megan! I'd like to book makeup. Service: _____. Date: _____. Area: Pretoria. Please confirm availability."
+  );
+
+  const teaserPriceBySlug = {
+    'bridal-makeup': 'R1,500',
+    'bridal-hair': 'R450',
+    'bridal-hair-and-makeup': 'R1,950',
+    'wedding-packages': 'R2,650',
+    'special-events': 'R500',
+    'matric-farewell': 'R500',
+  } as const;
+
+  type ServiceSlug = keyof typeof teaserPriceBySlug;
+
+  const hubBlurbBySlug: Record<ServiceSlug, string> = {
+    'bridal-makeup': 'Wedding-day makeup designed to stay polished from prep photos to your last dance.',
+    'bridal-hair': 'Bridal hair styling shaped around your dress, veil, and morning timeline.',
+    'bridal-hair-and-makeup': 'One coordinated booking for both hair and makeup with a seamless final finish.',
+    'wedding-packages': 'Bundle options for brides and key party members when you need one team for the day.',
+    'special-events': 'Soft glam or full glam for birthdays, engagement shoots, and evening events.',
+    'matric-farewell': 'Photo-ready matric glam that looks clean in daylight and still pops at night.',
+  };
+
+  const serviceLabelBySlug: Record<ServiceSlug, string> = {
+    'bridal-makeup': 'Bridal Makeup',
+    'bridal-hair': 'Bridal Hair',
+    'bridal-hair-and-makeup': 'Bridal Hair & Makeup',
+    'wedding-packages': 'Wedding Packages',
+    'special-events': 'Special Events',
+    'matric-farewell': 'Matric Farewell',
+  };
+
+  const categories: { name: string; intro: string; slugs: ServiceSlug[] }[] = [
+    {
+      name: 'Bridal Services',
+      intro:
+        'Compare wedding-focused options and open the exact service page for full details and booking.',
+      slugs: ['bridal-makeup', 'bridal-hair', 'bridal-hair-and-makeup', 'wedding-packages'],
+    },
+    {
+      name: 'Events & Matric',
+      intro: 'Choose your event or matric service and continue to the dedicated page for specifics.',
+      slugs: ['special-events', 'matric-farewell'],
+    },
+  ];
 </script>
-
-{#snippet priceRow(item: string, price: string)}
-  <div class="flex items-baseline gap-2 text-sm">
-    <dt class="shrink-0 text-muted-foreground">{item}</dt>
-    <span
-      class="flex-1 translate-y-[-0.2em] border-b border-dotted border-muted-foreground/25"
-      aria-hidden="true"
-    ></span>
-    <dd class="shrink-0 font-semibold tabular-nums">{price}</dd>
-  </div>
-{/snippet}
-
-{#snippet checkItem(text: string)}
-  <li class="flex items-start gap-3 text-sm">
-    <Check class="mt-0.5 size-4 shrink-0 text-brand" aria-hidden="true" />
-    <span>{text}</span>
-  </li>
-{/snippet}
-
-{#snippet cardFooter(slug: string)}
-  <CardFooter class="border-t pt-5">
-    <div class="flex flex-wrap gap-3">
-      <Button href="/services/{slug}" variant="outline">
-        Learn More
-        <ArrowRight class="size-4" />
-      </Button>
-      <Button
-        href="/contact"
-        class="GA4_BookingBtn bg-brand text-brand-foreground hover:bg-brand/90"
-      >
-        Book Now
-      </Button>
-    </div>
-  </CardFooter>
-{/snippet}
 
 <svelte:head>
   <title>{pageTitle}</title>
@@ -104,790 +76,118 @@
   <meta name="twitter:image" content={socialImage} />
 </svelte:head>
 
-<!-- Hero -->
+<!-- Hub anti-cannibalization note: removed long-form details, full pricing tables, add-ons, inclusions/exclusions, FAQs, and process/timeline blocks. Detailed content lives on /services/[slug]. -->
+
 <section class="py-20 sm:py-24">
-  <div class="mx-auto max-w-5xl px-4">
-    <div class="hero-stagger flex flex-col items-center text-center">
-      <div class="mb-8 h-px w-12 bg-brand"></div>
-
-      <Badge variant="outline" class="mb-6 font-normal tracking-wide">
-        Pretoria &middot; Gauteng
-      </Badge>
-
-      <h1
-        class="font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl"
-      >
-        Services <span class="text-brand">&</span> Pricing
-      </h1>
-
-      <p
-        class="mx-auto mt-6 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg"
-      >
-        Professional makeup and hair styling for your most important moments.
-        Based in Pretoria, available across Gauteng and surrounding areas.
-      </p>
-
-      <div class="mt-8 h-px w-12 bg-brand"></div>
-    </div>
+  <div class="mx-auto max-w-5xl px-4 text-center">
+    <Badge variant="outline" class="font-normal tracking-wide">Pretoria &middot; Gauteng</Badge>
+    <h1 class="font-display mt-6 text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
+      Makeup & Hair Services
+    </h1>
+    <p class="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
+      Use this hub to find the right service quickly, then open the dedicated page for full details,
+      pricing, and availability.
+    </p>
   </div>
 </section>
 
 <Separator />
 
-<!-- Services -->
 <section class="py-20 sm:py-24">
-  <div class="mx-auto max-w-5xl px-4">
-    <div class="mb-14 text-center">
-      <p class="text-sm font-medium uppercase tracking-widest text-brand">
-        What I Offer
-      </p>
-      <h2
-        class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
-      >
-        Services & Packages
-      </h2>
-    </div>
-
-    <!-- Category Toggle -->
-    <div class="mb-12 flex justify-center">
-      <div
-        class="inline-flex rounded-full border border-border bg-muted/50 p-1"
-        role="tablist"
-        aria-label="Service category"
-      >
-        {#each tabs as tab (tab.id)}
-          <button
-            role="tab"
-            id="tab-{tab.id}"
-            aria-selected={activeTab === tab.id}
-            aria-controls="panel-{tab.id}"
-            class="rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 sm:px-6
-              {activeTab === tab.id
-              ? 'bg-brand text-brand-foreground shadow-sm'
-              : 'text-muted-foreground hover:text-foreground'}"
-            onclick={() => (activeTab = tab.id)}
+  <div class="mx-auto max-w-6xl px-4">
+    <div class="space-y-14">
+      {#each categories as category}
+        <section aria-labelledby={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}>
+          <h2
+            id={`category-${category.name.toLowerCase().replace(/\s+/g, '-')}`}
+            class="font-display text-3xl font-semibold tracking-tight sm:text-4xl"
           >
-            <span class="sm:hidden">{tab.mobileLabel}</span>
-            <span class="hidden sm:inline">{tab.label}</span>
-          </button>
-        {/each}
-      </div>
-    </div>
-
-    <!-- ═══════════════════ MAKEUP ═══════════════════ -->
-    <div
-        id="panel-makeup"
-        role="tabpanel"
-        aria-labelledby="tab-makeup"
-        aria-hidden={activeTab !== 'makeup'}
-        hidden={activeTab !== 'makeup'}
-        class="flex flex-col gap-8"
-      >
-        <!-- Bridal Makeup -->
-        <Card class="relative overflow-hidden ring-1 ring-brand/25">
-          <Badge
-            class="absolute right-4 top-4 border-transparent bg-brand text-brand-foreground"
-          >
-            Most Popular
-          </Badge>
-
-          <CardContent class="pt-2 sm:pt-4">
-            <div class="mb-8 flex items-start gap-4">
-              <div
-                class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand"
-              >
-                <Gem class="size-6" />
-              </div>
-              <div class="min-w-0">
-                <h3
-                  class="font-display text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
-                  Bridal Makeup
-                </h3>
-                <p class="mt-2 leading-relaxed text-muted-foreground">
-                  Your wedding day deserves a flawless, lasting look. Full trial
-                  session and premium lash application included.
-                </p>
-              </div>
-            </div>
-
-            <div class="grid gap-10 sm:grid-cols-2">
-              <div>
-                <p
-                  class="mb-4 text-xs font-medium uppercase tracking-widest text-brand"
-                >
-                  What's Included
-                </p>
-                <ul class="space-y-3">
-                  {@render checkItem('Pre-wedding consultation')}
-                  {@render checkItem('Full bridal trial session')}
-                  {@render checkItem('Wedding day application')}
-                  {@render checkItem('Premium lash application')}
-                  {@render checkItem('Long-wear, photo-ready finish')}
-                  {@render checkItem('Touch-up kit for the day')}
-                </ul>
-              </div>
-
-              <div>
-                <p
-                  class="mb-4 text-xs font-medium uppercase tracking-widest text-brand"
-                >
-                  Pricing
-                </p>
-                <dl class="space-y-3">
-                  {@render priceRow('Bridal Makeup (incl. trial & lashes)', 'R1,500')}
-                  {@render priceRow('Bridesmaid Makeup', 'R500')}
-                  {@render priceRow('Mother of Bride / Groom', 'R400')}
-                </dl>
-              </div>
-            </div>
-          </CardContent>
-
-          {@render cardFooter('bridal-makeup')}
-        </Card>
-
-        <!-- Special Events -->
-        <Card class="relative overflow-hidden">
-          <CardContent class="pt-2 sm:pt-4">
-            <div class="mb-8 flex items-start gap-4">
-              <div
-                class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand"
-              >
-                <Sparkles class="size-6" />
-              </div>
-              <div class="min-w-0">
-                <h3
-                  class="font-display text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
-                  Special Events
-                </h3>
-                <p class="mt-2 leading-relaxed text-muted-foreground">
-                  Matric farewells, birthdays, engagements, photo shoots —
-                  professional makeup that photographs beautifully and lasts all
-                  night.
-                </p>
-              </div>
-            </div>
-
-            <div class="grid gap-10 sm:grid-cols-2">
-              <div>
-                <p
-                  class="mb-4 text-xs font-medium uppercase tracking-widest text-brand"
-                >
-                  What's Included
-                </p>
-                <ul class="space-y-3">
-                  {@render checkItem('Personalised look consultation')}
-                  {@render checkItem('Full glam or soft natural finish')}
-                  {@render checkItem('Long-wear setting')}
-                  {@render checkItem('Photo-ready application')}
-                </ul>
-              </div>
-
-              <div>
-                <p
-                  class="mb-4 text-xs font-medium uppercase tracking-widest text-brand"
-                >
-                  Pricing
-                </p>
-                <dl class="space-y-3">
-                  {@render priceRow('Special Event Makeup', 'R500')}
-                </dl>
-              </div>
-            </div>
-          </CardContent>
-
-          {@render cardFooter('special-events')}
-        </Card>
-
-        <!-- Wedding Package — Makeup -->
-        <Card class="relative overflow-hidden">
-          <Badge
-            class="absolute right-4 top-4 border-transparent bg-brand text-brand-foreground"
-          >
-            Best Value
-          </Badge>
-
-          <CardContent class="pt-2 sm:pt-4">
-            <div class="mb-8 flex items-start gap-4">
-              <div
-                class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand"
-              >
-                <Star class="size-6" />
-              </div>
-              <div class="min-w-0">
-                <h3
-                  class="font-display text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
-                  Wedding Package
-                </h3>
-                <p class="mt-2 leading-relaxed text-muted-foreground">
-                  Complete makeup for the bridal party. Includes the bride plus
-                  3 additional people.
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <p
-                class="mb-4 text-xs font-medium uppercase tracking-widest text-brand"
-              >
-                Pricing
-              </p>
-              <dl class="max-w-md space-y-3">
-                {@render priceRow('Wedding Package (Bride + 3)', 'R4,000')}
-                {@render priceRow('Additional Person', 'R400')}
-              </dl>
-              <p
-                class="mt-4 text-xs leading-relaxed text-muted-foreground italic"
-              >
-                Group discount available for parties of 3 or more.
-              </p>
-            </div>
-          </CardContent>
-
-          {@render cardFooter('wedding-packages')}
-        </Card>
-
-        <!-- Add-Ons -->
-        <div class="rounded-xl border border-border bg-muted/30 px-6 py-5">
-          <p
-            class="mb-4 text-xs font-medium uppercase tracking-widest text-brand"
-          >
-            Add-Ons
+            {category.name}
+          </h2>
+          <p class="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+            {category.intro}
           </p>
-          <dl
-            class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-10 sm:gap-y-3"
-          >
-            {#each [{ item: 'Trial Session', price: 'R400' }, { item: 'Lash Application', price: 'R50' }, { item: 'Extra Person', price: 'R400' }] as tier}
-              <div class="flex items-baseline gap-2 text-sm">
-                <dt class="text-muted-foreground">{tier.item}</dt>
-                <dd class="font-semibold tabular-nums">{tier.price}</dd>
-              </div>
+
+          <div class="mt-7 grid gap-5 sm:grid-cols-2">
+            {#each category.slugs as slug}
+              <Card class="h-full">
+                <CardContent class="flex h-full flex-col gap-4 pt-6">
+                  <h3 class="font-display text-2xl font-semibold tracking-tight">
+                    {serviceLabelBySlug[slug]}
+                  </h3>
+                  <p class="text-sm leading-relaxed text-muted-foreground">
+                    {hubBlurbBySlug[slug]}
+                  </p>
+
+                  <div class="mt-auto rounded-lg border border-border bg-muted/40 p-3">
+                    <p class="text-sm font-medium">
+                      Starting from <span class="text-brand">{teaserPriceBySlug[slug]}</span>
+                    </p>
+                    <p class="mt-1 text-xs text-muted-foreground">
+                      Final quote depends on date & location
+                    </p>
+                  </div>
+
+                  <Button
+                    href={`/services/${slug}`}
+                    variant="outline"
+                    aria-label={`View ${serviceLabelBySlug[slug]} service details`}
+                  >
+                    View {serviceLabelBySlug[slug]} Service
+                    <ArrowRight class="size-4" />
+                  </Button>
+                </CardContent>
+              </Card>
             {/each}
-          </dl>
-        </div>
-      </div>
-
-    <!-- ═══════════════════ HAIR ═══════════════════ -->
-    <div
-        id="panel-hair"
-        role="tabpanel"
-        aria-labelledby="tab-hair"
-        aria-hidden={activeTab !== 'hair'}
-        hidden={activeTab !== 'hair'}
-        class="flex flex-col gap-8"
-      >
-        <!-- Bridal Hair -->
-        <Card class="relative overflow-hidden ring-1 ring-brand/25">
-          <Badge
-            class="absolute right-4 top-4 border-transparent bg-brand text-brand-foreground"
-          >
-            Bridal
-          </Badge>
-
-          <CardContent class="pt-2 sm:pt-4">
-            <div class="mb-8 flex items-start gap-4">
-              <div
-                class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand"
-              >
-                <Scissors class="size-6" />
-              </div>
-              <div class="min-w-0">
-                <h3
-                  class="font-display text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
-                  Bridal Hair
-                </h3>
-                <p class="mt-2 leading-relaxed text-muted-foreground">
-                  Elegant styling for your wedding day, from flowing blow waves
-                  to intricate upstyles.
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <p
-                class="mb-4 text-xs font-medium uppercase tracking-widest text-brand"
-              >
-                Pricing
-              </p>
-              <dl class="max-w-md space-y-3">
-                {@render priceRow('Blow wave (short hair)', 'R450')}
-                {@render priceRow('Blow wave (long hair)', 'R550')}
-                {@render priceRow('Upstyle (short hair)', 'R850')}
-                {@render priceRow('Upstyle (long hair)', 'R1,100')}
-              </dl>
-            </div>
-          </CardContent>
-
-          {@render cardFooter('bridal-hair')}
-        </Card>
-
-        <!-- Wedding Party Hair -->
-        <Card class="relative overflow-hidden">
-          <CardContent class="pt-2 sm:pt-4">
-            <div class="mb-8 flex items-start gap-4">
-              <div
-                class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand"
-              >
-                <Users class="size-6" />
-              </div>
-              <div class="min-w-0">
-                <h3
-                  class="font-display text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
-                  Wedding Party Hair
-                </h3>
-                <p class="mt-2 leading-relaxed text-muted-foreground">
-                  Coordinated styling for bridesmaids, mothers, and family
-                  members.
-                </p>
-              </div>
-            </div>
-
-            <div class="space-y-8">
-              <!-- Bridesmaid -->
-              <div>
-                <p
-                  class="mb-3 text-xs font-medium uppercase tracking-widest text-brand"
-                >
-                  Bridesmaid
-                </p>
-                <dl class="max-w-md space-y-3">
-                  {@render priceRow('Blow wave (short)', 'R350')}
-                  {@render priceRow('Blow wave (long)', 'R450')}
-                  {@render priceRow('Upstyle (short)', 'R650')}
-                  {@render priceRow('Upstyle (long)', 'R850')}
-                </dl>
-              </div>
-
-              <!-- Mother -->
-              <div>
-                <p
-                  class="mb-3 text-xs font-medium uppercase tracking-widest text-brand"
-                >
-                  Mother of Bride / Groom
-                </p>
-                <dl class="max-w-md space-y-3">
-                  {@render priceRow('Blow wave (short)', 'R350')}
-                  {@render priceRow('Blow wave (long)', 'R450')}
-                  {@render priceRow('Upstyle (short)', 'R650')}
-                  {@render priceRow('Upstyle (long)', 'R850')}
-                </dl>
-              </div>
-
-              <!-- Grandmother -->
-              <div>
-                <p
-                  class="mb-3 text-xs font-medium uppercase tracking-widest text-brand"
-                >
-                  Grandmother
-                </p>
-                <dl class="max-w-md space-y-3">
-                  {@render priceRow('Short hair', 'R300')}
-                  {@render priceRow('Long hair', 'R400')}
-                </dl>
-              </div>
-            </div>
-          </CardContent>
-
-          {@render cardFooter('bridal-hair')}
-        </Card>
-
-        <!-- Event Hair -->
-        <Card class="relative overflow-hidden">
-          <CardContent class="pt-2 sm:pt-4">
-            <div class="mb-8 flex items-start gap-4">
-              <div
-                class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand"
-              >
-                <Sparkles class="size-6" />
-              </div>
-              <div class="min-w-0">
-                <h3
-                  class="font-display text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
-                  Event Hair
-                </h3>
-                <p class="mt-2 leading-relaxed text-muted-foreground">
-                  Professional blow wave styling for special occasions,
-                  farewells, and photo shoots.
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <p
-                class="mb-4 text-xs font-medium uppercase tracking-widest text-brand"
-              >
-                Pricing
-              </p>
-              <dl class="max-w-md space-y-3">
-                {@render priceRow('Blow wave (short hair)', 'R350')}
-                {@render priceRow('Blow wave (long hair)', 'R450')}
-              </dl>
-            </div>
-          </CardContent>
-
-          {@render cardFooter('special-events')}
-        </Card>
-
-        <!-- Wedding Package — Hair -->
-        <Card class="relative overflow-hidden">
-          <Badge
-            class="absolute right-4 top-4 border-transparent bg-brand text-brand-foreground"
-          >
-            Best Value
-          </Badge>
-
-          <CardContent class="pt-2 sm:pt-4">
-            <div class="mb-8 flex items-start gap-4">
-              <div
-                class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand"
-              >
-                <Star class="size-6" />
-              </div>
-              <div class="min-w-0">
-                <h3
-                  class="font-display text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
-                  Wedding Package — Hair
-                </h3>
-                <p class="mt-2 leading-relaxed text-muted-foreground">
-                  Hair styling for the full bridal party. Includes the bride
-                  plus 3 additional people.
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <p
-                class="mb-4 text-xs font-medium uppercase tracking-widest text-brand"
-              >
-                Pricing
-              </p>
-              <dl class="max-w-md space-y-3">
-                {@render priceRow('Wedding Package (Bride + 3)', 'R2,650')}
-              </dl>
-              <p
-                class="mt-4 text-xs leading-relaxed text-muted-foreground italic"
-              >
-                Style and length upgrades available. Group discount for parties
-                of 3 or more.
-              </p>
-            </div>
-          </CardContent>
-
-          {@render cardFooter('wedding-packages')}
-        </Card>
-      </div>
-
-    <!-- ═══════════════════ HAIR & MAKEUP COMBOS ═══════════════════ -->
-    <div
-        id="panel-combo"
-        role="tabpanel"
-        aria-labelledby="tab-combo"
-        aria-hidden={activeTab !== 'combo'}
-        hidden={activeTab !== 'combo'}
-        class="flex flex-col gap-8"
-      >
-        <!-- Bridal Hair & Makeup -->
-        <Card class="relative overflow-hidden ring-1 ring-brand/25">
-          <Badge
-            class="absolute right-4 top-4 border-transparent bg-brand text-brand-foreground"
-          >
-            Most Popular
-          </Badge>
-
-          <CardContent class="pt-2 sm:pt-4">
-            <div class="mb-6 flex items-start gap-4">
-              <div
-                class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand"
-              >
-                <Gem class="size-6" />
-              </div>
-              <div class="min-w-0">
-                <h3
-                  class="font-display text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
-                  Bridal Hair & Makeup
-                </h3>
-                <p class="mt-2 leading-relaxed text-muted-foreground">
-                  Complete bridal beauty — makeup with trial & lashes plus
-                  professional hair styling.
-                </p>
-              </div>
-            </div>
-
-            <div class="mb-6">
-              <p
-                class="text-xs font-medium uppercase tracking-widest text-muted-foreground"
-              >
-                Starting from
-              </p>
-              <p
-                class="font-display mt-1 text-4xl font-semibold tracking-tight text-brand sm:text-5xl"
-              >
-                R1,950
-              </p>
-            </div>
-
-            <ul class="space-y-3">
-              {@render checkItem('Bridal makeup with trial & lashes')}
-              {@render checkItem('Hair styling (blow wave or upstyle)')}
-              {@render checkItem('Long-wear, photo-ready finish')}
-              {@render checkItem('Touch-up kit for the day')}
-            </ul>
-
-            <p
-              class="mt-4 text-xs leading-relaxed text-muted-foreground italic"
-            >
-              Final price depends on hair length and style choice.
-            </p>
-          </CardContent>
-
-          {@render cardFooter('bridal-hair-and-makeup')}
-        </Card>
-
-        <!-- Wedding Party Combos -->
-        <Card class="relative overflow-hidden">
-          <CardContent class="pt-2 sm:pt-4">
-            <div class="mb-6 flex items-start gap-4">
-              <div
-                class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand"
-              >
-                <Users class="size-6" />
-              </div>
-              <div class="min-w-0">
-                <h3
-                  class="font-display text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
-                  Wedding Party
-                </h3>
-                <p class="mt-2 leading-relaxed text-muted-foreground">
-                  Coordinated hair and makeup for bridesmaids and family
-                  members.
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <p
-                class="mb-4 text-xs font-medium uppercase tracking-widest text-brand"
-              >
-                Per Person
-              </p>
-              <dl class="max-w-md space-y-3">
-                {@render priceRow('Bridesmaid Hair & Makeup', 'From R850')}
-                {@render priceRow('Mother Hair & Makeup', 'From R750')}
-              </dl>
-              <p
-                class="mt-4 text-xs leading-relaxed text-muted-foreground italic"
-              >
-                Group discount available for parties of 3 or more. Final price
-                depends on hair length and style.
-              </p>
-            </div>
-          </CardContent>
-
-          {@render cardFooter('wedding-packages')}
-        </Card>
-
-        <!-- Special Event Combo -->
-        <Card class="relative overflow-hidden">
-          <CardContent class="pt-2 sm:pt-4">
-            <div class="mb-6 flex items-start gap-4">
-              <div
-                class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand"
-              >
-                <Sparkles class="size-6" />
-              </div>
-              <div class="min-w-0">
-                <h3
-                  class="font-display text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
-                  Special Event
-                </h3>
-                <p class="mt-2 leading-relaxed text-muted-foreground">
-                  Full hair and makeup for any occasion — farewells, birthdays,
-                  engagements, photo shoots.
-                </p>
-              </div>
-            </div>
-
-            <div class="mb-6">
-              <p
-                class="text-xs font-medium uppercase tracking-widest text-muted-foreground"
-              >
-                Starting from
-              </p>
-              <p
-                class="font-display mt-1 text-4xl font-semibold tracking-tight text-brand sm:text-5xl"
-              >
-                R850
-              </p>
-            </div>
-
-            <ul class="space-y-3">
-              {@render checkItem('Event makeup application')}
-              {@render checkItem('Blow wave styling')}
-              {@render checkItem('Long-wear setting')}
-            </ul>
-          </CardContent>
-
-          {@render cardFooter('special-events')}
-        </Card>
-
-        <!-- Full Wedding Package -->
-        <Card class="relative overflow-hidden">
-          <Badge
-            class="absolute right-4 top-4 border-transparent bg-brand text-brand-foreground"
-          >
-            Best Value
-          </Badge>
-
-          <CardContent class="pt-2 sm:pt-4">
-            <div class="mb-6 flex items-start gap-4">
-              <div
-                class="flex size-12 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand"
-              >
-                <Star class="size-6" />
-              </div>
-              <div class="min-w-0">
-                <h3
-                  class="font-display text-2xl font-semibold tracking-tight sm:text-3xl"
-                >
-                  Full Wedding Package
-                </h3>
-                <p class="mt-2 leading-relaxed text-muted-foreground">
-                  The complete package — hair and makeup for the bride plus 3
-                  additional people.
-                </p>
-              </div>
-            </div>
-
-            <div class="mb-6">
-              <p
-                class="text-xs font-medium uppercase tracking-widest text-muted-foreground"
-              >
-                Starting from
-              </p>
-              <p
-                class="font-display mt-1 text-4xl font-semibold tracking-tight text-brand sm:text-5xl"
-              >
-                R6,650
-              </p>
-            </div>
-
-            <ul class="space-y-3">
-              {@render checkItem('Bridal hair & makeup (incl. trial & lashes)')}
-              {@render checkItem('Hair & makeup for 3 additional people')}
-              {@render checkItem('On-location service')}
-            </ul>
-
-            <p
-              class="mt-4 text-xs leading-relaxed text-muted-foreground italic"
-            >
-              Best value for full bridal parties. Additional people can be
-              added.
-            </p>
-          </CardContent>
-
-          {@render cardFooter('wedding-packages')}
-        </Card>
-      </div>
-  </div>
-</section>
-
-<Separator />
-
-<!-- Good to Know -->
-<section class="py-20 sm:py-24">
-  <div class="mx-auto max-w-5xl px-4">
-    <div class="mb-14 text-center">
-      <p class="text-sm font-medium uppercase tracking-widest text-brand">
-        Before You Book
-      </p>
-      <h2
-        class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
-      >
-        Good to Know
-      </h2>
-    </div>
-
-    <div class="grid gap-8 sm:grid-cols-3">
-      {#each notes as note}
-        <div class="text-center">
-          <div
-            class="mx-auto mb-4 flex size-10 items-center justify-center rounded-lg bg-brand/10 text-brand"
-          >
-            <note.icon class="size-5" />
           </div>
-          <h3 class="text-sm font-semibold">{note.title}</h3>
-          <p class="mt-2 text-sm leading-relaxed text-muted-foreground">
-            {note.text}
-          </p>
-        </div>
+        </section>
       {/each}
     </div>
   </div>
 </section>
 
-<!-- CTA Banner -->
-<section class="border-t bg-brand/5">
-  <div class="mx-auto max-w-5xl px-4 py-20 sm:py-24">
-    <div class="flex flex-col items-center text-center">
-      <div class="mb-6 h-px w-12 bg-brand"></div>
-      <h2
-        class="font-display text-3xl font-semibold tracking-tight sm:text-4xl"
+<Separator />
+
+<section class="py-20 sm:py-24">
+  <div class="mx-auto max-w-5xl px-4">
+    <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">How Booking Works</h2>
+
+    <ol class="mt-8 grid gap-4 sm:grid-cols-2">
+      <li class="rounded-xl border border-border bg-muted/30 p-5">
+        <p class="text-xs font-medium uppercase tracking-widest text-brand">Step 1</p>
+        <p class="mt-2 font-semibold">Choose your service</p>
+      </li>
+      <li class="rounded-xl border border-border bg-muted/30 p-5">
+        <p class="text-xs font-medium uppercase tracking-widest text-brand">Step 2</p>
+        <p class="mt-2 font-semibold">Send date + area</p>
+      </li>
+      <li class="rounded-xl border border-border bg-muted/30 p-5">
+        <p class="text-xs font-medium uppercase tracking-widest text-brand">Step 3</p>
+        <p class="mt-2 font-semibold">Confirm quote + secure booking</p>
+      </li>
+      <li class="rounded-xl border border-border bg-muted/30 p-5">
+        <p class="text-xs font-medium uppercase tracking-widest text-brand">Step 4</p>
+        <p class="mt-2 font-semibold">Final look planning before your event</p>
+      </li>
+    </ol>
+
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+      <Button
+        href="/contact"
+        class="GA4_BookingBtn bg-brand text-brand-foreground hover:bg-brand/90"
       >
-        Ready to Book?
-      </h2>
-      <p
-        class="mx-auto mt-4 max-w-md text-base leading-relaxed text-muted-foreground"
-      >
-        Let's discuss your look. Whether it's a wedding, farewell, or special
-        event, I'd love to hear from you.
-      </p>
-      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
-        <Button
-          href="/contact"
-          size="lg"
-          class="GA4_BookingBtn bg-brand text-brand-foreground hover:bg-brand/90"
-        >
-          Get in Touch
-          <ArrowRight class="size-4" />
-        </Button>
-        <Button href={WHATSAPP_URL} variant="outline" size="lg">
-          WhatsApp Me
-        </Button>
-      </div>
+        Book via Contact Form
+      </Button>
+      <Button href={whatsappBookingUrl} variant="outline">WhatsApp Megan About Availability</Button>
     </div>
   </div>
 </section>
 
-<style>
-  .hero-stagger > :nth-child(1) { animation: hero-fade-in 0.8s ease both 0.1s; }
-  .hero-stagger > :nth-child(2) { animation: hero-fade-in 0.8s ease both 0.2s; }
-  .hero-stagger > :nth-child(3) { animation: hero-fade-in 0.8s ease both 0.35s; }
-  .hero-stagger > :nth-child(4) { animation: hero-fade-in 0.8s ease both 0.5s; }
-  .hero-stagger > :nth-child(5) { animation: hero-fade-in 0.8s ease both 0.6s; }
-
-  @keyframes hero-fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(12px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-stagger > * {
-      animation: none !important;
-    }
-  }
-</style>
+<section class="border-t bg-brand/5">
+  <div class="mx-auto max-w-5xl px-4 py-12 text-center">
+    <p class="text-sm text-muted-foreground sm:text-base">
+      Prefer quick guidance first? Share your date and area, and Megan will point you to the
+      best-fit service page.
+    </p>
+  </div>
+</section>
