@@ -19,12 +19,12 @@
   import Users from '@lucide/svelte/icons/users';
 
   type Tab = 'makeup' | 'hair' | 'combo';
-  let activeTab = $state<Tab>('makeup');
+  let activeTab = $state<Tab>('combo');
 
   const tabs: { id: Tab; label: string; mobileLabel: string }[] = [
     { id: 'makeup', label: 'Makeup', mobileLabel: 'Makeup' },
     { id: 'hair', label: 'Hair', mobileLabel: 'Hair' },
-    { id: 'combo', label: 'Hair & Makeup', mobileLabel: 'Both' },
+    { id: 'combo', label: 'Makeup & Hair', mobileLabel: 'Both' },
   ];
 
   const notes = [
@@ -44,6 +44,11 @@
       text: 'A 50% deposit secures your date. Final payment is due on the day of your appointment.',
     },
   ] as const;
+
+  const pageUrl = 'https://divinedetail.co.za/services';
+  const pageTitle = 'Divine Detail | Services & Pricing';
+  const pageDescription =
+    'Professional makeup and hair styling services for weddings, special events, and matric farewells in Pretoria, Centurion, Midrand, and Gauteng. View packages and book your session.';
 </script>
 
 {#snippet priceRow(item: string, price: string)}
@@ -64,12 +69,34 @@
   </li>
 {/snippet}
 
+{#snippet cardFooter(slug: string)}
+  <CardFooter class="border-t pt-5">
+    <div class="flex flex-wrap gap-3">
+      <Button href="/services/{slug}" variant="outline">
+        Learn More
+        <ArrowRight class="size-4" />
+      </Button>
+      <Button
+        href="/contact"
+        class="bg-brand text-brand-foreground hover:bg-brand/90"
+      >
+        Book Now
+      </Button>
+    </div>
+  </CardFooter>
+{/snippet}
+
 <svelte:head>
-  <title>Divine Detail | Services & Pricing</title>
-  <meta
-    name="description"
-    content="Professional makeup and hair styling services for weddings, special events, and matric farewells in Pretoria, Centurion, Midrand, and Gauteng. View packages and book your session."
-  />
+  <title>{pageTitle}</title>
+  <meta name="description" content={pageDescription} />
+  <meta property="og:title" content={pageTitle} />
+  <meta property="og:description" content={pageDescription} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={pageUrl} />
+  <meta property="og:image" content="https://divinedetail.co.za/og-default.svg" />
+  <meta name="twitter:title" content={pageTitle} />
+  <meta name="twitter:description" content={pageDescription} />
+  <meta name="twitter:image" content="https://divinedetail.co.za/og-default.svg" />
 </svelte:head>
 
 <!-- Hero -->
@@ -143,11 +170,12 @@
     </div>
 
     <!-- ═══════════════════ MAKEUP ═══════════════════ -->
-    {#if activeTab === 'makeup'}
-      <div
+    <div
         id="panel-makeup"
         role="tabpanel"
         aria-labelledby="tab-makeup"
+        aria-hidden={activeTab !== 'makeup'}
+        hidden={activeTab !== 'makeup'}
         class="flex flex-col gap-8"
       >
         <!-- Bridal Makeup -->
@@ -210,15 +238,7 @@
             </div>
           </CardContent>
 
-          <CardFooter class="border-t pt-5">
-            <Button
-              href="/contact"
-              class="bg-brand text-brand-foreground hover:bg-brand/90"
-            >
-              Book Now
-              <ArrowRight class="size-4" />
-            </Button>
-          </CardFooter>
+          {@render cardFooter('bridal-makeup')}
         </Card>
 
         <!-- Special Events -->
@@ -272,15 +292,7 @@
             </div>
           </CardContent>
 
-          <CardFooter class="border-t pt-5">
-            <Button
-              href="/contact"
-              class="bg-brand text-brand-foreground hover:bg-brand/90"
-            >
-              Book Now
-              <ArrowRight class="size-4" />
-            </Button>
-          </CardFooter>
+          {@render cardFooter('special-events')}
         </Card>
 
         <!-- Wedding Package — Makeup -->
@@ -329,15 +341,7 @@
             </div>
           </CardContent>
 
-          <CardFooter class="border-t pt-5">
-            <Button
-              href="/contact"
-              class="bg-brand text-brand-foreground hover:bg-brand/90"
-            >
-              Book Now
-              <ArrowRight class="size-4" />
-            </Button>
-          </CardFooter>
+          {@render cardFooter('wedding-packages')}
         </Card>
 
         <!-- Add-Ons -->
@@ -361,11 +365,12 @@
       </div>
 
     <!-- ═══════════════════ HAIR ═══════════════════ -->
-    {:else if activeTab === 'hair'}
-      <div
+    <div
         id="panel-hair"
         role="tabpanel"
         aria-labelledby="tab-hair"
+        aria-hidden={activeTab !== 'hair'}
+        hidden={activeTab !== 'hair'}
         class="flex flex-col gap-8"
       >
         <!-- Bridal Hair -->
@@ -411,15 +416,7 @@
             </div>
           </CardContent>
 
-          <CardFooter class="border-t pt-5">
-            <Button
-              href="/contact"
-              class="bg-brand text-brand-foreground hover:bg-brand/90"
-            >
-              Book Now
-              <ArrowRight class="size-4" />
-            </Button>
-          </CardFooter>
+          {@render cardFooter('bridal-hair')}
         </Card>
 
         <!-- Wedding Party Hair -->
@@ -490,15 +487,7 @@
             </div>
           </CardContent>
 
-          <CardFooter class="border-t pt-5">
-            <Button
-              href="/contact"
-              class="bg-brand text-brand-foreground hover:bg-brand/90"
-            >
-              Book Now
-              <ArrowRight class="size-4" />
-            </Button>
-          </CardFooter>
+          {@render cardFooter('bridal-hair')}
         </Card>
 
         <!-- Event Hair -->
@@ -536,15 +525,7 @@
             </div>
           </CardContent>
 
-          <CardFooter class="border-t pt-5">
-            <Button
-              href="/contact"
-              class="bg-brand text-brand-foreground hover:bg-brand/90"
-            >
-              Book Now
-              <ArrowRight class="size-4" />
-            </Button>
-          </CardFooter>
+          {@render cardFooter('special-events')}
         </Card>
 
         <!-- Wedding Package — Hair -->
@@ -593,24 +574,17 @@
             </div>
           </CardContent>
 
-          <CardFooter class="border-t pt-5">
-            <Button
-              href="/contact"
-              class="bg-brand text-brand-foreground hover:bg-brand/90"
-            >
-              Book Now
-              <ArrowRight class="size-4" />
-            </Button>
-          </CardFooter>
+          {@render cardFooter('wedding-packages')}
         </Card>
       </div>
 
     <!-- ═══════════════════ HAIR & MAKEUP COMBOS ═══════════════════ -->
-    {:else}
-      <div
+    <div
         id="panel-combo"
         role="tabpanel"
         aria-labelledby="tab-combo"
+        aria-hidden={activeTab !== 'combo'}
+        hidden={activeTab !== 'combo'}
         class="flex flex-col gap-8"
       >
         <!-- Bridal Hair & Makeup -->
@@ -668,15 +642,7 @@
             </p>
           </CardContent>
 
-          <CardFooter class="border-t pt-5">
-            <Button
-              href="/contact"
-              class="bg-brand text-brand-foreground hover:bg-brand/90"
-            >
-              Book Now
-              <ArrowRight class="size-4" />
-            </Button>
-          </CardFooter>
+          {@render cardFooter('bridal-hair-and-makeup')}
         </Card>
 
         <!-- Wedding Party Combos -->
@@ -720,15 +686,7 @@
             </div>
           </CardContent>
 
-          <CardFooter class="border-t pt-5">
-            <Button
-              href="/contact"
-              class="bg-brand text-brand-foreground hover:bg-brand/90"
-            >
-              Book Now
-              <ArrowRight class="size-4" />
-            </Button>
-          </CardFooter>
+          {@render cardFooter('wedding-packages')}
         </Card>
 
         <!-- Special Event Combo -->
@@ -773,15 +731,7 @@
             </ul>
           </CardContent>
 
-          <CardFooter class="border-t pt-5">
-            <Button
-              href="/contact"
-              class="bg-brand text-brand-foreground hover:bg-brand/90"
-            >
-              Book Now
-              <ArrowRight class="size-4" />
-            </Button>
-          </CardFooter>
+          {@render cardFooter('special-events')}
         </Card>
 
         <!-- Full Wedding Package -->
@@ -839,18 +789,9 @@
             </p>
           </CardContent>
 
-          <CardFooter class="border-t pt-5">
-            <Button
-              href="/contact"
-              class="bg-brand text-brand-foreground hover:bg-brand/90"
-            >
-              Book Now
-              <ArrowRight class="size-4" />
-            </Button>
-          </CardFooter>
+          {@render cardFooter('wedding-packages')}
         </Card>
       </div>
-    {/if}
   </div>
 </section>
 

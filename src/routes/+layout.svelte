@@ -25,12 +25,54 @@
     { href: '/contact', label: 'Contact' },
   ] as const;
 
+  const siteUrl = 'https://divinedetail.co.za';
+  const canonicalPath = $derived.by(() => {
+    if (page.url.pathname === '/') {
+      return '/';
+    }
+
+    return page.url.pathname.replace(/\/+$/, '');
+  });
+  const canonicalUrl = $derived(`${siteUrl}${canonicalPath}`);
+
+  const localBusinessSchema = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: 'Divine Detail',
+    image: `${siteUrl}/og-default.svg`,
+    url: siteUrl,
+    telephone: '+27816098157',
+    email: 'hello@divinedetail.co.za',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Pretoria',
+      addressRegion: 'Gauteng',
+      addressCountry: 'ZA',
+    },
+    areaServed: [
+      { '@type': 'City', name: 'Pretoria' },
+      { '@type': 'City', name: 'Centurion' },
+      { '@type': 'City', name: 'Midrand' },
+      { '@type': 'City', name: 'Johannesburg' },
+    ],
+    sameAs: ['https://wa.me/27816098157'],
+  });
+
   let mobileOpen = $state(false);
 </script>
 
 <svelte:head>
   <meta name="robots" content="index,follow" />
   <meta name="author" content="Divine Detail" />
+  <meta property="og:site_name" content="Divine Detail" />
+  <meta property="og:locale" content="en_ZA" />
+  <meta property="og:image" content={`${siteUrl}/og-default.svg`} />
+  <meta property="og:image:alt" content="Divine Detail makeup artistry social card" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content={`${siteUrl}/og-default.svg`} />
+  <link rel="canonical" href={canonicalUrl} />
+  <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+  {@html `<script type="application/ld+json">${localBusinessSchema}</script>`}
 </svelte:head>
 
 <div class="min-h-dvh flex flex-col">
@@ -110,6 +152,12 @@
         <div>
           <p class="font-semibold tracking-tight">Divine Detail</p>
           <p class="mt-1 text-sm text-muted-foreground">Pretoria, Gauteng</p>
+          <a
+            href="tel:+27816098157"
+            class="mt-1 block text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            +27 81 609 8157
+          </a>
         </div>
 
         <!-- Secondary nav -->

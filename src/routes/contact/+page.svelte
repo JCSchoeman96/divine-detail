@@ -25,14 +25,24 @@
 		'Photo Shoot / Editorial',
 		'Other',
 	] as const;
+
+	const pageUrl = 'https://divinedetail.co.za/contact';
+	const pageTitle = 'Divine Detail | Contact';
+	const pageDescription =
+		'Contact Divine Detail for bridal, event, and matric farewell makeup in Pretoria and surrounds. Book your consultation today.';
 </script>
 
 <svelte:head>
-	<title>Divine Detail | Contact</title>
-	<meta
-		name="description"
-		content="Contact Divine Detail for bridal, event, and matric farewell makeup in Pretoria and surrounds. Book your consultation today."
-	/>
+	<title>{pageTitle}</title>
+	<meta name="description" content={pageDescription} />
+	<meta property="og:title" content={pageTitle} />
+	<meta property="og:description" content={pageDescription} />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content={pageUrl} />
+	<meta property="og:image" content="https://divinedetail.co.za/og-default.svg" />
+	<meta name="twitter:title" content={pageTitle} />
+	<meta name="twitter:description" content={pageDescription} />
+	<meta name="twitter:image" content="https://divinedetail.co.za/og-default.svg" />
 </svelte:head>
 
 <!-- Page Header -->
@@ -245,10 +255,16 @@
 						<div class="flex gap-3">
 							<Phone class="mt-0.5 size-4 shrink-0 text-brand" />
 							<div>
-								<p class="text-sm font-medium">WhatsApp</p>
+								<p class="text-sm font-medium">Phone / WhatsApp</p>
+								<a
+									href="tel:+27816098157"
+									class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+								>
+									+27 81 609 8157
+								</a>
 								<a
 									href="https://wa.me/27816098157"
-									class="text-sm text-muted-foreground transition-colors hover:text-foreground"
+									class="block text-sm text-muted-foreground transition-colors hover:text-foreground"
 								>
 									Message on WhatsApp
 								</a>

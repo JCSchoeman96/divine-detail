@@ -1,0 +1,22 @@
+{
+  "name": "Divine Detail",
+  "short_name": "Divine Detail",
+  "description": "Professional bridal, event, and matric makeup and hair styling in Pretoria and Gauteng.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f7dfd4",
+  "theme_color": "#f7dfd4",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    },
+    {
+      "src": "/apple-touch-icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ]
+}
