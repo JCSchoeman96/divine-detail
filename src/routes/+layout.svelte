@@ -24,9 +24,18 @@
 
   const navLinks = [
     { href: '/', label: 'Home' },
+    { href: '/about', label: 'About' },
     { href: '/services', label: 'Services' },
     { href: '/contact', label: 'Contact' },
   ] as const;
+
+  const isActivePath = (href: string, pathname: string) => {
+    if (href === '/') {
+      return pathname === '/';
+    }
+
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
 
   const siteUrl = 'https://divinedetail.co.za';
   const canonicalPath = $derived.by(() => {
@@ -101,7 +110,7 @@
         {#each navLinks as link}
           <a
             href={link.href}
-            class="transition-colors hover:text-foreground/80 {page.url.pathname === link.href ? 'text-foreground' : 'text-muted-foreground'}"
+            class="transition-colors hover:text-foreground/80 {isActivePath(link.href, page.url.pathname) ? 'text-foreground' : 'text-muted-foreground'}"
           >
             {link.label}
           </a>
@@ -136,7 +145,7 @@
                   {#snippet child({ props })}
                     <a
                       href={link.href}
-                      class="text-sm font-medium transition-colors hover:text-foreground/80 {page.url.pathname === link.href ? 'text-foreground' : 'text-muted-foreground'}"
+                      class="text-sm font-medium transition-colors hover:text-foreground/80 {isActivePath(link.href, page.url.pathname) ? 'text-foreground' : 'text-muted-foreground'}"
                       {...props}
                     >
                       {link.label}
