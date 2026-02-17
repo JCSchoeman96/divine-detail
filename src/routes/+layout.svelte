@@ -1,5 +1,7 @@
 <script lang="ts">
   import './layout.css';
+  import { browser } from '$app/environment';
+  import { afterNavigate } from '$app/navigation';
   import { page } from '$app/state';
   import Menu from '@lucide/svelte/icons/menu';
   import Instagram from '@lucide/svelte/icons/instagram';
@@ -16,6 +18,7 @@
   } from '$lib/components/ui/sheet/index.js';
   import { Separator } from '$lib/components/ui/separator/index.js';
   import ThemeToggle from '$lib/components/theme-toggle.svelte';
+  import { trackVirtualPageView } from '$lib/analytics';
 
   let { children } = $props();
 
@@ -57,6 +60,17 @@
     ],
     sameAs: ['https://wa.me/27816098157'],
   });
+
+  let isFirstNavigation = true;
+  if (browser) {
+    afterNavigate(() => {
+      if (isFirstNavigation) {
+        isFirstNavigation = false;
+        return;
+      }
+      trackVirtualPageView();
+    });
+  }
 
   let mobileOpen = $state(false);
 </script>

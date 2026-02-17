@@ -114,7 +114,11 @@
       <div class="mt-8 h-px w-12 bg-brand"></div>
 
       <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
-        <Button href="/contact" size="lg" class="bg-brand text-brand-foreground hover:bg-brand/90">
+        <Button
+          href="/contact"
+          size="lg"
+          class="GA4_BookingBtn bg-brand text-brand-foreground hover:bg-brand/90"
+        >
           Get in Touch
           <ArrowRight class="size-4" />
         </Button>
@@ -232,7 +236,11 @@
         event, I'd love to hear from you.
       </p>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
-        <Button href="/contact" size="lg" class="bg-brand text-brand-foreground hover:bg-brand/90">
+        <Button
+          href="/contact"
+          size="lg"
+          class="GA4_BookingBtn bg-brand text-brand-foreground hover:bg-brand/90"
+        >
           Book a Consultation
           <ArrowRight class="size-4" />
         </Button>

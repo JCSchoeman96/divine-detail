@@ -78,7 +78,7 @@
       </Button>
       <Button
         href="/contact"
-        class="bg-brand text-brand-foreground hover:bg-brand/90"
+        class="GA4_BookingBtn bg-brand text-brand-foreground hover:bg-brand/90"
       >
         Book Now
       </Button>
@@ -849,7 +849,7 @@
         <Button
           href="/contact"
           size="lg"
-          class="bg-brand text-brand-foreground hover:bg-brand/90"
+          class="GA4_BookingBtn bg-brand text-brand-foreground hover:bg-brand/90"
         >
           Get in Touch
           <ArrowRight class="size-4" />
