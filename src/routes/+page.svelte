@@ -14,6 +14,8 @@
   import Star from '@lucide/svelte/icons/star';
   import Quote from '@lucide/svelte/icons/quote';
   import ArrowRight from '@lucide/svelte/icons/arrow-right';
+  import { WHATSAPP_URL } from '$lib/config/social.js';
+  import { abs_url } from '$lib/config/site.js';
 
   const services = [
     {
@@ -22,6 +24,7 @@
       description:
         'Your wedding day deserves a flawless, lasting look. From trials to the final touch, every detail is considered.',
       badge: 'Most Popular',
+      href: '/services/bridal-makeup',
     },
     {
       icon: Sparkles,
@@ -29,6 +32,7 @@
       description:
         'Birthdays, engagements, photo shoots. Professional makeup that photographs beautifully and lasts all night.',
       badge: null,
+      href: '/services/special-events',
     },
     {
       icon: Star,
@@ -36,6 +40,7 @@
       description:
         'A once-in-a-lifetime evening calls for a look you\'ll love in every photo. Age-appropriate glam, done right.',
       badge: null,
+      href: '/services/matric-farewell',
     },
   ] as const;
 
@@ -60,7 +65,8 @@
     },
   ] as const;
 
-  const pageUrl = 'https://divinedetail.co.za/';
+  const pageUrl = abs_url('/');
+  const socialImage = abs_url('/og-default.svg');
   const pageTitle = 'Divine Detail | Bridal Makeup Artist Pretoria';
   const pageDescription =
     'Professional bridal and event makeup artist based in Pretoria, Gauteng. Flawless looks for weddings, matric farewells, and special occasions.';
@@ -69,14 +75,16 @@
 <svelte:head>
   <title>{pageTitle}</title>
   <meta name="description" content={pageDescription} />
+  <link rel="canonical" href={pageUrl} />
   <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={pageDescription} />
   <meta property="og:type" content="website" />
   <meta property="og:url" content={pageUrl} />
-  <meta property="og:image" content="https://divinedetail.co.za/og-default.svg" />
+  <meta property="og:image" content={socialImage} />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={pageTitle} />
   <meta name="twitter:description" content={pageDescription} />
-  <meta name="twitter:image" content="https://divinedetail.co.za/og-default.svg" />
+  <meta name="twitter:image" content={socialImage} />
 </svelte:head>
 
 <!-- Hero -->
@@ -147,8 +155,12 @@
     </div>
 
     <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {#each services as service, i}
-        <a href="/services" class="group block">
+      {#each services as service}
+        <a
+          href={service.href}
+          class="group block"
+          aria-label={`View ${service.title} service details`}
+        >
           <Card
             class="relative h-full transition-shadow duration-300 hover:shadow-md"
           >
@@ -244,7 +256,7 @@
           Book a Consultation
           <ArrowRight class="size-4" />
         </Button>
-        <Button href="https://wa.me/27816098157" variant="outline" size="lg">
+        <Button href={WHATSAPP_URL} variant="outline" size="lg">
           WhatsApp Me
         </Button>
       </div>

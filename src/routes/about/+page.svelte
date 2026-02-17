@@ -16,15 +16,17 @@
   import MessageCircle from '@lucide/svelte/icons/message-circle';
   import Sparkles from '@lucide/svelte/icons/sparkles';
   import Star from '@lucide/svelte/icons/star';
+  import { build_whatsapp_url } from '$lib/config/social.js';
+  import { abs_url } from '$lib/config/site.js';
 
-  const pageUrl = 'https://divinedetail.co.za/about';
+  const pageUrl = abs_url('/about');
+  const socialImage = abs_url('/images/megan.jpg');
   const pageTitle = 'About Megan | Bridal Makeup Artist Pretoria | Divine Detail';
   const pageDescription =
     'Meet Megan from Divine Detail. Pretoria and Gauteng bridal, event, and matric makeup artist focused on calm mornings, long-wear finishes, and skin-safe artistry.';
-  const whatsappText = encodeURIComponent(
-    'Hi Megan, I would like to enquire about makeup availability in Pretoria/Gauteng.'
+  const whatsappUrl = build_whatsapp_url(
+    "Hi Megan! I'd like to book bridal makeup. Date: _____. Area: Pretoria. Please confirm availability."
   );
-  const whatsappUrl = `https://wa.me/27816098157?text=${whatsappText}`;
 
   const quickFacts = [
     {
@@ -120,7 +122,7 @@
     worksFor: {
       '@type': 'LocalBusiness',
       name: 'Divine Detail',
-      url: 'https://divinedetail.co.za',
+      url: abs_url('/'),
       areaServed: 'Pretoria and Gauteng',
     },
   });
@@ -134,10 +136,11 @@
   <meta property="og:description" content={pageDescription} />
   <meta property="og:type" content="website" />
   <meta property="og:url" content={pageUrl} />
-  <meta property="og:image" content="https://divinedetail.co.za/images/megan.jpg" />
+  <meta property="og:image" content={socialImage} />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={pageTitle} />
   <meta name="twitter:description" content={pageDescription} />
-  <meta name="twitter:image" content="https://divinedetail.co.za/images/megan.jpg" />
+  <meta name="twitter:image" content={socialImage} />
   <!-- eslint-disable-next-line svelte/no-at-html-tags -->
   {@html `<script type="application/ld+json">${personSchema}</script>`}
 </svelte:head>
@@ -149,14 +152,14 @@
       <figure class="reveal-up relative">
         <div class="relative overflow-hidden rounded-3xl border border-border/80 bg-card shadow-xl">
           <picture>
-            <source srcset="/images/megan.webp" type="image/webp" />
             <!-- Replace this placeholder path once the final portrait is ready. -->
             <img
               src="/images/megan.jpg"
               alt="Megan, founder of Divine Detail makeup artistry"
               width="960"
               height="1200"
-              loading="lazy"
+              loading="eager"
+              fetchpriority="high"
               decoding="async"
               class="aspect-[4/5] w-full object-cover object-center"
             />

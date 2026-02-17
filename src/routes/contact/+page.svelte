@@ -12,6 +12,8 @@
 	import CheckCircle from '@lucide/svelte/icons/check-circle-2';
 	import Send from '@lucide/svelte/icons/send';
 	import type { ActionData } from './$types';
+	import { WHATSAPP_URL } from '$lib/config/social.js';
+	import { abs_url } from '$lib/config/site.js';
 
 	let { form }: { form: ActionData } = $props();
 
@@ -26,7 +28,8 @@
 		'Other',
 	] as const;
 
-	const pageUrl = 'https://divinedetail.co.za/contact';
+	const pageUrl = abs_url('/contact');
+	const socialImage = abs_url('/og-default.svg');
 	const pageTitle = 'Divine Detail | Contact';
 	const pageDescription =
 		'Contact Divine Detail for bridal, event, and matric farewell makeup in Pretoria and surrounds. Book your consultation today.';
@@ -35,14 +38,16 @@
 <svelte:head>
 	<title>{pageTitle}</title>
 	<meta name="description" content={pageDescription} />
+	<link rel="canonical" href={pageUrl} />
 	<meta property="og:title" content={pageTitle} />
 	<meta property="og:description" content={pageDescription} />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content={pageUrl} />
-	<meta property="og:image" content="https://divinedetail.co.za/og-default.svg" />
+	<meta property="og:image" content={socialImage} />
+	<meta name="twitter:card" content="summary_large_image" />
 	<meta name="twitter:title" content={pageTitle} />
 	<meta name="twitter:description" content={pageDescription} />
-	<meta name="twitter:image" content="https://divinedetail.co.za/og-default.svg" />
+	<meta name="twitter:image" content={socialImage} />
 </svelte:head>
 
 <!-- Page Header -->
@@ -264,7 +269,7 @@
 									+27 81 609 8157
 								</a>
 								<a
-									href="https://wa.me/27816098157"
+									href={WHATSAPP_URL}
 									class="block text-sm text-muted-foreground transition-colors hover:text-foreground"
 								>
 									Message on WhatsApp

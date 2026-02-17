@@ -19,6 +19,8 @@
   import { Separator } from '$lib/components/ui/separator/index.js';
   import ThemeToggle from '$lib/components/theme-toggle.svelte';
   import { trackVirtualPageView } from '$lib/analytics';
+  import { INSTAGRAM_URL, WHATSAPP_URL } from '$lib/config/social.js';
+  import { SITE_URL } from '$lib/config/site.js';
 
   let { children } = $props();
 
@@ -37,22 +39,12 @@
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
-  const siteUrl = 'https://divinedetail.co.za';
-  const canonicalPath = $derived.by(() => {
-    if (page.url.pathname === '/') {
-      return '/';
-    }
-
-    return page.url.pathname.replace(/\/+$/, '');
-  });
-  const canonicalUrl = $derived(`${siteUrl}${canonicalPath}`);
-
   const localBusinessSchema = JSON.stringify({
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: 'Divine Detail',
-    image: `${siteUrl}/og-default.svg`,
-    url: siteUrl,
+    image: `${SITE_URL}/og-default.svg`,
+    url: SITE_URL,
     telephone: '+27816098157',
     email: 'hello@divinedetail.co.za',
     address: {
@@ -67,7 +59,7 @@
       { '@type': 'City', name: 'Midrand' },
       { '@type': 'City', name: 'Johannesburg' },
     ],
-    sameAs: ['https://wa.me/27816098157'],
+    sameAs: [WHATSAPP_URL],
   });
 
   let isFirstNavigation = true;
@@ -89,11 +81,10 @@
   <meta name="author" content="Divine Detail" />
   <meta property="og:site_name" content="Divine Detail" />
   <meta property="og:locale" content="en_ZA" />
-  <meta property="og:image" content={`${siteUrl}/og-default.svg`} />
+  <meta property="og:image" content={`${SITE_URL}/og-default.svg`} />
   <meta property="og:image:alt" content="Divine Detail makeup artistry social card" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content={`${siteUrl}/og-default.svg`} />
-  <link rel="canonical" href={canonicalUrl} />
+  <meta name="twitter:image" content={`${SITE_URL}/og-default.svg`} />
   <!-- eslint-disable-next-line svelte/no-at-html-tags -->
   {@html `<script type="application/ld+json">${localBusinessSchema}</script>`}
 </svelte:head>
@@ -120,7 +111,7 @@
       <!-- Desktop right side -->
       <div class="hidden items-center gap-2 md:flex">
         <ThemeToggle />
-        <Button href="https://wa.me/27816098157" size="sm">Book on WhatsApp</Button>
+        <Button href={WHATSAPP_URL} size="sm">Book on WhatsApp</Button>
       </div>
 
       <!-- Mobile right side -->
@@ -154,7 +145,7 @@
                 </SheetClose>
               {/each}
               <Separator />
-              <Button href="https://wa.me/27816098157" size="sm" class="w-full">Book on WhatsApp</Button>
+              <Button href={WHATSAPP_URL} size="sm" class="w-full">Book on WhatsApp</Button>
             </nav>
           </SheetContent>
         </Sheet>
@@ -193,7 +184,7 @@
         <!-- Socials -->
         <div class="flex items-center gap-3">
           <a
-            href="https://instagram.com/"
+            href={INSTAGRAM_URL}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"
@@ -202,7 +193,7 @@
             <Instagram class="size-5" />
           </a>
           <a
-            href="https://wa.me/27816098157"
+            href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="WhatsApp"

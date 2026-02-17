@@ -23,9 +23,11 @@
   import type { Component } from 'svelte';
   import type { PageData } from './$types';
   import { services as allServices } from '$lib/data/services';
+  import { WHATSAPP_URL } from '$lib/config/social.js';
+  import { abs_url } from '$lib/config/site.js';
 
   let { data }: { data: PageData } = $props();
-  const { service } = data;
+  const service = $derived(data.service);
 
   const iconMap: Record<string, Component> = {
     gem: Gem,
@@ -35,13 +37,13 @@
     users: Users,
   };
 
-  const HeroIcon = iconMap[service.icon] ?? Gem;
+  const HeroIcon = $derived(iconMap[service.icon] ?? Gem);
 
-  const relatedServices = service.relatedSlugs
+  const relatedServices = $derived(service.relatedSlugs
     .map((slug) => allServices[slug])
-    .filter(Boolean);
-  const pageUrl = `https://divinedetail.co.za/services/${service.slug}`;
-  const pageImage = 'https://divinedetail.co.za/og-default.svg';
+    .filter(Boolean));
+  const pageUrl = $derived(abs_url(`/services/${service.slug}`));
+  const pageImage = abs_url('/og-default.svg');
 
   const parsePrice = (value: string) => {
     const numeric = value.replace(/[^0-9.]/g, '');
@@ -52,7 +54,7 @@
     return Number.parseFloat(numeric).toFixed(2);
   };
 
-  const serviceOffers = service.pricing
+  const serviceOffers = $derived(service.pricing
     .flatMap((group) => group.rows)
     .map((row) => {
       const normalizedPrice = parsePrice(row.price);
@@ -69,7 +71,7 @@
         url: pageUrl,
       };
     })
-    .filter(Boolean);
+    .filter(Boolean));
 
   const notes = [
     {
@@ -90,7 +92,7 @@
   ];
 
   // Schema.org structured data
-  const schemaOrg = JSON.stringify([
+  const schemaOrg = $derived(JSON.stringify([
     {
       '@context': 'https://schema.org',
       '@type': 'Service',
@@ -106,7 +108,7 @@
           addressCountry: 'ZA',
         },
         telephone: '+27816098157',
-        url: 'https://divinedetail.co.za',
+        url: abs_url('/'),
       },
       areaServed: [
         { '@type': 'City', name: 'Pretoria' },
@@ -120,13 +122,13 @@
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://divinedetail.co.za/' },
-        { '@type': 'ListItem', position: 2, name: 'Services', item: 'https://divinedetail.co.za/services' },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: abs_url('/') },
+        { '@type': 'ListItem', position: 2, name: 'Services', item: abs_url('/services') },
         {
           '@type': 'ListItem',
           position: 3,
           name: service.shortTitle,
-          item: `https://divinedetail.co.za/services/${service.slug}`,
+          item: pageUrl,
         },
       ],
     },
@@ -139,7 +141,7 @@
         acceptedAnswer: { '@type': 'Answer', text: f.answer },
       })),
     },
-  ]);
+  ]));
 </script>
 
 {#snippet priceRow(item: string, price: string)}
@@ -170,11 +172,13 @@
 <svelte:head>
   <title>{service.metaTitle}</title>
   <meta name="description" content={service.metaDescription} />
+  <link rel="canonical" href={pageUrl} />
   <meta property="og:title" content={service.metaTitle} />
   <meta property="og:description" content={service.metaDescription} />
   <meta property="og:type" content="website" />
   <meta property="og:url" content={pageUrl} />
   <meta property="og:image" content={pageImage} />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={service.metaTitle} />
   <meta name="twitter:description" content={service.metaDescription} />
   <meta name="twitter:image" content={pageImage} />
@@ -234,7 +238,7 @@
           Book Now
           <ArrowRight class="size-4" />
         </Button>
-        <Button href="https://wa.me/27816098157" variant="outline" size="lg">
+        <Button href={WHATSAPP_URL} variant="outline" size="lg">
           WhatsApp Me
         </Button>
       </div>
@@ -583,7 +587,7 @@
           Get in Touch
           <ArrowRight class="size-4" />
         </Button>
-        <Button href="https://wa.me/27816098157" variant="outline" size="lg">
+        <Button href={WHATSAPP_URL} variant="outline" size="lg">
           WhatsApp Me
         </Button>
       </div>

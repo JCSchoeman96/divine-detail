@@ -17,6 +17,8 @@
   import ArrowRight from '@lucide/svelte/icons/arrow-right';
   import Scissors from '@lucide/svelte/icons/scissors';
   import Users from '@lucide/svelte/icons/users';
+  import { WHATSAPP_URL } from '$lib/config/social.js';
+  import { abs_url } from '$lib/config/site.js';
 
   type Tab = 'makeup' | 'hair' | 'combo';
   let activeTab = $state<Tab>('combo');
@@ -45,7 +47,8 @@
     },
   ] as const;
 
-  const pageUrl = 'https://divinedetail.co.za/services';
+  const pageUrl = abs_url('/services');
+  const socialImage = abs_url('/og-default.svg');
   const pageTitle = 'Divine Detail | Services & Pricing';
   const pageDescription =
     'Professional makeup and hair styling services for weddings, special events, and matric farewells in Pretoria, Centurion, Midrand, and Gauteng. View packages and book your session.';
@@ -89,14 +92,16 @@
 <svelte:head>
   <title>{pageTitle}</title>
   <meta name="description" content={pageDescription} />
+  <link rel="canonical" href={pageUrl} />
   <meta property="og:title" content={pageTitle} />
   <meta property="og:description" content={pageDescription} />
   <meta property="og:type" content="website" />
   <meta property="og:url" content={pageUrl} />
-  <meta property="og:image" content="https://divinedetail.co.za/og-default.svg" />
+  <meta property="og:image" content={socialImage} />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={pageTitle} />
   <meta name="twitter:description" content={pageDescription} />
-  <meta name="twitter:image" content="https://divinedetail.co.za/og-default.svg" />
+  <meta name="twitter:image" content={socialImage} />
 </svelte:head>
 
 <!-- Hero -->
@@ -854,7 +859,7 @@
           Get in Touch
           <ArrowRight class="size-4" />
         </Button>
-        <Button href="https://wa.me/27816098157" variant="outline" size="lg">
+        <Button href={WHATSAPP_URL} variant="outline" size="lg">
           WhatsApp Me
         </Button>
       </div>
