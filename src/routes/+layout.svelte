@@ -21,6 +21,7 @@
   import { trackVirtualPageView } from "$lib/analytics";
   import { INSTAGRAM_URL, WHATSAPP_URL } from "$lib/config/social.js";
   import { SITE_URL } from "$lib/config/site.js";
+  import { BRAND_WORDMARK_PRIMARY_URL } from "$lib/config/brand.js";
 
   let { children } = $props();
 
@@ -44,7 +45,8 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Divine Detail",
-    image: `${SITE_URL}/og-default.svg`,
+    image: BRAND_WORDMARK_PRIMARY_URL,
+    logo: BRAND_WORDMARK_PRIMARY_URL,
     url: SITE_URL,
     telephone: "+27816098157",
     email: "hello@divinedetail.co.za",
@@ -80,8 +82,6 @@
 <svelte:head>
   <meta name="robots" content="index,follow" />
   <meta name="author" content="Divine Detail" />
-  <meta property="og:site_name" content="Divine Detail" />
-  <meta property="og:locale" content="en_ZA" />
   <meta property="og:site_name" content="Divine Detail" />
   <meta property="og:locale" content="en_ZA" />
   <!-- Metadata like og:image, twitter:card, etc. are handled by individual pages to avoid duplicates -->

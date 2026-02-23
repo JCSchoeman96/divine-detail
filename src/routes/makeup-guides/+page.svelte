@@ -1,48 +1,55 @@
 <script lang="ts">
-  import { Button } from '$lib/components/ui/button/index.js';
+  import { Button } from "$lib/components/ui/button/index.js";
   import {
     Card,
     CardContent,
     CardHeader,
     CardTitle,
     CardDescription,
-  } from '$lib/components/ui/card/index.js';
-  import { Badge } from '$lib/components/ui/badge/index.js';
-  import { Separator } from '$lib/components/ui/separator/index.js';
-  import ArrowRight from '@lucide/svelte/icons/arrow-right';
-  import MessageCircle from '@lucide/svelte/icons/message-circle';
-  import Phone from '@lucide/svelte/icons/phone';
-  import Check from '@lucide/svelte/icons/check';
-  import { guideList } from '$lib/data/guides';
-  import { build_whatsapp_url } from '$lib/config/social.js';
-  import { abs_url } from '$lib/config/site.js';
+  } from "$lib/components/ui/card/index.js";
+  import { Badge } from "$lib/components/ui/badge/index.js";
+  import { Separator } from "$lib/components/ui/separator/index.js";
+  import ArrowRight from "@lucide/svelte/icons/arrow-right";
+  import MessageCircle from "@lucide/svelte/icons/message-circle";
+  import Phone from "@lucide/svelte/icons/phone";
+  import Check from "@lucide/svelte/icons/check";
+  import { guideList } from "$lib/data/guides";
+  import { build_whatsapp_url } from "$lib/config/social.js";
+  import { abs_url } from "$lib/config/site.js";
 
-  const pageUrl = abs_url('/makeup-guides');
-  const pageTitle = 'Makeup Guides | Divine Detail Pretoria';
+  const pageUrl = abs_url("/makeup-guides");
+  const pageTitle = "Makeup Guides | Divine Detail Pretoria";
   const pageDescription =
-    'Professional makeup guides for brides, matric farewells, and special events. Practical tips for flawless, long-lasting results in the Pretoria & Gauteng area.';
-  const socialImage = abs_url('/og-default.svg');
+    "Professional makeup guides for brides, matric farewells, and special events. Practical tips for flawless, long-lasting results in the Pretoria & Gauteng area.";
+  const socialImage = abs_url("/og-default.svg");
 
   const featuredGuides = guideList.filter((g) => g.featured);
   const otherGuides = guideList.filter((g) => !g.featured);
 
   const whatsappLink = build_whatsapp_url(
-    'Hi Megan! I would like to book a makeup appointment. Event: _____. Date: _____. Area: Pretoria. Please confirm availability.'
+    "Hi Megan! I would like to book a makeup appointment. Event: _____. Date: _____. Area: Pretoria. Please confirm availability.",
   );
 
   // Schema.org structured data
   const schemaOrg = JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'CollectionPage',
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
     name: pageTitle,
     description: pageDescription,
     url: pageUrl,
     mainEntity: {
-      '@type': 'ItemList',
+      "@type": "ItemList",
+      numberOfItems: guideList.length,
+      itemListOrder: "https://schema.org/ItemListOrderAscending",
       itemListElement: guideList.map((guide, index) => ({
-        '@type': 'ListItem',
+        "@type": "ListItem",
         position: index + 1,
-        url: abs_url(`/makeup-guides/${guide.slug}`),
+        name: guide.title,
+        item: {
+          "@type": "WebPage",
+          "@id": abs_url(`/makeup-guides/${guide.slug}`),
+          name: guide.title,
+        },
       })),
     },
   });
@@ -127,7 +134,9 @@
           Ready to secure your date? Whether it's for your wedding, farewell, or
           a special event, I'm here to help you look your best.
         </p>
-        <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center sm:gap-4">
+        <div
+          class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center sm:gap-4"
+        >
           <Button
             href={whatsappLink}
             size="lg"
@@ -152,7 +161,7 @@
   </div>
 </div>
 
-{#snippet guideCard(guide: import('$lib/data/guides').GuideData)}
+{#snippet guideCard(guide: import("$lib/data/guides").GuideData)}
   <a href={`/makeup-guides/${guide.slug}`} class="group block">
     <Card
       class="relative h-full transition-shadow duration-300 hover:shadow-md"
@@ -175,7 +184,9 @@
           {guide.description}
         </CardDescription>
         <div class="mt-6 flex items-center justify-between gap-4">
-          <span class="flex items-center gap-1.5 text-sm font-medium text-brand">
+          <span
+            class="flex items-center gap-1.5 text-sm font-medium text-brand"
+          >
             Read guide
             <ArrowRight class="size-3.5" />
           </span>

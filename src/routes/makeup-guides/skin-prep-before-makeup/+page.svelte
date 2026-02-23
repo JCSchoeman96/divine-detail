@@ -20,12 +20,14 @@
   import { guides } from "$lib/data/guides";
   import { build_whatsapp_url } from "$lib/config/social.js";
   import { abs_url } from "$lib/config/site.js";
+  import { BRAND_WORDMARK_PRIMARY_URL } from "$lib/config/brand.js";
 
   const guide = guides["skin-prep-before-makeup"];
   const pageUrl = abs_url(`/makeup-guides/${guide.slug}`);
   const pageTitle = guide.title;
   const pageDescription = guide.description;
   const socialImage = abs_url("/og-default.svg");
+  const heroImage = abs_url("/images/guides/skin-prep-before-makeup.jpg");
 
   const whatsappLink = build_whatsapp_url(
     `Hi Megan! I read your "Essential Skin Prep Checklist" and would like to book makeup. Event: _____. Date: _____. Area: Pretoria. Please confirm availability.`,
@@ -90,7 +92,12 @@
       "@type": "BlogPosting",
       headline: guide.title,
       description: guide.description,
-      image: socialImage,
+      image: heroImage,
+      inLanguage: "en-ZA",
+      isPartOf: {
+        "@type": "CollectionPage",
+        "@id": abs_url("/makeup-guides"),
+      },
       author: {
         "@type": "Person",
         name: "Megan",
@@ -102,7 +109,7 @@
         name: "Divine Detail",
         logo: {
           "@type": "ImageObject",
-          url: abs_url("/favicon.svg"),
+          url: BRAND_WORDMARK_PRIMARY_URL,
         },
       },
       datePublished: guide.updated_at,
