@@ -1,12 +1,12 @@
 <script lang="ts">
-  import './layout.css';
-  import { browser } from '$app/environment';
-  import { afterNavigate } from '$app/navigation';
-  import { page } from '$app/state';
-  import Menu from '@lucide/svelte/icons/menu';
-  import Instagram from '@lucide/svelte/icons/instagram';
-  import MessageCircle from '@lucide/svelte/icons/message-circle';
-  import { Button } from '$lib/components/ui/button/index.js';
+  import "./layout.css";
+  import { browser } from "$app/environment";
+  import { afterNavigate } from "$app/navigation";
+  import { page } from "$app/state";
+  import Menu from "@lucide/svelte/icons/menu";
+  import Instagram from "@lucide/svelte/icons/instagram";
+  import MessageCircle from "@lucide/svelte/icons/message-circle";
+  import { Button } from "$lib/components/ui/button/index.js";
   import {
     Sheet,
     SheetTrigger,
@@ -15,49 +15,50 @@
     SheetTitle,
     SheetClose,
     SheetDescription,
-  } from '$lib/components/ui/sheet/index.js';
-  import { Separator } from '$lib/components/ui/separator/index.js';
-  import ThemeToggle from '$lib/components/theme-toggle.svelte';
-  import { trackVirtualPageView } from '$lib/analytics';
-  import { INSTAGRAM_URL, WHATSAPP_URL } from '$lib/config/social.js';
-  import { SITE_URL } from '$lib/config/site.js';
+  } from "$lib/components/ui/sheet/index.js";
+  import { Separator } from "$lib/components/ui/separator/index.js";
+  import ThemeToggle from "$lib/components/theme-toggle.svelte";
+  import { trackVirtualPageView } from "$lib/analytics";
+  import { INSTAGRAM_URL, WHATSAPP_URL } from "$lib/config/social.js";
+  import { SITE_URL } from "$lib/config/site.js";
 
   let { children } = $props();
 
   const navLinks = [
-    { href: '/', label: 'Home' },
-    { href: '/about', label: 'About' },
-    { href: '/services', label: 'Services' },
-    { href: '/contact', label: 'Contact' },
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/services", label: "Services" },
+    { href: "/makeup-guides", label: "Guides" },
+    { href: "/contact", label: "Contact" },
   ] as const;
 
   const isActivePath = (href: string, pathname: string) => {
-    if (href === '/') {
-      return pathname === '/';
+    if (href === "/") {
+      return pathname === "/";
     }
 
     return pathname === href || pathname.startsWith(`${href}/`);
   };
 
   const localBusinessSchema = JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    name: 'Divine Detail',
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: "Divine Detail",
     image: `${SITE_URL}/og-default.svg`,
     url: SITE_URL,
-    telephone: '+27816098157',
-    email: 'hello@divinedetail.co.za',
+    telephone: "+27816098157",
+    email: "hello@divinedetail.co.za",
     address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Pretoria',
-      addressRegion: 'Gauteng',
-      addressCountry: 'ZA',
+      "@type": "PostalAddress",
+      addressLocality: "Pretoria",
+      addressRegion: "Gauteng",
+      addressCountry: "ZA",
     },
     areaServed: [
-      { '@type': 'City', name: 'Pretoria' },
-      { '@type': 'City', name: 'Centurion' },
-      { '@type': 'City', name: 'Midrand' },
-      { '@type': 'City', name: 'Johannesburg' },
+      { "@type": "City", name: "Pretoria" },
+      { "@type": "City", name: "Centurion" },
+      { "@type": "City", name: "Midrand" },
+      { "@type": "City", name: "Johannesburg" },
     ],
     sameAs: [WHATSAPP_URL],
   });
@@ -81,27 +82,36 @@
   <meta name="author" content="Divine Detail" />
   <meta property="og:site_name" content="Divine Detail" />
   <meta property="og:locale" content="en_ZA" />
-  <meta property="og:image" content={`${SITE_URL}/og-default.svg`} />
-  <meta property="og:image:alt" content="Divine Detail makeup artistry social card" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:image" content={`${SITE_URL}/og-default.svg`} />
+  <meta property="og:site_name" content="Divine Detail" />
+  <meta property="og:locale" content="en_ZA" />
+  <!-- Metadata like og:image, twitter:card, etc. are handled by individual pages to avoid duplicates -->
   <!-- eslint-disable-next-line svelte/no-at-html-tags -->
   {@html `<script type="application/ld+json">${localBusinessSchema}</script>`}
 </svelte:head>
 
 <div class="min-h-dvh flex flex-col">
   <!-- Header -->
-  <header class="sticky top-0 z-50 border-b bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
+  <header
+    class="sticky top-0 z-50 border-b bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60"
+  >
     <div class="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
       <!-- Brand -->
       <a href="/" class="text-lg font-semibold tracking-tight">Divine Detail</a>
 
       <!-- Desktop nav -->
-      <nav aria-label="Primary" class="hidden items-center gap-6 text-sm font-medium md:flex">
+      <nav
+        aria-label="Primary"
+        class="hidden items-center gap-6 text-sm font-medium md:flex"
+      >
         {#each navLinks as link}
           <a
             href={link.href}
-            class="transition-colors hover:text-foreground/80 {isActivePath(link.href, page.url.pathname) ? 'text-foreground' : 'text-muted-foreground'}"
+            class="transition-colors hover:text-foreground/80 {isActivePath(
+              link.href,
+              page.url.pathname,
+            )
+              ? 'text-foreground'
+              : 'text-muted-foreground'}"
           >
             {link.label}
           </a>
@@ -120,7 +130,12 @@
         <Sheet bind:open={mobileOpen}>
           <SheetTrigger>
             {#snippet child({ props })}
-              <Button variant="ghost" size="icon-sm" aria-label="Open menu" {...props}>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                aria-label="Open menu"
+                {...props}
+              >
                 <Menu class="size-5" />
               </Button>
             {/snippet}
@@ -128,7 +143,9 @@
           <SheetContent side="right" class="w-72">
             <SheetHeader>
               <SheetTitle>Divine Detail</SheetTitle>
-              <SheetDescription class="sr-only">Navigation menu</SheetDescription>
+              <SheetDescription class="sr-only"
+                >Navigation menu</SheetDescription
+              >
             </SheetHeader>
             <nav aria-label="Mobile" class="mt-6 flex flex-col gap-4">
               {#each navLinks as link}
@@ -136,7 +153,12 @@
                   {#snippet child({ props })}
                     <a
                       href={link.href}
-                      class="text-sm font-medium transition-colors hover:text-foreground/80 {isActivePath(link.href, page.url.pathname) ? 'text-foreground' : 'text-muted-foreground'}"
+                      class="text-sm font-medium transition-colors hover:text-foreground/80 {isActivePath(
+                        link.href,
+                        page.url.pathname,
+                      )
+                        ? 'text-foreground'
+                        : 'text-muted-foreground'}"
                       {...props}
                     >
                       {link.label}
@@ -145,7 +167,9 @@
                 </SheetClose>
               {/each}
               <Separator />
-              <Button href={WHATSAPP_URL} size="sm" class="w-full">Book on WhatsApp</Button>
+              <Button href={WHATSAPP_URL} size="sm" class="w-full"
+                >Book on WhatsApp</Button
+              >
             </nav>
           </SheetContent>
         </Sheet>
@@ -161,7 +185,9 @@
   <!-- Footer -->
   <footer class="border-t">
     <div class="mx-auto max-w-5xl px-4 py-8">
-      <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      <div
+        class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between"
+      >
         <!-- Brand + location -->
         <div>
           <p class="font-semibold tracking-tight">Divine Detail</p>
@@ -175,9 +201,14 @@
         </div>
 
         <!-- Secondary nav -->
-        <nav aria-label="Footer" class="flex gap-6 text-sm text-muted-foreground">
-          {#each navLinks.filter((l) => l.href !== '/') as link}
-            <a href={link.href} class="transition-colors hover:text-foreground">{link.label}</a>
+        <nav
+          aria-label="Footer"
+          class="flex gap-6 text-sm text-muted-foreground"
+        >
+          {#each navLinks.filter((l) => l.href !== "/") as link}
+            <a href={link.href} class="transition-colors hover:text-foreground"
+              >{link.label}</a
+            >
           {/each}
         </nav>
 

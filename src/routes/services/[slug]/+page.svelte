@@ -1,30 +1,32 @@
 <script lang="ts">
-  import { Button } from '$lib/components/ui/button/index.js';
+  import { Button } from "$lib/components/ui/button/index.js";
   import {
     Card,
     CardContent,
     CardFooter,
-  } from '$lib/components/ui/card/index.js';
-  import { Badge } from '$lib/components/ui/badge/index.js';
-  import { Separator } from '$lib/components/ui/separator/index.js';
-  import Breadcrumb from '$lib/components/breadcrumb.svelte';
-  import Gem from '@lucide/svelte/icons/gem';
-  import Scissors from '@lucide/svelte/icons/scissors';
-  import Star from '@lucide/svelte/icons/star';
-  import Sparkles from '@lucide/svelte/icons/sparkles';
-  import Users from '@lucide/svelte/icons/users';
-  import Check from '@lucide/svelte/icons/check';
-  import ArrowRight from '@lucide/svelte/icons/arrow-right';
-  import ChevronRight from '@lucide/svelte/icons/chevron-right';
-  import MapPin from '@lucide/svelte/icons/map-pin';
-  import Clock from '@lucide/svelte/icons/clock';
-  import CreditCard from '@lucide/svelte/icons/credit-card';
-  import X from '@lucide/svelte/icons/x';
-  import type { Component } from 'svelte';
-  import type { PageData } from './$types';
-  import { services as allServices } from '$lib/data/services';
-  import { WHATSAPP_URL } from '$lib/config/social.js';
-  import { abs_url } from '$lib/config/site.js';
+  } from "$lib/components/ui/card/index.js";
+  import { Badge } from "$lib/components/ui/badge/index.js";
+  import { Separator } from "$lib/components/ui/separator/index.js";
+  import Breadcrumb from "$lib/components/breadcrumb.svelte";
+  import Gem from "@lucide/svelte/icons/gem";
+  import Scissors from "@lucide/svelte/icons/scissors";
+  import Star from "@lucide/svelte/icons/star";
+  import Sparkles from "@lucide/svelte/icons/sparkles";
+  import Users from "@lucide/svelte/icons/users";
+  import Check from "@lucide/svelte/icons/check";
+  import ArrowRight from "@lucide/svelte/icons/arrow-right";
+  import ChevronRight from "@lucide/svelte/icons/chevron-right";
+  import MapPin from "@lucide/svelte/icons/map-pin";
+  import Clock from "@lucide/svelte/icons/clock";
+  import CreditCard from "@lucide/svelte/icons/credit-card";
+  import X from "@lucide/svelte/icons/x";
+  import MessageCircle from "@lucide/svelte/icons/message-circle";
+  import type { Component } from "svelte";
+  import type { PageData } from "./$types";
+  import { services as allServices } from "$lib/data/services";
+  import { WHATSAPP_URL, build_whatsapp_url } from "$lib/config/social.js";
+  import { abs_url } from "$lib/config/site.js";
+  import { guides } from "$lib/data/guides";
 
   let { data }: { data: PageData } = $props();
   const service = $derived(data.service);
@@ -39,14 +41,14 @@
 
   const HeroIcon = $derived(iconMap[service.icon] ?? Gem);
 
-  const relatedServices = $derived(service.relatedSlugs
-    .map((slug) => allServices[slug])
-    .filter(Boolean));
+  const relatedServices = $derived(
+    service.relatedSlugs.map((slug) => allServices[slug]).filter(Boolean),
+  );
   const pageUrl = $derived(abs_url(`/services/${service.slug}`));
-  const pageImage = abs_url('/og-default.svg');
+  const pageImage = abs_url("/og-default.svg");
 
   const parsePrice = (value: string) => {
-    const numeric = value.replace(/[^0-9.]/g, '');
+    const numeric = value.replace(/[^0-9.]/g, "");
     if (!numeric) {
       return undefined;
     }
@@ -54,94 +56,130 @@
     return Number.parseFloat(numeric).toFixed(2);
   };
 
-  const serviceOffers = $derived(service.pricing
-    .flatMap((group) => group.rows)
-    .map((row) => {
-      const normalizedPrice = parsePrice(row.price);
-      if (!normalizedPrice) {
-        return undefined;
-      }
+  const serviceOffers = $derived(
+    service.pricing
+      .flatMap((group) => group.rows)
+      .map((row) => {
+        const normalizedPrice = parsePrice(row.price);
+        if (!normalizedPrice) {
+          return undefined;
+        }
 
-      return {
-        '@type': 'Offer',
-        priceCurrency: 'ZAR',
-        price: normalizedPrice,
-        availability: 'https://schema.org/InStock',
-        description: row.item,
-        url: pageUrl,
-      };
-    })
-    .filter(Boolean));
+        return {
+          "@type": "Offer",
+          priceCurrency: "ZAR",
+          price: normalizedPrice,
+          availability: "https://schema.org/InStock",
+          description: row.item,
+          url: pageUrl,
+        };
+      })
+      .filter(Boolean),
+  );
 
   const notes = [
     {
       icon: MapPin,
-      title: 'Travel',
-      text: 'Based in Moreleta Park, Pretoria. Available across Centurion, Midrand, Sandton, and Johannesburg. Travel charged at R5\u00A0/\u00A0km (to venue and back).',
+      title: "Travel",
+      text: "Based in Moreleta Park, Pretoria. Available across Centurion, Midrand, Sandton, and Johannesburg. Travel charged at R5\u00A0/\u00A0km (to venue and back).",
     },
     {
       icon: Clock,
-      title: 'Timing',
-      text: 'Bridal bookings require a 3-hour minimum window. Early-morning starts (before 06:00) carry a small surcharge.',
+      title: "Timing",
+      text: "Bridal bookings require a 3-hour minimum window. Early-morning starts (before 06:00) carry a small surcharge.",
     },
     {
       icon: CreditCard,
-      title: 'Booking',
-      text: 'A 50% deposit secures your date. Final payment is due on the day of your appointment.',
+      title: "Booking",
+      text: "A 50% deposit secures your date. Final payment is due on the day of your appointment.",
     },
   ];
 
+  const skinPrepGuide = guides["skin-prep-before-makeup"];
+  const serviceWhatsAppLink = $derived(
+    build_whatsapp_url(
+      `Hi Megan! I'm interested in ${service.title} in Pretoria. ` +
+        `Event: _____. Date: _____. Please confirm availability.`,
+    ),
+  );
+
+  const guideCopyMap: Record<string, string> = {
+    "bridal-makeup":
+      "Every bride needs a flawless canvas. Learn how to prep your skin for your wedding day.",
+    "matric-farewell":
+      "Get camera-ready for your big night with these essential skin prep tips.",
+    "special-events":
+      "Make your event makeup last all day and night with proper preparation.",
+  };
+
+  const tailoredGuideCopy = $derived(
+    guideCopyMap[service.slug] ??
+      "Preparation is the secret to a professional, long-lasting makeup finish.",
+  );
+
   // Schema.org structured data
-  const schemaOrg = $derived(JSON.stringify([
-    {
-      '@context': 'https://schema.org',
-      '@type': 'Service',
-      name: service.title,
-      description: service.metaDescription,
-      provider: {
-        '@type': 'LocalBusiness',
-        name: 'Divine Detail',
-        address: {
-          '@type': 'PostalAddress',
-          addressLocality: 'Pretoria',
-          addressRegion: 'Gauteng',
-          addressCountry: 'ZA',
+  const schemaOrg = $derived(
+    JSON.stringify([
+      {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        name: service.title,
+        description: service.metaDescription,
+        provider: {
+          "@type": "LocalBusiness",
+          name: "Divine Detail",
+          address: {
+            "@type": "PostalAddress",
+            addressLocality: "Pretoria",
+            addressRegion: "Gauteng",
+            addressCountry: "ZA",
+          },
+          telephone: "+27816098157",
+          url: abs_url("/"),
         },
-        telephone: '+27816098157',
-        url: abs_url('/'),
+        areaServed: [
+          { "@type": "City", name: "Pretoria" },
+          { "@type": "City", name: "Centurion" },
+          { "@type": "City", name: "Midrand" },
+          { "@type": "City", name: "Johannesburg" },
+        ],
+        offers: serviceOffers,
       },
-      areaServed: [
-        { '@type': 'City', name: 'Pretoria' },
-        { '@type': 'City', name: 'Centurion' },
-        { '@type': 'City', name: 'Midrand' },
-        { '@type': 'City', name: 'Johannesburg' },
-      ],
-      offers: serviceOffers,
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: abs_url('/') },
-        { '@type': 'ListItem', position: 2, name: 'Services', item: abs_url('/services') },
-        {
-          '@type': 'ListItem',
-          position: 3,
-          name: service.shortTitle,
-          item: pageUrl,
-        },
-      ],
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: service.faq.map((f) => ({
-        '@type': 'Question',
-        name: f.question,
-        acceptedAnswer: { '@type': 'Answer', text: f.answer },
-      })),
-    },
-  ]));
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "Home",
+            item: abs_url("/"),
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Services",
+            item: abs_url("/services"),
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: service.shortTitle,
+            item: pageUrl,
+          },
+        ],
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: service.faq.map((f) => ({
+          "@type": "Question",
+          name: f.question,
+          acceptedAnswer: { "@type": "Answer", text: f.answer },
+        })),
+      },
+    ]),
+  );
 </script>
 
 {#snippet priceRow(item: string, price: string)}
@@ -164,7 +202,10 @@
 
 {#snippet excludeItem(text: string)}
   <li class="flex items-start gap-3 text-sm">
-    <X class="mt-0.5 size-4 shrink-0 text-muted-foreground/50" aria-hidden="true" />
+    <X
+      class="mt-0.5 size-4 shrink-0 text-muted-foreground/50"
+      aria-hidden="true"
+    />
     <span class="text-muted-foreground">{text}</span>
   </li>
 {/snippet}
@@ -189,8 +230,8 @@
 <!-- Breadcrumb -->
 <Breadcrumb
   items={[
-    { label: 'Home', href: '/' },
-    { label: 'Services', href: '/services' },
+    { label: "Home", href: "/" },
+    { label: "Services", href: "/services" },
     { label: service.shortTitle },
   ]}
 />
@@ -202,9 +243,7 @@
       <div class="mb-8 h-px w-12 bg-brand"></div>
 
       {#if service.badge}
-        <Badge
-          class="mb-6 border-transparent bg-brand text-brand-foreground"
-        >
+        <Badge class="mb-6 border-transparent bg-brand text-brand-foreground">
           {service.badge}
         </Badge>
       {/if}
@@ -242,6 +281,16 @@
           WhatsApp Me
         </Button>
       </div>
+
+      <p class="mt-8 text-sm text-muted-foreground">
+        Not sure how to prep your skin?
+        <a
+          href="/makeup-guides/skin-prep-before-makeup"
+          class="font-medium text-brand hover:underline"
+        >
+          Read the skin prep guide.
+        </a>
+      </p>
     </div>
   </div>
 </section>
@@ -562,6 +611,75 @@
   </section>
 {/if}
 
+<!-- Helpful Guides -->
+<Separator />
+<section class="py-20 sm:py-24">
+  <div class="mx-auto max-w-5xl px-4">
+    <div class="mb-14 text-center">
+      <p class="text-sm font-medium uppercase tracking-widest text-brand">
+        Expert Advice
+      </p>
+      <h2
+        class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
+      >
+        Helpful Guides
+      </h2>
+    </div>
+
+    <div class="mx-auto max-w-2xl">
+      <Card
+        class="group relative overflow-hidden transition-shadow duration-300 hover:shadow-md border-brand/20"
+      >
+        <CardContent class="p-6 sm:p-8">
+          <div class="flex flex-col gap-6 sm:flex-row sm:items-center">
+            <div class="flex-1 space-y-3">
+              <Badge class="border-transparent bg-brand/10 text-brand">
+                {skinPrepGuide.category}
+              </Badge>
+              <h3
+                class="text-xl font-semibold group-hover:text-brand transition-colors"
+              >
+                Skin prep before makeup (guide)
+              </h3>
+              <p class="text-sm leading-relaxed text-muted-foreground">
+                How to prep your skin for your makeup appointment to ensure a
+                flawless, long-lasting finish.
+              </p>
+              <div class="flex flex-wrap items-center gap-4 pt-2">
+                <a
+                  href="/makeup-guides/skin-prep-before-makeup"
+                  class="flex items-center gap-1.5 text-sm font-medium text-brand"
+                >
+                  Read guide
+                  <ArrowRight class="size-3.5" />
+                </a>
+                <Button
+                  href={serviceWhatsAppLink}
+                  variant="ghost"
+                  size="sm"
+                  class="h-auto p-0 text-brand hover:bg-transparent hover:text-brand/80"
+                >
+                  <MessageCircle class="mr-1.5 size-3.5" />
+                  Book on WhatsApp
+                </Button>
+              </div>
+            </div>
+            <div
+              class="hidden sm:block size-24 shrink-0 overflow-hidden rounded-xl bg-muted/30"
+            >
+              <img
+                src={skinPrepGuide.hero_image}
+                alt="Skin prep"
+                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  </div>
+</section>
+
 <!-- CTA Banner -->
 <section class="border-t bg-brand/5">
   <div class="mx-auto max-w-5xl px-4 py-20 sm:py-24">
@@ -596,13 +714,27 @@
 </section>
 
 <style>
-  .hero-stagger > :nth-child(1) { animation: hero-fade-in 0.8s ease both 0.1s; }
-  .hero-stagger > :nth-child(2) { animation: hero-fade-in 0.8s ease both 0.2s; }
-  .hero-stagger > :nth-child(3) { animation: hero-fade-in 0.8s ease both 0.3s; }
-  .hero-stagger > :nth-child(4) { animation: hero-fade-in 0.8s ease both 0.4s; }
-  .hero-stagger > :nth-child(5) { animation: hero-fade-in 0.8s ease both 0.5s; }
-  .hero-stagger > :nth-child(6) { animation: hero-fade-in 0.8s ease both 0.6s; }
-  .hero-stagger > :nth-child(7) { animation: hero-fade-in 0.8s ease both 0.7s; }
+  .hero-stagger > :nth-child(1) {
+    animation: hero-fade-in 0.8s ease both 0.1s;
+  }
+  .hero-stagger > :nth-child(2) {
+    animation: hero-fade-in 0.8s ease both 0.2s;
+  }
+  .hero-stagger > :nth-child(3) {
+    animation: hero-fade-in 0.8s ease both 0.3s;
+  }
+  .hero-stagger > :nth-child(4) {
+    animation: hero-fade-in 0.8s ease both 0.4s;
+  }
+  .hero-stagger > :nth-child(5) {
+    animation: hero-fade-in 0.8s ease both 0.5s;
+  }
+  .hero-stagger > :nth-child(6) {
+    animation: hero-fade-in 0.8s ease both 0.6s;
+  }
+  .hero-stagger > :nth-child(7) {
+    animation: hero-fade-in 0.8s ease both 0.7s;
+  }
 
   @keyframes hero-fade-in {
     from {

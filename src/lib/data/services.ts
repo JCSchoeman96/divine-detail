@@ -21,6 +21,7 @@ export interface FAQ {
 
 export interface ServiceData {
   slug: string;
+  updated_at?: string;
   title: string;
   shortTitle: string;
   metaTitle: string;
@@ -44,6 +45,7 @@ export interface ServiceData {
 const data: Record<string, ServiceData> = {
   'bridal-makeup': {
     slug: 'bridal-makeup',
+    updated_at: '2026-02-17',
     title: 'Bridal Makeup',
     shortTitle: 'Bridal Makeup',
     metaTitle: 'Bridal Makeup Artist Pretoria | Divine Detail',
@@ -149,6 +151,7 @@ const data: Record<string, ServiceData> = {
 
   'bridal-hair': {
     slug: 'bridal-hair',
+    updated_at: '2026-02-17',
     title: 'Bridal Hair Styling',
     shortTitle: 'Bridal Hair',
     metaTitle: 'Bridal Hair Stylist Pretoria | Divine Detail',
@@ -263,6 +266,7 @@ const data: Record<string, ServiceData> = {
 
   'wedding-packages': {
     slug: 'wedding-packages',
+    updated_at: '2026-02-17',
     title: 'Wedding Packages',
     shortTitle: 'Wedding Packages',
     metaTitle: 'Wedding Hair & Makeup Packages Pretoria | Divine Detail',
@@ -366,6 +370,7 @@ const data: Record<string, ServiceData> = {
 
   'matric-farewell': {
     slug: 'matric-farewell',
+    updated_at: '2026-02-17',
     title: 'Matric Farewell Makeup',
     shortTitle: 'Matric Farewell',
     metaTitle: 'Matric Farewell Makeup Pretoria | Divine Detail',
@@ -458,6 +463,7 @@ const data: Record<string, ServiceData> = {
 
   'special-events': {
     slug: 'special-events',
+    updated_at: '2026-02-17',
     title: 'Special Event Makeup',
     shortTitle: 'Special Events',
     metaTitle: 'Event Makeup Artist Pretoria | Divine Detail',
@@ -543,6 +549,7 @@ const data: Record<string, ServiceData> = {
 
   'bridal-hair-and-makeup': {
     slug: 'bridal-hair-and-makeup',
+    updated_at: '2026-02-17',
     title: 'Bridal Hair & Makeup',
     shortTitle: 'Hair & Makeup',
     metaTitle: 'Bridal Hair & Makeup Pretoria | Divine Detail',
