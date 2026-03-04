@@ -82,7 +82,7 @@
         <h1
           class="font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl"
         >
-          Makeup Guides for Brides, Matric & Events
+          Makeup <span class="heading-gradient">Guides</span> for Brides, Matric & Events
         </h1>
         <p class="mt-6 text-lg leading-relaxed text-muted-foreground">
           Expert advice to help you prepare for your professional makeup
@@ -100,7 +100,7 @@
       {#if featuredGuides.length > 0}
         <section>
           <h2 class="font-display mb-8 text-2xl font-semibold tracking-tight">
-            Start Here
+            Start <span class="heading-gradient">Here</span>
           </h2>
           <div class="grid gap-6">
             {#each featuredGuides as guide}
@@ -114,7 +114,7 @@
       {#if otherGuides.length > 0}
         <section>
           <h2 class="font-display mb-8 text-2xl font-semibold tracking-tight">
-            All Guides
+            All <span class="heading-gradient">Guides</span>
           </h2>
           <div class="grid gap-6 sm:grid-cols-2">
             {#each otherGuides as guide}
@@ -128,7 +128,7 @@
       <section class="rounded-2xl bg-brand/5 p-8 sm:p-12 text-center">
         <div class="mx-auto mb-6 h-px w-12 bg-brand"></div>
         <h2 class="font-display text-3xl font-semibold tracking-tight">
-          Book Megan
+          Book <span class="heading-gradient">Megan</span>
         </h2>
         <p class="mx-auto mt-4 max-w-md text-muted-foreground">
           Ready to secure your date? Whether it's for your wedding, farewell, or

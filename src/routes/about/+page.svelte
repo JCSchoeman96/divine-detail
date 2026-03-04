@@ -177,7 +177,7 @@
       <div class="reveal-up hero-copy">
         <Badge variant="outline" class="mb-4 w-fit font-normal">Pretoria and Gauteng</Badge>
         <h1 class="font-display text-4xl font-semibold tracking-tight sm:text-5xl">
-          Meet Megan
+          Meet <span class="heading-gradient">Megan</span>
         </h1>
         <p class="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
           I help brides and clients look polished without feeling overdone. My focus is timeless glam
@@ -206,7 +206,7 @@
 <section class="bg-muted/20 py-16 sm:py-20">
   <div class="mx-auto max-w-6xl px-4">
     <div class="mb-10 text-center">
-      <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">Quick Facts</h2>
+      <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">Quick <span class="heading-gradient">Facts</span></h2>
       <p class="mx-auto mt-3 max-w-2xl text-muted-foreground">
         Built around the outcomes clients care about most: longevity, calm timelines, and skin comfort.
       </p>
@@ -246,7 +246,7 @@
 <section class="py-16 sm:py-20">
   <div class="mx-auto max-w-6xl px-4">
     <div class="mb-10 text-center">
-      <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">My Story and Approach</h2>
+      <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">My Story and <span class="heading-gradient">Approach</span></h2>
       <p class="mx-auto mt-3 max-w-2xl text-muted-foreground">
         A clear process, thoughtful prep, and looks tailored to your features and event.
       </p>
@@ -319,7 +319,7 @@
 <section class="py-16 sm:py-20">
   <div class="mx-auto max-w-6xl px-4">
     <div class="mb-10 text-center">
-      <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">Social Proof</h2>
+      <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">Social <span class="heading-gradient">Proof</span></h2>
       <p class="mx-auto mt-3 max-w-2xl text-muted-foreground">
         Feedback from local clients across weddings, events, and matric evenings.
       </p>
@@ -355,7 +355,7 @@
 <section class="bg-muted/20 py-16 sm:py-20">
   <div class="mx-auto max-w-4xl px-4">
     <div class="mb-8 text-center">
-      <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">FAQ</h2>
+      <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl"><span class="heading-gradient">FAQ</span></h2>
       <p class="mx-auto mt-3 max-w-2xl text-muted-foreground">
         Quick answers before you enquire. If you need specifics, message me directly.
       </p>

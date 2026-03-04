@@ -307,7 +307,7 @@
       <h2
         class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
       >
-        What's Included
+        What's <span class="heading-gradient">Included</span>
       </h2>
     </div>
 
@@ -355,7 +355,7 @@
       <h2
         class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
       >
-        The Process
+        The <span class="heading-gradient">Process</span>
       </h2>
     </div>
 
@@ -391,7 +391,7 @@
       <h2
         class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
       >
-        Who It's For
+        Who It's <span class="heading-gradient">For</span>
       </h2>
     </div>
 
@@ -420,7 +420,7 @@
       <h2
         class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
       >
-        Pricing
+        <span class="heading-gradient">Pricing</span>
       </h2>
     </div>
 
@@ -493,7 +493,7 @@
       <h2
         class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
       >
-        Good to Know
+        Good to <span class="heading-gradient">Know</span>
       </h2>
     </div>
 
@@ -527,7 +527,7 @@
       <h2
         class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
       >
-        Frequently Asked
+        Frequently <span class="heading-gradient">Asked</span>
       </h2>
     </div>
 
@@ -564,7 +564,7 @@
         <h2
           class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
         >
-          Related Services
+          Related <span class="heading-gradient">Services</span>
         </h2>
       </div>
 
@@ -622,7 +622,7 @@
       <h2
         class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
       >
-        Helpful Guides
+        Helpful <span class="heading-gradient">Guides</span>
       </h2>
     </div>
 
@@ -688,7 +688,7 @@
       <h2
         class="font-display text-3xl font-semibold tracking-tight sm:text-4xl"
       >
-        Ready to Book?
+        Ready to <span class="heading-gradient">Book?</span>
       </h2>
       <p
         class="mx-auto mt-4 max-w-md text-base leading-relaxed text-muted-foreground"

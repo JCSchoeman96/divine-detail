@@ -23,6 +23,17 @@ const data: Record<string, GuideData> = {
     read_time_minutes: 10,
     featured: true,
   },
+  'wedding-day-makeup-timeline-pretoria': {
+    slug: 'wedding-day-makeup-timeline-pretoria',
+    title: 'Wedding Day Makeup Timeline (Pretoria): A Calm, Photo-Ready Schedule',
+    description:
+      'Planning your wedding morning in Pretoria? Here\u2019s the realistic bridal makeup timeline I use\u2014from skin prep to final powder\u2014so you\u2019re radiant, not rushed.',
+    category: 'Bridal',
+    updated_at: '2026-03-04',
+    hero_image: '/images/guides/woman-applies-makeup-home-front-mirror.webp',
+    read_time_minutes: 8,
+    featured: true,
+  },
 };
 
 export const guides = data;
@@ -32,6 +43,7 @@ export const guides = data;
  */
 export const guideList: GuideData[] = [
   data['skin-prep-before-makeup'],
+  data['wedding-day-makeup-timeline-pretoria'],
 ];
 
 /**

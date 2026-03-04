@@ -11,3 +11,4 @@ import { abs_url } from "./site.js";
 export const BRAND_WORDMARK_PRIMARY_URL = abs_url("/images/logo/Divine_Detail_logo_landscape_dark-font.svg");
 export const BRAND_WORDMARK_LIGHT_ON_DARK_URL = abs_url("/images/logo/Divine_Detail_logo_landscape_light-font.svg");
 export const BRAND_WORDMARK_BRAND_URL = abs_url("/images/logo/Divine_Detail_logo_landscape_brand-color.svg");
+export const BRAND_ICON_URL = abs_url("/images/logo/Divine_Detail_icon_brand-color.svg");

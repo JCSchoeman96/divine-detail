@@ -21,7 +21,10 @@
   import { trackVirtualPageView } from "$lib/analytics";
   import { INSTAGRAM_URL, WHATSAPP_URL } from "$lib/config/social.js";
   import { SITE_URL } from "$lib/config/site.js";
-  import { BRAND_WORDMARK_PRIMARY_URL } from "$lib/config/brand.js";
+  import {
+    BRAND_WORDMARK_PRIMARY_URL,
+    BRAND_WORDMARK_LIGHT_ON_DARK_URL,
+  } from "$lib/config/brand.js";
 
   let { children } = $props();
 
@@ -96,7 +99,22 @@
   >
     <div class="mx-auto flex h-14 max-w-5xl items-center justify-between px-4">
       <!-- Brand -->
-      <a href="/" class="text-lg font-semibold tracking-tight">Divine Detail</a>
+      <a
+        href="/"
+        class="flex items-center gap-2 group"
+        aria-label="Divine Detail Home"
+      >
+        <img
+          src={BRAND_WORDMARK_PRIMARY_URL}
+          alt="Divine Detail"
+          class="h-8 w-auto dark:hidden"
+        />
+        <img
+          src={BRAND_WORDMARK_LIGHT_ON_DARK_URL}
+          alt="Divine Detail"
+          class="hidden h-8 w-auto dark:block"
+        />
+      </a>
 
       <!-- Desktop nav -->
       <nav
@@ -142,7 +160,18 @@
           </SheetTrigger>
           <SheetContent side="right" class="w-72">
             <SheetHeader>
-              <SheetTitle>Divine Detail</SheetTitle>
+              <SheetTitle>
+                <img
+                  src={BRAND_WORDMARK_PRIMARY_URL}
+                  alt="Divine Detail"
+                  class="h-6 w-auto dark:hidden"
+                />
+                <img
+                  src={BRAND_WORDMARK_LIGHT_ON_DARK_URL}
+                  alt="Divine Detail"
+                  class="hidden h-6 w-auto dark:block"
+                />
+              </SheetTitle>
               <SheetDescription class="sr-only"
                 >Navigation menu</SheetDescription
               >
@@ -190,7 +219,16 @@
       >
         <!-- Brand + location -->
         <div>
-          <p class="font-semibold tracking-tight">Divine Detail</p>
+          <img
+            src={BRAND_WORDMARK_LIGHT_ON_DARK_URL}
+            alt="Divine Detail"
+            class="hidden h-8 w-auto dark:block mb-3"
+          />
+          <img
+            src={BRAND_WORDMARK_PRIMARY_URL}
+            alt="Divine Detail"
+            class="h-8 w-auto dark:hidden mb-3"
+          />
           <p class="mt-1 text-sm text-muted-foreground">Pretoria, Gauteng</p>
           <a
             href="tel:+27816098157"

@@ -82,7 +82,7 @@
   <div class="mx-auto max-w-5xl px-4 text-center">
     <Badge variant="outline" class="font-normal tracking-wide">Pretoria &middot; Gauteng</Badge>
     <h1 class="font-display mt-6 text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl">
-      Makeup & Hair Services
+      Makeup & Hair <span class="heading-gradient">Services</span>
     </h1>
     <p class="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg">
       Use this hub to find the right service quickly, then open the dedicated page for full details,
@@ -150,7 +150,7 @@
 
 <section class="py-20 sm:py-24">
   <div class="mx-auto max-w-5xl px-4">
-    <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">How Booking Works</h2>
+    <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">How <span class="heading-gradient">Booking</span> Works</h2>
 
     <ol class="mt-8 grid gap-4 sm:grid-cols-2">
       <li class="rounded-xl border border-border bg-muted/30 p-5">

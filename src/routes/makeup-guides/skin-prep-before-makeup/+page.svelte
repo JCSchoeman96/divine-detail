@@ -244,7 +244,7 @@
       <!-- Main Long-form Content -->
       <div class="prose prose-brand max-w-none dark:prose-invert">
         <h2 id="why-skin-prep-matters">
-          Why Skin Prep Matters for Wedding, Matric & Event Makeup
+          Why Skin Prep <span class="heading-gradient">Matters</span> for Wedding, Matric & Event Makeup
         </h2>
         <p>
           Your special day deserves special attention — and that starts with
@@ -268,7 +268,7 @@
         </p>
 
         <h2 id="know-your-skin-type">
-          Know Your Skin Type (So You Don’t Fight It)
+          Know Your <span class="heading-gradient">Skin Type</span> (So You Don’t Fight It)
         </h2>
         <p>Your skin type decides what works — and what backfires.</p>
 
@@ -327,7 +327,7 @@
         </p>
 
         <h2 id="cleanse-properly">
-          Cleanse Properly: The Base Layer for Smooth Makeup
+          <span class="heading-gradient">Cleanse</span> Properly: The Base Layer for Smooth Makeup
         </h2>
         <p>
           Cleansing removes oil, sweat, sunscreen, and product residue so makeup
@@ -351,7 +351,7 @@
         </p>
 
         <h2 id="exfoliation">
-          Exfoliation: When to Do It (and When to Skip It)
+          <span class="heading-gradient">Exfoliation:</span> When to Do It (and When to Skip It)
         </h2>
         <p>
           Exfoliation smooths texture by removing dead skin cells. Done right,
@@ -389,7 +389,7 @@
           </p>
         </div>
 
-        <h2 id="hydration">Hydration: How to Choose the Right Moisturizer</h2>
+        <h2 id="hydration"><span class="heading-gradient">Hydration:</span> How to Choose the Right Moisturizer</h2>
         <p>Hydrated skin makes makeup look smoother and more “skin-like”.</p>
         <ul>
           <li>
@@ -442,7 +442,7 @@
           </Card>
         </div>
 
-        <h2 id="primer">Primer: Which Type Works Best for Your Skin</h2>
+        <h2 id="primer"><span class="heading-gradient">Primer:</span> Which Type Works Best for Your Skin</h2>
         <p>
           Primer is your “grip” layer. The right one improves wear and finish.
         </p>
@@ -468,7 +468,7 @@
           <li>Let it set before foundation.</li>
         </ul>
 
-        <h2 id="sunscreen">Sunscreen Under Makeup: What to Use (No Pilling)</h2>
+        <h2 id="sunscreen"><span class="heading-gradient">Sunscreen</span> Under Makeup: What to Use (No Pilling)</h2>
         <p>
           SPF is non-negotiable. The trick is choosing one that plays nicely
           with makeup.
@@ -491,7 +491,7 @@
         </p>
 
         <h2 id="targeted-treatments">
-          Targeted Treatments for Common Skin Concerns
+          Targeted <span class="heading-gradient">Treatments</span> for Common Skin Concerns
         </h2>
         <p>
           Targeted products can help, but the closer you get to an event, the
@@ -517,7 +517,7 @@
         </ul>
 
         <h2 id="timing-plan">
-          Timing: Your 6-Week, 2-Week, 48-Hour, Morning-Of Plan
+          <span class="heading-gradient">Timing:</span> Your 6-Week, 2-Week, 48-Hour, Morning-Of Plan
         </h2>
         <p>
           This is the difference between “okay makeup” and “effortless makeup”.
@@ -605,7 +605,7 @@
         </div>
 
         <h2 id="appointment-checklist">
-          Your Appointment Checklist (What to Do and What to Avoid)
+          Your Appointment <span class="heading-gradient">Checklist</span> (What to Do and What to Avoid)
         </h2>
         <div class="grid gap-8 sm:grid-cols-2 mt-8 not-prose">
           <Card
@@ -690,7 +690,7 @@
           > across Gauteng.
         </p>
 
-        <h2 id="faqs">Frequently Asked Questions</h2>
+        <h2 id="faqs">Frequently Asked <span class="heading-gradient">Questions</span></h2>
       </div>
 
       <!-- FAQ Section -->
@@ -719,7 +719,7 @@
         <div class="flex flex-col items-center text-center">
           <div class="mb-6 h-px w-12 bg-brand"></div>
           <h2 class="font-display text-4xl font-semibold tracking-tight">
-            Book Megan (Pretoria & surrounds)
+            Book <span class="heading-gradient">Megan</span> (Pretoria & surrounds)
           </h2>
           <p class="mt-4 text-muted-foreground max-w-lg">
             Use the <a
@@ -731,13 +731,18 @@
           <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
             <Button
               href={whatsappLink}
-              size="xl"
-              class="bg-brand text-brand-foreground hover:bg-brand/90 px-8"
+              size="lg"
+              class="bg-brand text-brand-foreground hover:bg-brand/90 px-8 h-12"
             >
               Book on WhatsApp
               <MessageCircle class="ml-2 size-5" />
             </Button>
-            <Button href="/contact" variant="outline" size="xl" class="px-8">
+            <Button
+              href="/contact"
+              variant="outline"
+              size="lg"
+              class="px-8 h-12"
+            >
               Send Enquiry
             </Button>
           </div>

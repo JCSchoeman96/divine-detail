@@ -56,7 +56,7 @@
 		<div class="mb-8 h-px w-12 bg-brand"></div>
 		<p class="text-sm font-medium uppercase tracking-widest text-brand">Get in Touch</p>
 		<h1 class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
-			Let's Create Your Look
+			Let's Create Your <span class="heading-gradient">Look</span>
 		</h1>
 		<p class="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
 			Whether you're planning a wedding, farewell, or special event — I'd love to hear about
@@ -84,7 +84,7 @@
 						<h2
 							class="font-display text-2xl font-semibold tracking-tight sm:text-3xl"
 						>
-							Thank You
+							Thank <span class="heading-gradient">You</span>
 						</h2>
 						<p class="mx-auto mt-3 max-w-sm text-muted-foreground leading-relaxed">
 							Your message has been received. I'll be in touch within 24 hours to
@@ -239,7 +239,7 @@
 						<h2
 							class="font-display text-lg font-semibold tracking-tight"
 						>
-							Contact Details
+							Contact <span class="heading-gradient">Details</span>
 						</h2>
 						<div class="mt-1 h-px w-8 bg-brand"></div>
 					</div>
@@ -294,7 +294,7 @@
 						<h2
 							class="font-display text-lg font-semibold tracking-tight"
 						>
-							Service Area
+							Service <span class="heading-gradient">Area</span>
 						</h2>
 						<div class="mt-1 h-px w-8 bg-brand"></div>
 					</div>

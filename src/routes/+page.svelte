@@ -108,7 +108,7 @@
         class="font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
       >
         Your Day,<br />
-        <span class="text-brand italic">Perfected</span>
+        <span class="heading-gradient italic">Perfected</span>
       </h1>
 
       <p
@@ -150,7 +150,7 @@
       <h2
         class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
       >
-        Services
+        <span class="heading-gradient">Services</span>
       </h2>
     </div>
 
@@ -203,7 +203,7 @@
       <h2
         class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
       >
-        Client Testimonials
+        Client <span class="heading-gradient">Testimonials</span>
       </h2>
     </div>
 
@@ -239,7 +239,7 @@
       <h2
         class="font-display text-3xl font-semibold tracking-tight sm:text-4xl"
       >
-        Ready to Book?
+        Ready to <span class="heading-gradient">Book?</span>
       </h2>
       <p
         class="mx-auto mt-4 max-w-md text-base leading-relaxed text-muted-foreground"
