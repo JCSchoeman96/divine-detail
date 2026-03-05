@@ -297,9 +297,6 @@
 							>
 								{#if submitting}
 									Sending...
-								{:else if intent === 'booking'}
-									Request My Date
-									<CalendarHeart class="size-4" />
 								{:else}
 									Send Message
 									<Send class="size-4" />
