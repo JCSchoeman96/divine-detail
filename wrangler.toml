@@ -1,0 +1,8 @@
+name = "divine-detail-site"
+compatibility_date = "2026-03-05"
+pages_build_output_dir = ".svelte-kit/cloudflare"
+
+[vars]
+ADMIN_EMAIL = "megan@divinedetail.co.za"
+SENDPULSE_INQUIRY_LIST_ID = "597820"
+SENDPULSE_BOOKING_LIST_ID = "597823"

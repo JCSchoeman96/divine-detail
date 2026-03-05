@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { enhance } from '$app/forms';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { Input } from '$lib/components/ui/input/index.js';
@@ -11,6 +12,8 @@
 	import Clock from '@lucide/svelte/icons/clock';
 	import CheckCircle from '@lucide/svelte/icons/check-circle-2';
 	import Send from '@lucide/svelte/icons/send';
+	import CalendarHeart from '@lucide/svelte/icons/calendar-heart';
+	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
 	import type { ActionData } from './$types';
 	import { WHATSAPP_URL } from '$lib/config/social.js';
 	import { abs_url } from '$lib/config/site.js';
@@ -18,6 +21,9 @@
 	let { form }: { form: ActionData } = $props();
 
 	let submitting = $state(false);
+	let intent = $state<'inquiry' | 'booking'>('inquiry');
+	let loadTime = $state(0);
+	onMount(() => { loadTime = Date.now(); });
 
 	const serviceOptions = [
 		'Bridal Makeup',
@@ -100,8 +106,9 @@
 					<form
 						id="GA4_Form"
 						method="POST"
-						use:enhance={() => {
+						use:enhance={({ formData }) => {
 							submitting = true;
+							formData.append('load_time', String(loadTime));
 							return async ({ update }) => {
 								await update();
 								submitting = false;
@@ -110,6 +117,40 @@
 						class="space-y-6"
 						novalidate
 					>
+						<!-- Honeypot — visually hidden, traps bots -->
+						<div class="absolute -left-[9999px] h-0 overflow-hidden" aria-hidden="true">
+							<label for="user_website">Website</label>
+							<input type="text" id="user_website" name="user_website" tabindex="-1" autocomplete="off" />
+						</div>
+
+						<input type="hidden" name="intent" value={intent} />
+
+						<!-- Intent Toggle -->
+						<div class="flex items-center justify-center gap-4">
+							<span
+								class="font-display text-sm font-semibold tracking-tight transition-colors {intent === 'inquiry' ? 'text-brand' : 'text-muted-foreground'}"
+							>
+								General Inquiry
+							</span>
+							<button
+								type="button"
+								role="switch"
+								aria-checked={intent === 'booking'}
+								aria-label="Toggle between general inquiry and booking request"
+								onclick={() => { intent = intent === 'inquiry' ? 'booking' : 'inquiry'; }}
+								class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border border-input bg-muted transition-colors focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 {intent === 'booking' ? 'bg-brand' : ''}"
+							>
+								<span
+									class="pointer-events-none block size-5 rounded-full bg-background shadow-sm ring-0 transition-transform {intent === 'booking' ? 'translate-x-5' : 'translate-x-0'}"
+								></span>
+							</button>
+							<span
+								class="font-display text-sm font-semibold tracking-tight transition-colors {intent === 'booking' ? 'text-brand' : 'text-muted-foreground'}"
+							>
+								Booking Request
+							</span>
+						</div>
+
 						<!-- Name & Email Row -->
 						<div class="grid gap-6 sm:grid-cols-2">
 							<div class="space-y-2">
@@ -179,15 +220,42 @@
 							</div>
 
 							<div class="space-y-2">
-								<Label for="date">Event Date</Label>
+								<Label for="date">
+									Event Date
+									{#if intent === 'booking'}
+										<span class="text-brand" aria-hidden="true">*</span>
+									{/if}
+								</Label>
 								<Input
 									id="date"
 									name="date"
 									type="date"
+									required={intent === 'booking'}
 									value={form?.values?.date ?? ''}
+									aria-invalid={form?.errors?.date ? 'true' : undefined}
+									aria-describedby={form?.errors?.date ? 'date-error' : undefined}
 								/>
+								{#if form?.errors?.date}
+									<p id="date-error" class="text-sm text-destructive">
+										{form.errors.date}
+									</p>
+								{/if}
 							</div>
 						</div>
+
+						{#if intent === 'booking'}
+							<!-- Venue (booking only) -->
+							<div class="space-y-2">
+								<Label for="venue">Venue</Label>
+								<Input
+									id="venue"
+									name="venue"
+									type="text"
+									placeholder="Venue name or location"
+									value={form?.values?.venue ?? ''}
+								/>
+							</div>
+						{/if}
 
 						<!-- Message -->
 						<div class="space-y-2">
@@ -212,6 +280,13 @@
 							{/if}
 						</div>
 
+						<!-- Turnstile -->
+						<div class="cf-turnstile" data-sitekey={PUBLIC_TURNSTILE_SITE_KEY}></div>
+
+						{#if form?.errors?.form}
+							<p class="text-sm text-destructive">{form.errors.form}</p>
+						{/if}
+
 						<!-- Submit -->
 						<div class="pt-2">
 							<Button
@@ -222,6 +297,9 @@
 							>
 								{#if submitting}
 									Sending...
+								{:else if intent === 'booking'}
+									Request My Date
+									<CalendarHeart class="size-4" />
 								{:else}
 									Send Message
 									<Send class="size-4" />
@@ -250,10 +328,10 @@
 							<div>
 								<p class="text-sm font-medium">Email</p>
 								<a
-									href="mailto:hello@divinedetail.co.za"
+									href="mailto:megan@divinedetail.co.za"
 									class="text-sm text-muted-foreground transition-colors hover:text-foreground"
 								>
-									hello@divinedetail.co.za
+									megan@divinedetail.co.za
 								</a>
 							</div>
 						</div>

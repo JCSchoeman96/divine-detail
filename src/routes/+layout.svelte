@@ -52,7 +52,7 @@
     logo: BRAND_WORDMARK_PRIMARY_URL,
     url: SITE_URL,
     telephone: "+27816098157",
-    email: "hello@divinedetail.co.za",
+    email: "megan@divinedetail.co.za",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Pretoria",
