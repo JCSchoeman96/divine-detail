@@ -220,42 +220,15 @@
 							</div>
 
 							<div class="space-y-2">
-								<Label for="date">
-									Event Date
-									{#if intent === 'booking'}
-										<span class="text-brand" aria-hidden="true">*</span>
-									{/if}
-								</Label>
+								<Label for="date">Event Date</Label>
 								<Input
 									id="date"
 									name="date"
 									type="date"
-									required={intent === 'booking'}
 									value={form?.values?.date ?? ''}
-									aria-invalid={form?.errors?.date ? 'true' : undefined}
-									aria-describedby={form?.errors?.date ? 'date-error' : undefined}
 								/>
-								{#if form?.errors?.date}
-									<p id="date-error" class="text-sm text-destructive">
-										{form.errors.date}
-									</p>
-								{/if}
 							</div>
 						</div>
-
-						{#if intent === 'booking'}
-							<!-- Venue (booking only) -->
-							<div class="space-y-2">
-								<Label for="venue">Venue</Label>
-								<Input
-									id="venue"
-									name="venue"
-									type="text"
-									placeholder="Venue name or location"
-									value={form?.values?.venue ?? ''}
-								/>
-							</div>
-						{/if}
 
 						<!-- Message -->
 						<div class="space-y-2">

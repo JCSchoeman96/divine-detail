@@ -1,9 +1,6 @@
 import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
-import {
-	SENDPULSE_ID as SK_SENDPULSE_ID,
-	SENDPULSE_SECRET as SK_SENDPULSE_SECRET,
-} from '$env/static/private';
+import { env as dynamicEnv } from '$env/dynamic/private';
 
 /** Fetch a fresh SendPulse OAuth token. */
 async function getSendPulseToken(clientId: string, clientSecret: string): Promise<string> {
@@ -91,8 +88,8 @@ export const actions = {
 		}
 
 		// ── SendPulse ────────────────────────────────────────────────────
-		const spId = env?.SENDPULSE_ID ?? SK_SENDPULSE_ID;
-		const spSecret = env?.SENDPULSE_SECRET ?? SK_SENDPULSE_SECRET;
+		const spId = env?.SENDPULSE_ID ?? dynamicEnv.SENDPULSE_ID ?? '';
+		const spSecret = env?.SENDPULSE_SECRET ?? dynamicEnv.SENDPULSE_SECRET ?? '';
 		const adminEmail = env?.ADMIN_EMAIL ?? 'megan@divinedetail.co.za';
 		const listId = intent === 'booking'
 			? (env?.SENDPULSE_BOOKING_LIST_ID ?? '597823')
