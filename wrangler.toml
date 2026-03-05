@@ -1,5 +1,6 @@
 name = "divine-detail-site"
 compatibility_date = "2026-03-05"
+compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".svelte-kit/cloudflare"
 
 [vars]
