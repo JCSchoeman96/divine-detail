@@ -31,27 +31,27 @@
   const quickFacts = [
     {
       icon: Sparkles,
-      title: 'Long-wear, photo-ready finish',
-      body: 'Sweat-friendly, tear-aware, and camera-ready application so your look holds from prep to final photos.',
-      proof: 'Proof: Preferred for full-day weddings and long event timelines.',
-      meaning: 'What it means for you: less touch-up stress and confidence in every photo.',
-      tag: 'Photo Priority',
+      title: 'Beautiful in real life and in photos',
+      body: 'I create makeup that wears well through long days, bright light, happy tears, and plenty of photos, while still looking soft and natural up close.',
+      proof: 'Products and finish are selected so you still look like yourself in person and on camera.',
+      meaning: 'You feel confident in every photo without feeling overdone.',
+      tag: 'Photo Friendly',
     },
     {
       icon: Clock,
-      title: 'Calm and on-time bridal mornings',
-      body: 'Your beauty timeline is planned in advance with realistic slots for every person in the chair.',
-      proof: 'Proof: Clear prep windows and practical pacing for venues across Gauteng.',
-      meaning: 'What it means for you: no rushing, no panic, and more time to be present.',
-      tag: 'Bridal Flow',
+      title: 'A calm, well-planned experience',
+      body: 'I believe getting ready should feel exciting, not chaotic. Timelines are thought through properly so you can relax and enjoy the moment.',
+      proof: 'Prep timing is mapped clearly so your morning feels organised, not stressful.',
+      meaning: 'You get to be present and enjoy your event day.',
+      tag: 'Calm Timing',
     },
     {
       icon: Star,
-      title: 'Hygiene-first, skin-conscious kit',
-      body: 'Sanitised tools, clean product handling, and comfort-focused techniques for a polished finish.',
-      proof: 'Proof: Products and prep adjusted to your skin type and sensitivity notes.',
-      meaning: 'What it means for you: a safer, more comfortable appointment from start to finish.',
-      tag: 'Skin Safe',
+      title: 'Comfort-first application',
+      body: 'Clean tools, thoughtful product choices, and skin-aware application all matter. I want your appointment to feel as good as the final result looks.',
+      proof: 'Products and application are adjusted to your skin type and comfort level.',
+      meaning: 'You feel cared for from start to finish.',
+      tag: 'Comfort First',
     },
   ] as const;
 
@@ -83,32 +83,32 @@
     {
       question: 'Do you do trials?',
       answer:
-        'Yes. Bridal bookings can include a trial so we lock in your look before the wedding day and avoid last-minute uncertainty.',
+        'Yes. Bridal trials are the best way to settle on a look before the wedding day, so nothing feels rushed or uncertain.',
     },
     {
       question: 'Do you travel to venues?',
       answer:
-        'Yes. I travel across Pretoria, Centurion, Midrand, and nearby Gauteng areas. Travel is quoted based on distance and start time.',
+        'Yes, I travel across Pretoria, Centurion, Midrand, and nearby Gauteng areas. I’ll quote travel based on distance and timing.',
     },
     {
       question: 'How far in advance should I book?',
       answer:
-        'Peak wedding and matric dates fill quickly. Booking 2 to 6 months ahead is ideal, and earlier is best for high-demand weekends.',
+        'Popular wedding and farewell dates can go quickly, so earlier is always better. For most bookings, 2 to 6 months ahead is a good window.',
     },
     {
       question: 'What must I prep before my appointment?',
       answer:
-        'Arrive with a clean, moisturised face and dry hair if hair styling is included. We confirm a full prep checklist before your date.',
+        'Arrive with a clean, moisturised face, and dry hair if hair styling is included. I’ll guide you through the rest beforehand.',
     },
     {
       question: 'Can you do bridesmaids and moms?',
       answer:
-        'Absolutely. Group bookings are available for bridesmaids, moms, and family members with timing planned around your ceremony.',
+        'Absolutely. Group bookings are available, and I’ll help plan the timing so everything runs smoothly.',
     },
     {
       question: 'What happens if my skin is sensitive?',
       answer:
-        'Please share sensitivities in advance. I adjust products and application methods for comfort, and we can patch-test when needed.',
+        'Just let me know in advance. I can adjust products and application for comfort, and we can patch-test where needed.',
     },
   ] as const;
 
@@ -177,11 +177,15 @@
       <div class="reveal-up hero-copy">
         <Badge variant="outline" class="mb-4 w-fit font-normal">Pretoria and Gauteng</Badge>
         <h1 class="font-display text-4xl font-semibold tracking-tight sm:text-5xl">
-          Meet <span class="heading-gradient">Megan</span>
+          Meet Megan
         </h1>
         <p class="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground sm:text-lg">
-          I help brides and clients look polished without feeling overdone. My focus is timeless glam
-          that wears beautifully in real life and in photos.
+          I help brides and clients feel beautiful without feeling overdone. My
+          style is soft, timeless glam that enhances your features, feels
+          comfortable on the skin, and still looks like you.
+        </p>
+        <p class="mt-2 text-sm text-muted-foreground">
+          Bridal, event, and matric farewell makeup across Pretoria and Gauteng.
         </p>
         <div class="mt-6 flex flex-wrap gap-2">
           <Badge class="bg-brand text-brand-foreground border-transparent">Bridal</Badge>
@@ -206,9 +210,11 @@
 <section class="bg-muted/20 py-16 sm:py-20">
   <div class="mx-auto max-w-6xl px-4">
     <div class="mb-10 text-center">
-      <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">Quick <span class="heading-gradient">Facts</span></h2>
+      <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">Why clients <span class="heading-gradient">book with me</span></h2>
       <p class="mx-auto mt-3 max-w-2xl text-muted-foreground">
-        Built around the outcomes clients care about most: longevity, calm timelines, and skin comfort.
+        When someone books me, they’re usually looking for more than makeup.
+        They want calm, confidence, and a look that feels beautiful in photos
+        without feeling heavy or unlike themselves.
       </p>
     </div>
     <div class="grid gap-5 md:grid-cols-3">
@@ -248,7 +254,9 @@
     <div class="mb-10 text-center">
       <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl">My Story and <span class="heading-gradient">Approach</span></h2>
       <p class="mx-auto mt-3 max-w-2xl text-muted-foreground">
-        A clear process, thoughtful prep, and looks tailored to your features and event.
+        I love makeup, but what I love even more is how a woman feels when she
+        looks in the mirror and still recognises herself — just softer,
+        brighter, and more confident.
       </p>
     </div>
 
@@ -262,12 +270,13 @@
         </CardHeader>
         <CardContent class="space-y-4 text-sm leading-relaxed text-muted-foreground">
           <p>
-            My work leans natural glam: clean skin, balanced definition, and details that still feel
-            like you.
+            My work leans toward natural to soft glam, with enough definition to
+            photograph beautifully but never so much that you feel hidden behind
+            it.
           </p>
           <p>
-            Every booking starts with your brief, dress tone, and schedule so your look is timeless and
-            practical for the full day.
+            Every look is shaped around your features, your comfort level, your
+            outfit, and the feel of your event.
           </p>
           <ul class="space-y-2 text-foreground/90">
             <li class="flex items-start gap-2">
@@ -295,12 +304,12 @@
         </CardHeader>
         <CardContent class="space-y-4 text-sm leading-relaxed text-muted-foreground">
           <p>
-            Based in Pretoria and available across Gauteng, including Centurion, Midrand, and selected
-            Johannesburg venues.
+            I’m based in Pretoria and work across Gauteng, including Centurion,
+            Midrand, and selected Johannesburg venues.
           </p>
           <p>
-            Travel can be arranged for weddings, photo shoots, and early starts. I share a clear travel
-            quote up front so you can plan confidently.
+            Travel can be arranged for weddings, shoots, and early starts, and
+            I’ll always let you know the travel cost up front.
           </p>
           <div class="rounded-xl border border-border/80 bg-muted/40 p-4">
             <h3 class="font-medium text-foreground">Travel note</h3>
@@ -344,7 +353,7 @@
         See Services
       </Button>
       <Button href="/contact" class="GA4_BookingBtn bg-brand text-brand-foreground hover:bg-brand/90">
-        Book Your Date
+        Send an Enquiry
       </Button>
     </div>
   </div>
@@ -357,7 +366,7 @@
     <div class="mb-8 text-center">
       <h2 class="font-display text-3xl font-semibold tracking-tight sm:text-4xl"><span class="heading-gradient">FAQ</span></h2>
       <p class="mx-auto mt-3 max-w-2xl text-muted-foreground">
-        Quick answers before you enquire. If you need specifics, message me directly.
+        A few quick answers before you book.
       </p>
     </div>
 

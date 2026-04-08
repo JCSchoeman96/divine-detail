@@ -77,7 +77,14 @@
       .filter(Boolean),
   );
 
-  const notes = [
+  const timingTextBySlug: Record<string, string> = {
+    "special-events":
+      "Most event appointments take around 45 to 60 minutes, depending on the look. If more than one person is booking, I\u2019ll advise on timing when you enquire.",
+    "matric-farewell":
+      "Most farewell appointments take around 45 to 60 minutes. If friends are getting ready together, I\u2019ll help map out the timing properly.",
+  };
+
+  const notes = $derived([
     {
       icon: MapPin,
       title: "Travel",
@@ -86,16 +93,53 @@
     {
       icon: Clock,
       title: "Timing",
-      text: "Bridal bookings require a 3-hour minimum window. Early-morning starts (before 06:00) carry a small surcharge.",
+      text:
+        timingTextBySlug[service.slug] ??
+        "Bridal bookings require a 3-hour minimum window. Early-morning starts (before 06:00) carry a small surcharge.",
     },
     {
       icon: CreditCard,
       title: "Booking",
       text: "A 50% deposit secures your date. Final payment is due on the day of your appointment.",
     },
-  ];
+  ]);
 
   const skinPrepGuide = guides["skin-prep-before-makeup"];
+  const finalCtaBySlug: Record<
+    string,
+    { heading: string; body: string }
+  > = {
+    "bridal-makeup": {
+      heading: "Let\u2019s plan your bridal look",
+      body: "Send your wedding date, venue area, and how many people need makeup, and I\u2019ll guide you from there.",
+    },
+    "bridal-hair": {
+      heading: "Ready to book?",
+      body: "Tell me what hairstyle you love, your wedding date, and where you\u2019ll be getting ready, and I\u2019ll help you plan the rest.",
+    },
+    "bridal-hair-and-makeup": {
+      heading: "Ready to book?",
+      body: "If you want one calm, coordinated bridal booking, send me your date, venue area, and how many people need services.",
+    },
+    "wedding-packages": {
+      heading: "Ready to book?",
+      body: "Send me your wedding date, venue area, and the number of people in your bridal party, and I\u2019ll recommend the best package.",
+    },
+    "special-events": {
+      heading: "Ready to book?",
+      body: "Tell me where you\u2019re going, what you\u2019re wearing, and what kind of look you love, and I\u2019ll help you plan it.",
+    },
+    "matric-farewell": {
+      heading: "Ready to book?",
+      body: "Send me your farewell date, area, dress colour, and whether you\u2019re booking alone or with friends.",
+    },
+  };
+  const finalCta = $derived(
+    finalCtaBySlug[service.slug] ?? {
+      heading: "Ready to book?",
+      body: "Send me your date, area, and event type, and I\u2019ll help you with the next step.",
+    },
+  );
   const serviceWhatsAppLink = $derived(
     build_whatsapp_url(
       `Hi Megan! I'm interested in ${service.title} in Pretoria. ` +
@@ -274,11 +318,11 @@
           size="lg"
           class="GA4_BookingBtn bg-brand text-brand-foreground hover:bg-brand/90"
         >
-          Book Now
+          Book on WhatsApp
           <ArrowRight class="size-4" />
         </Button>
         <Button href={WHATSAPP_URL} variant="outline" size="lg">
-          WhatsApp Me
+          WhatsApp Megan
         </Button>
       </div>
 
@@ -474,7 +518,7 @@
         size="lg"
         class="bg-brand text-brand-foreground hover:bg-brand/90"
       >
-        Book This Service
+        Enquire About This Service
         <ArrowRight class="size-4" />
       </Button>
     </div>
@@ -688,13 +732,15 @@
       <h2
         class="font-display text-3xl font-semibold tracking-tight sm:text-4xl"
       >
-        Ready to <span class="heading-gradient">Book?</span>
+        {finalCta.heading}
       </h2>
       <p
         class="mx-auto mt-4 max-w-md text-base leading-relaxed text-muted-foreground"
       >
-        Let's discuss your look. Whether it's a wedding, farewell, or special
-        event, I'd love to hear from you.
+        {finalCta.body}
+      </p>
+      <p class="mt-2 text-sm text-muted-foreground">
+        Not sure what to choose yet? I\u2019ll guide you.
       </p>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
         <Button
@@ -702,11 +748,11 @@
           size="lg"
           class="GA4_BookingBtn bg-brand text-brand-foreground hover:bg-brand/90"
         >
-          Get in Touch
+          Send an Enquiry
           <ArrowRight class="size-4" />
         </Button>
         <Button href={WHATSAPP_URL} variant="outline" size="lg">
-          WhatsApp Me
+          WhatsApp Megan
         </Button>
       </div>
     </div>

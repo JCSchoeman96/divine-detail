@@ -38,7 +38,7 @@
 	const socialImage = abs_url('/og-default.svg');
 	const pageTitle = 'Divine Detail | Contact';
 	const pageDescription =
-		'Contact Divine Detail for bridal, event, and matric farewell makeup in Pretoria and surrounds. Book your consultation today.';
+		'Get in touch with Divine Detail for bridal, event, and matric farewell makeup in Pretoria and Gauteng. Share your date and details to check availability.';
 </script>
 
 <svelte:head>
@@ -60,13 +60,16 @@
 <section class="pb-10 pt-20 sm:pt-24">
 	<div class="mx-auto max-w-5xl px-4">
 		<div class="mb-8 h-px w-12 bg-brand"></div>
-		<p class="text-sm font-medium uppercase tracking-widest text-brand">Get in Touch</p>
+		<p class="text-sm font-medium uppercase tracking-widest text-brand">Get in touch</p>
 		<h1 class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
-			Let's Create Your <span class="heading-gradient">Look</span>
+			Let’s chat about your date
 		</h1>
 		<p class="mt-4 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg">
-			Whether you're planning a wedding, farewell, or special event — I'd love to hear about
-			your vision. Fill in the form and I'll get back to you within 24 hours.
+			Whether you’re planning a wedding, matric farewell, or special event, I’d love to hear
+			what you have in mind. Send through your details and I’ll get back to you as soon as I can.
+		</p>
+		<p class="mt-2 max-w-lg text-sm text-muted-foreground">
+			Not sure exactly what to book yet? That’s completely fine — I can help you choose.
 		</p>
 	</div>
 </section>
@@ -330,7 +333,7 @@
 							<div>
 								<p class="text-sm font-medium">Response Time</p>
 								<p class="text-sm text-muted-foreground">
-									Within 24 hours
+									I aim to reply within 24 hours.
 								</p>
 							</div>
 						</div>
@@ -352,15 +355,15 @@
 						<div>
 							<p class="text-sm font-medium">Based in Pretoria</p>
 							<p class="text-sm leading-relaxed text-muted-foreground">
-								Available across Gauteng — Pretoria, Johannesburg,
+								I’m based in Pretoria and work across Gauteng, including Johannesburg,
 								Centurion, Midrand, and surrounding areas.
 							</p>
 						</div>
 					</div>
 
 					<p class="text-xs leading-relaxed text-muted-foreground/70">
-						Travel fees may apply for locations outside the greater Pretoria area.
-						Let me know your venue and I'll confirm availability.
+						If your venue is a little further out, just send the location and I’ll
+						confirm travel and availability.
 					</p>
 				</div>
 			</aside>

@@ -50,18 +50,18 @@ const data: Record<string, ServiceData> = {
     shortTitle: 'Bridal Makeup',
     metaTitle: 'Bridal Makeup Artist Pretoria | Divine Detail',
     metaDescription:
-      'Professional bridal makeup artist in Pretoria, Gauteng. Includes trial session and premium lash application. Serving Centurion, Midrand, Sandton, and Johannesburg.',
+      'Bridal makeup artist in Pretoria, Gauteng for brides who want soft, timeless glam that still feels like them. Includes trial and lashes. Serving Centurion, Midrand, Sandton, and Johannesburg.',
     heroDescription:
-      'Your wedding day deserves a flawless, lasting look. From the initial consultation through to the final touch on the morning of your wedding, every detail is carefully considered to create a look that is uniquely you.',
+      'Your wedding makeup should feel beautiful, comfortable, and true to you. This service is for brides who want a calm, well-planned experience and a look that lasts from the first photo to the last dance without feeling heavy or overdone.',
     badge: 'Most Popular',
     icon: 'gem',
     included: [
-      'Pre-wedding consultation to discuss your vision, dress, and venue',
-      'Full bridal trial session scheduled 2\u20134 weeks before the wedding',
-      'Wedding day makeup application',
-      'Premium lash application',
-      'Long-wear, photo-ready finish designed for the South African climate',
-      'Touch-up kit left with you for the rest of the day',
+      'A pre-wedding chat about your look, dress, venue, and overall feel',
+      'A full bridal trial 2 to 4 weeks before the wedding',
+      'Wedding-day makeup application',
+      'Premium lashes, if they suit the look you want',
+      'Long-wearing makeup designed for real South African wedding days',
+      'A simple touch-up kit to keep with you',
     ],
     excluded: [
       'Hair styling (available separately or as a combo package)',
@@ -72,26 +72,26 @@ const data: Record<string, ServiceData> = {
       {
         title: 'Consultation',
         description:
-          'We discuss your wedding theme, dress, venue lighting, personal style, and any inspiration photos. This can happen over WhatsApp, a phone call, or in person.',
+          'We talk through your wedding style, your dress, your venue, your inspiration, and what makes you feel most like yourself.',
       },
       {
         title: 'Trial Session',
         description:
-          'A full makeup application 2\u20134 weeks before your wedding. We refine the look together until it is exactly right. Photographs are taken in both natural and flash lighting so you can see how everything translates.',
+          'Your trial is where we shape the final look together. We make adjustments, check how it photographs, and make sure you feel fully comfortable before the day arrives.',
       },
       {
         title: 'Wedding Day',
         description:
-          'I arrive at your venue on the morning of your wedding. Your bridal makeup is done last so it is freshest for photos and the ceremony. A personal touch-up kit is left with you for the reception.',
+          'On the day, everything is done with calm timing in mind. Your makeup is finished fresh for photos and the ceremony, and you leave the chair feeling ready, not rushed.',
       },
     ],
     audience: {
       description:
-        'This service is designed for brides who want a polished, long-lasting makeup look for their wedding day.',
+        'This is for brides who want their makeup to feel polished but still personal.',
       items: [
-        'Brides getting married in Pretoria, Centurion, Midrand, Sandton, or wider Gauteng',
-        'Brides who want a dedicated trial session before the big day',
-        'Anyone who values a professional, photo-ready finish that lasts from morning to midnight',
+        'Brides who want a soft, timeless look that lasts well',
+        'Brides who want a proper trial before the day',
+        'Brides who want to feel like themselves, only more radiant and confident',
       ],
     },
     pricing: [
@@ -118,32 +118,32 @@ const data: Record<string, ServiceData> = {
       {
         question: 'How far in advance should I book?',
         answer:
-          'For weddings, I recommend booking 3\u20136 months ahead, especially during peak season (October\u2013March). Popular dates fill up quickly. A 50% deposit secures your date.',
+          'For weddings, earlier is always better. I recommend 3 to 6 months ahead, especially for busy seasons and popular weekends.',
       },
       {
         question: 'Do you travel to my venue?',
         answer:
-          'Yes. I am based in Moreleta Park, Pretoria, and travel across Centurion, Midrand, Sandton, and Johannesburg. Travel is charged at R5 per kilometre (to the venue and back).',
+          'Yes. I\u2019m based in Pretoria and travel across Gauteng. Travel is quoted based on distance.',
       },
       {
         question: 'What makeup brands do you use?',
         answer:
-          'I use a combination of professional, long-wear brands suited to your skin type and tone. Products are chosen specifically to last in the South African climate \u2014 from morning prep through to the last dance.',
+          'I use long-wearing professional products chosen around your skin type, tone, and how your day is likely to unfold.',
       },
       {
         question: 'What if I don\u2019t like my trial look?',
         answer:
-          'That is exactly what the trial is for. We adjust and refine until you are 100% happy. Most brides make small tweaks, and the final wedding-day application always reflects those preferences.',
+          'That\u2019s exactly why the trial matters. We adjust the look until it feels right for you.',
       },
       {
-        question: 'Is the trial session included in the bridal price?',
+        question: 'Is the trial included?',
         answer:
-          'Yes. The R1,500 bridal makeup price includes the trial session, the wedding-day application, and premium lash application. There is no separate charge for the trial.',
+          'Yes. The bridal makeup price includes your trial, wedding-day application, and lashes.',
       },
       {
-        question: 'Can you do my bridesmaids and mother as well?',
+        question: 'Can you do bridesmaids and my mom as well?',
         answer:
-          'Absolutely. Bridesmaid makeup is R500 per person and mother of the bride or groom is R400. For larger groups, consider the Wedding Package for the best value.',
+          'Yes, absolutely. I can include bridesmaids, mothers, and other key people in your morning plan.',
       },
     ],
     relatedSlugs: ['bridal-hair', 'bridal-hair-and-makeup', 'wedding-packages'],
@@ -156,16 +156,16 @@ const data: Record<string, ServiceData> = {
     shortTitle: 'Bridal Hair',
     metaTitle: 'Bridal Hair Stylist Pretoria | Divine Detail',
     metaDescription:
-      'Professional bridal hair styling in Pretoria, Gauteng. Blow waves, upstyles, and wedding party hair for bridesmaids, mothers, and grandmothers. Serving Centurion, Midrand, and Johannesburg.',
+      'Bridal hair styling in Pretoria, Gauteng with soft waves and elegant upstyles for brides and bridal parties. Serving Centurion, Midrand, and Johannesburg.',
     heroDescription:
-      'Elegant hair styling for your wedding day, from flowing blow waves to intricate upstyles. Pricing is based on hair length and style, so you know exactly what to expect.',
+      'Your wedding hair should feel like part of the whole picture \u2014 your dress, your neckline, your veil, your features, and the mood of your day. Whether you love soft waves or something more structured, the goal is a style that feels beautiful and secure without feeling stiff.',
     icon: 'scissors',
     included: [
-      'Pre-wedding consultation to discuss your hairstyle vision',
-      'Professional styling on the wedding morning',
+      'A pre-wedding discussion about the hairstyle you want',
+      'Wedding-morning styling',
       'Heat protection and finishing products',
-      'Secure pinning for upstyles that last all day and night',
-      'Hairspray and setting to withstand the Gauteng climate',
+      'Secure pinning for styles that need to hold all day',
+      'Styling chosen with Gauteng weather and real wedding movement in mind',
     ],
     excluded: [
       'Makeup application (available separately or as a combo package)',
@@ -176,22 +176,22 @@ const data: Record<string, ServiceData> = {
       {
         title: 'Consultation',
         description:
-          'We discuss your dress neckline, veil or accessories, and the overall feel you want. Pinterest boards and reference photos are welcome. I\u2019ll advise on what works best with your hair length and texture.',
+          'We talk through the look you want, what will suit your dress and accessories, and what makes sense for your hair length and texture.',
       },
       {
         title: 'Hair Preparation',
         description:
-          'I\u2019ll guide you on how to prepare your hair in the days leading up to the wedding \u2014 when to wash, what products to use, and whether to arrive with straight or natural texture.',
+          'I\u2019ll tell you how to prep your hair beforehand so it holds properly and feels its best on the day.',
       },
       {
         title: 'Wedding Day',
         description:
-          'Your hair is styled at your venue on the morning of the wedding. For bridal parties, I work through each person in a planned order, with the bride styled last for the freshest finish.',
+          'Your hair is styled on the wedding morning in a calm, planned order so everything flows well and no one feels rushed.',
       },
     ],
     audience: {
       description:
-        'For brides and wedding parties who want professional, lasting hair styling on the big day.',
+        'For brides and bridal parties who want elegant, well-finished hair that still feels soft and wearable.',
       items: [
         'Brides wanting a blow wave, upstyle, or half-up-half-down look',
         'Bridal parties who want coordinated styling for everyone',
@@ -238,27 +238,27 @@ const data: Record<string, ServiceData> = {
       {
         question: 'What\u2019s the difference between a blow wave and an upstyle?',
         answer:
-          'A blow wave gives you loose, voluminous curls or waves that fall naturally. An upstyle is a structured up-do, such as a bun, chignon, or braided style that keeps hair off your neck and shoulders.',
+          'A blow wave gives you soft volume, curls, or waves that fall naturally. An upstyle is more pinned and structured.',
       },
       {
-        question: 'How do you determine short vs long hair pricing?',
+        question: 'How do you decide short vs long hair?',
         answer:
-          'Short hair is generally shoulder-length or above. Long hair is below the shoulders. If you\u2019re unsure, send a photo during the consultation and I\u2019ll confirm.',
+          'Usually shoulder length or above counts as short, and below the shoulders counts as long. If you\u2019re unsure, send a photo and I\u2019ll confirm.',
       },
       {
         question: 'Can you work with hair extensions?',
         answer:
-          'Yes, bring your own clip-in or tape-in extensions and I will style them seamlessly with your natural hair. I don\u2019t supply extensions, but I\u2019m happy to recommend suppliers.',
+          'Yes. Bring your own extensions and I\u2019ll blend and style them with your natural hair.',
       },
       {
         question: 'Should I wash my hair before the wedding?',
         answer:
-          'I\u2019ll give you specific guidance based on your hair type during the consultation. In general, day-old hair holds styles better than freshly washed hair.',
+          'I\u2019ll guide you based on your hair type, but in many cases hair that isn\u2019t freshly washed holds styling better.',
       },
       {
         question: 'Do you offer a hair trial?',
         answer:
-          'Hair trials can be arranged on request. For bridal makeup, the trial is included in the price. Hair trials are quoted separately \u2014 reach out and we\u2019ll discuss what makes sense for your wedding.',
+          'Hair trials can be arranged separately if needed.',
       },
     ],
     relatedSlugs: ['bridal-makeup', 'bridal-hair-and-makeup', 'wedding-packages'],
@@ -271,17 +271,17 @@ const data: Record<string, ServiceData> = {
     shortTitle: 'Wedding Packages',
     metaTitle: 'Wedding Hair & Makeup Packages Pretoria | Divine Detail',
     metaDescription:
-      'Complete wedding hair and makeup packages in Pretoria. Bride plus bridal party packages from R2,650. Best value for full wedding day beauty across Gauteng.',
+      'Wedding hair and makeup packages in Pretoria for brides and bridal parties who want a calm, organised morning. Packages from R2,650 across Gauteng.',
     heroDescription:
-      'The best value for your wedding day. Packages include the bride and up to 3 additional people \u2014 bridesmaids, mothers, or anyone in your bridal party. Available as makeup-only, hair-only, or a full hair and makeup package.',
+      'Wedding mornings can become chaotic very quickly when several people need hair and makeup. These packages are designed to make the morning feel smoother, more organised, and easier for everyone involved.',
     badge: 'Best Value',
     icon: 'star',
     included: [
-      'Bride\u2019s full service (makeup and/or hair depending on package)',
-      'Service for 3 additional people (bridesmaid, mother, grandmother, etc.)',
-      'Bridal trial session (included in makeup packages)',
-      'On-location service at your venue or preparation location',
-      'Coordinated morning timeline so everyone is ready on time',
+      'Bridal service for the bride',
+      'Services for 3 additional people',
+      'A bridal trial where makeup is included',
+      'On-location service',
+      'A proper getting-ready timeline so no one is rushed',
     ],
     excluded: [
       'Travel beyond 30\u00A0km from Moreleta Park (travel fee of R5/km applies)',
@@ -292,22 +292,22 @@ const data: Record<string, ServiceData> = {
       {
         title: 'Package Consultation',
         description:
-          'We discuss who is in your bridal party, what services each person needs (makeup, hair, or both), and plan the morning timeline. This ensures no one is rushed.',
+          'We talk through exactly who needs what, where everyone will be getting ready, and how to make the morning run smoothly.',
       },
       {
         title: 'Bridal Trial',
         description:
-          'Your makeup trial is scheduled 2\u20134 weeks before the wedding. This is included in every package that includes bridal makeup.',
+          'If makeup is part of your package, we use the trial to finalise your bridal look in advance.',
       },
       {
         title: 'Wedding Morning',
         description:
-          'I arrive at your venue early and work through the bridal party in a planned order. The bride is always done last for the freshest look. Everyone is ready with time to spare.',
+          'Everyone is worked through in an organised order so the bride is ready fresh and the group feels calm.',
       },
     ],
     audience: {
       description:
-        'For bridal parties who want professional, coordinated beauty services at the best possible price.',
+        'For bridal parties who want everything handled properly, with less stress and better value.',
       items: [
         'Brides with a bridal party of 4 or more people',
         'Anyone wanting to bundle hair and makeup for savings',
@@ -342,22 +342,22 @@ const data: Record<string, ServiceData> = {
       {
         question: 'Who counts as the \u201c3 additional people\u201d?',
         answer:
-          'Anyone you choose \u2014 bridesmaids, mother of the bride/groom, grandmother, maid of honour, flower girl (if age-appropriate). The package is flexible.',
+          'Anyone important to your morning \u2014 bridesmaids, moms, grandmothers, maid of honour, or others in your bridal party.',
       },
       {
-        question: 'Can I add more than 3 extra people?',
+        question: 'Can I add more than 3 people?',
         answer:
-          'Yes. Additional people can be added at R400 per person for makeup and quoted individually for hair (based on style and length). Just let me know your full party count.',
+          'Yes. Extra people can be added and quoted clearly once I know the full group.',
       },
       {
         question: 'How long does the morning take for a full bridal party?',
         answer:
-          'As a general guide, allow 45\u201360 minutes per person for makeup and 30\u201345 minutes for hair. For a party of 4 (bride + 3), plan for about 3\u20134 hours total. I\u2019ll provide a detailed timeline.',
+          'That depends on the services and the group size, but I\u2019ll give you a realistic timeline once I know the details.',
       },
       {
         question: 'Do you do hair and makeup simultaneously?',
         answer:
-          'For larger parties, I may bring an assistant or schedule hair and makeup in rotation so the morning flows smoothly. This is discussed during the consultation.',
+          'For larger groups, I may bring help or rotate services so the morning keeps moving well.',
       },
       {
         question: 'Is there a deposit to secure the package?',
@@ -375,16 +375,16 @@ const data: Record<string, ServiceData> = {
     shortTitle: 'Matric Farewell',
     metaTitle: 'Matric Farewell Makeup Pretoria | Divine Detail',
     metaDescription:
-      'Professional matric farewell makeup in Pretoria, Gauteng. Age-appropriate glam that lasts all night and photographs beautifully. Group bookings available for friend groups.',
+      'Matric farewell makeup in Pretoria, Gauteng with age-appropriate glam that feels fresh, lasts all evening, and photographs beautifully. Group bookings available.',
     heroDescription:
-      'Your matric farewell is a once-in-a-lifetime evening. You deserve a look that makes you feel confident, photographs beautifully, and lasts from the pre-drinks to the last dance. Age-appropriate glam that lets your personality shine through.',
+      'Matric farewell is a big moment, and your makeup should feel special without making you feel unlike yourself. The goal is fresh, flattering glam that suits your dress, your age, and your personality.',
     icon: 'sparkles',
     included: [
-      'Style consultation to plan your look around your dress and accessories',
-      'Full makeup application with age-appropriate product selection',
-      'Lash application options available',
-      'Long-wear setting designed to last the entire evening',
-      'Photo-ready finish in both natural and flash lighting',
+      'A look consultation around your dress and accessories',
+      'Full makeup application with age-appropriate product choices',
+      'Lash options if you want them',
+      'Long-wearing makeup for the full evening',
+      'A finish that still looks beautiful in every photo',
     ],
     excluded: [
       'Hair styling (available as an add-on \u2014 see pricing below)',
@@ -395,17 +395,17 @@ const data: Record<string, ServiceData> = {
       {
         title: 'Consultation',
         description:
-          'We chat about your dress colour, accessories, and the vibe you\u2019re going for \u2014 soft and natural, full glam, or somewhere in between. Send photos of your dress and any makeup inspiration you love.',
+          'We chat about your dress, your accessories, and the style you\u2019re going for, from soft and natural to more glam.',
       },
       {
         title: 'Farewell Day',
         description:
-          'I arrive at your home or chosen location in the afternoon. Your makeup is applied with enough time for photos before you leave. Everything is set to last the entire evening without touch-ups.',
+          'Your makeup is done with enough time for photos before you leave, so everything feels smooth and not rushed.',
       },
     ],
     audience: {
       description:
-        'For matric learners who want to look and feel their best on farewell night.',
+        'For matric girls who want to feel confident, beautiful, and still like themselves on farewell night.',
       items: [
         'Matric learners in Pretoria, Centurion, Midrand, and surrounding areas',
         'Parents booking a professional makeup experience for their child',
@@ -430,17 +430,17 @@ const data: Record<string, ServiceData> = {
       {
         question: 'How early should I book for my matric farewell?',
         answer:
-          'Popular farewell dates fill up fast \u2014 especially September and October. I recommend booking at least 4\u20136 weeks in advance. A 50% deposit secures your slot.',
+          'Farewell dates fill quickly, especially in peak season, so don\u2019t leave it too late.',
       },
       {
         question: 'Can my friends and I get ready together?',
         answer:
-          'Absolutely! Group bookings are one of the best parts. I can do makeup for your whole group at one location. For groups of 3 or more, group discounts may apply \u2014 just ask.',
+          'Yes, definitely. Group bookings are a fun option, and I can advise on timing once I know the group size.',
       },
       {
         question: 'Will the makeup be age-appropriate?',
         answer:
-          'Always. I work with each person to find a look that enhances their natural features and suits their age. The goal is to look like the best version of yourself, not someone else.',
+          'Yes. The look is always tailored so it feels special, flattering, and suitable for farewell.',
       },
       {
         question: 'How long does the application take?',
@@ -468,15 +468,15 @@ const data: Record<string, ServiceData> = {
     shortTitle: 'Special Events',
     metaTitle: 'Event Makeup Artist Pretoria | Divine Detail',
     metaDescription:
-      'Professional event makeup artist in Pretoria, Gauteng. Makeup for birthdays, engagements, photo shoots, and corporate events. On-location service across Centurion, Midrand, and Johannesburg.',
+      'Special event makeup artist in Pretoria, Gauteng for birthdays, engagements, shoots, and formal events. Soft glam to elevated glam with on-location service across Centurion, Midrand, and Johannesburg.',
     heroDescription:
-      'Whether it\u2019s a milestone birthday, engagement celebration, professional photo shoot, or corporate event \u2014 you deserve to look and feel exceptional. Professional makeup that photographs beautifully and lasts all night.',
+      'Whether it\u2019s a birthday, engagement, shoot, dinner, or formal event, this service is for women who want to feel beautiful, confident, and a little more polished than everyday \u2014 without feeling too done.',
     icon: 'sparkles',
     included: [
-      'Personalised look consultation tailored to your event and outfit',
-      'Full glam or soft natural finish \u2014 your choice',
-      'Long-wear application designed to last your entire event',
-      'Photo-ready finish for both natural and flash lighting',
+      'A quick look consultation around your outfit and event',
+      'Soft glam or fuller glam, depending on what you love',
+      'Long-wearing application',
+      'Makeup that looks good in daylight, evening light, and photos',
     ],
     excluded: [
       'Hair styling (available as an add-on \u2014 see pricing below)',
@@ -487,17 +487,17 @@ const data: Record<string, ServiceData> = {
       {
         title: 'Consultation',
         description:
-          'We discuss the event, your outfit, and the look you\u2019re going for. Whether you want bold glam or a polished natural glow, I\u2019ll tailor everything to suit the occasion.',
+          'We talk about your outfit, the mood of the event, and how soft or glam you want to go.',
       },
       {
         title: 'Application',
         description:
-          'I arrive at your home or chosen location with everything needed. Your makeup is applied and set to last the duration of your event. The session takes approximately 45\u201360 minutes.',
+          'I arrive with everything needed, and your makeup is applied to feel comfortable, flattering, and event-ready.',
       },
     ],
     audience: {
       description:
-        'For anyone who wants professional makeup for a special occasion.',
+        'For women who want to feel dressed up, confident, and beautifully put together for a special occasion.',
       items: [
         'Birthday celebrations and milestone events',
         'Engagement parties and anniversary dinners',
@@ -526,17 +526,17 @@ const data: Record<string, ServiceData> = {
       {
         question: 'What occasions do you cater for?',
         answer:
-          'Birthdays, engagement parties, anniversaries, baby showers, photo shoots, corporate events, galas, and any occasion where you want to look your best. If you\u2019re celebrating something, I\u2019m here for it.',
+          'Birthdays, dinners, engagement parties, shoots, work functions, galas, and any event where you want to feel extra beautiful.',
       },
       {
         question: 'Can you do makeup for a group?',
         answer:
-          'Yes. Extra people can be added at R400 per person. For groups of 3 or more, group discounts may apply. Let me know your group size when you enquire.',
+          'Yes. Group bookings are welcome. Tell me how many people need makeup and I\u2019ll plan the timing accordingly.',
       },
       {
         question: 'How long does the makeup last?',
         answer:
-          'All applications use long-wear, professional products and setting techniques. You can expect your makeup to last 8\u201312 hours without needing a touch-up.',
+          'It is designed to wear beautifully for the full event, with the right prep and products for your skin.',
       },
       {
         question: 'Do you do on-location makeup?',
@@ -554,18 +554,18 @@ const data: Record<string, ServiceData> = {
     shortTitle: 'Hair & Makeup',
     metaTitle: 'Bridal Hair & Makeup Pretoria | Divine Detail',
     metaDescription:
-      'Complete bridal hair and makeup service in Pretoria, Gauteng. One artist for your entire wedding morning. Packages from R1,950 for the bride, with bridal party rates available.',
+      'Bridal hair and makeup in Pretoria, Gauteng for brides who want one calm, coordinated booking. Packages from R1,950 with bridal party rates available.',
     heroDescription:
-      'One artist, one seamless experience. Get both your hair and makeup done for your wedding day without coordinating multiple people. Everything is planned together for a cohesive look that flows from hair to makeup.',
+      'If you\u2019d rather have one trusted person guide both your hair and your makeup, this is the easiest way to do it. Everything is planned together so your full look feels balanced, calm, and beautifully put together.',
     badge: 'Most Popular',
     icon: 'gem',
     included: [
-      'Pre-wedding consultation covering both hair and makeup',
-      'Bridal makeup trial session (2\u20134 weeks before the wedding)',
-      'Wedding day makeup application with premium lashes',
-      'Wedding day hair styling (blow wave or upstyle)',
-      'Coordinated morning timeline',
-      'Touch-up kit for the rest of the day',
+      'One pre-wedding discussion covering both hair and makeup',
+      'Bridal makeup trial before the wedding',
+      'Wedding-day makeup with lashes',
+      'Wedding-day hair styling',
+      'A coordinated morning timeline',
+      'A simple touch-up kit for later in the day',
     ],
     excluded: [
       'Hair extensions or hairpieces (bring your own and they\u2019ll be styled in)',
@@ -576,22 +576,22 @@ const data: Record<string, ServiceData> = {
       {
         title: 'Consultation',
         description:
-          'We plan both your hair and makeup together \u2014 your dress neckline, veil, accessories, and the overall look you want. Having one person handle both means everything works together.',
+          'We plan your full look together so your hair, makeup, dress, and accessories all work together naturally.',
       },
       {
         title: 'Makeup Trial',
         description:
-          'Your full makeup trial is done 2\u20134 weeks before the wedding. We finalize the look and discuss any adjustments. This is also a good time to confirm your hair styling preferences.',
+          'We finalise the makeup beforehand and use that time to confirm the overall direction for the full bridal look.',
       },
       {
         title: 'Wedding Morning',
         description:
-          'I arrive early and start with hair, then move to makeup. For bridal parties, everyone is worked through in a planned order. The bride is always finished last for the freshest result.',
+          'Hair and makeup are done in a calm sequence so the final result feels cohesive and the morning flows smoothly.',
       },
     ],
     audience: {
       description:
-        'For brides who want the convenience of one artist handling both hair and makeup on the wedding morning.',
+        'For brides who want one point of contact, one calm process, and one beautifully coordinated final look.',
       items: [
         'Brides who prefer a single point of contact for all beauty services',
         'Brides who want their hair and makeup to work together as a cohesive look',
@@ -626,27 +626,27 @@ const data: Record<string, ServiceData> = {
       {
         question: 'Is it better to book one person for both hair and makeup?',
         answer:
-          'For smaller bridal parties (up to 4\u20135 people), having one artist handle both is efficient and ensures a perfectly coordinated look. For larger parties, we may discuss bringing an assistant.',
+          'For many brides, yes. It simplifies the morning and helps the overall look feel more seamless.',
       },
       {
         question: 'Do you do hair or makeup first?',
         answer:
-          'Hair is generally done first, then makeup. This ensures the makeup is at its freshest for photos and the ceremony. For bridal parties, I alternate between hair and makeup across the group.',
+          'Usually hair first, then makeup, so your face feels fresh for photos and the ceremony.',
       },
       {
         question: 'What does \u201cFrom R1,950\u201d mean?',
         answer:
-          'The starting price includes bridal makeup (with trial and lashes) plus the most affordable hair option (blow wave on short hair at R450). The final price depends on your chosen hair style and length.',
+          'It means the final total depends on the hair option you choose, since different lengths and styles take different amounts of time.',
       },
       {
         question: 'How long does the full service take?',
         answer:
-          'For the bride alone, allow about 1.5\u20132 hours for both hair and makeup. For a full bridal party of 4, plan for 4\u20135 hours total. I\u2019ll provide a detailed timeline during the consultation.',
+          'For the bride alone, allow around 1.5 to 2 hours. For bigger groups, I\u2019ll map out the timing properly.',
       },
       {
-        question: 'Can I book just makeup or just hair instead?',
+        question: 'Can I book just one of the two?',
         answer:
-          'Of course. Individual bridal makeup and bridal hair services are available separately. Check the Bridal Makeup and Bridal Hair pages for standalone pricing.',
+          'Yes. Hair and makeup can both be booked separately as standalone services.',
       },
     ],
     relatedSlugs: ['bridal-makeup', 'bridal-hair', 'wedding-packages'],

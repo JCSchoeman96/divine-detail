@@ -20,7 +20,7 @@
   const pageUrl = abs_url("/makeup-guides");
   const pageTitle = "Makeup Guides | Divine Detail Pretoria";
   const pageDescription =
-    "Professional makeup guides for brides, matric farewells, and special events. Practical tips for flawless, long-lasting results in the Pretoria & Gauteng area.";
+    "Helpful makeup guides for brides, matric farewells, and special events. Practical advice to help you feel prepared, calm, and confident in Pretoria and Gauteng.";
   const socialImage = abs_url("/og-default.svg");
 
   const featuredGuides = guideList.filter((g) => g.featured);
@@ -85,9 +85,9 @@
           Makeup <span class="heading-gradient">Guides</span> for Brides, Matric & Events
         </h1>
         <p class="mt-6 text-lg leading-relaxed text-muted-foreground">
-          Expert advice to help you prepare for your professional makeup
-          appointment. Based in Pretoria, serving all of Gauteng with premium
-          artistry that lasts.
+          Helpful, practical beauty advice for brides, matric girls, and women
+          getting ready for special events. These guides are here to help you
+          feel prepared, calm, and confident before you sit in the chair.
         </p>
       </section>
 
@@ -128,11 +128,11 @@
       <section class="rounded-2xl bg-brand/5 p-8 sm:p-12 text-center">
         <div class="mx-auto mb-6 h-px w-12 bg-brand"></div>
         <h2 class="font-display text-3xl font-semibold tracking-tight">
-          Book <span class="heading-gradient">Megan</span>
+          Ready to <span class="heading-gradient">book?</span>
         </h2>
         <p class="mx-auto mt-4 max-w-md text-muted-foreground">
-          Ready to secure your date? Whether it's for your wedding, farewell, or
-          a special event, I'm here to help you look your best.
+          Whether it’s your wedding, farewell, or a special event, I’d love to
+          help you plan a look that feels beautiful and true to you.
         </p>
         <div
           class="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center sm:gap-4"
@@ -142,11 +142,11 @@
             size="lg"
             class="bg-brand text-brand-foreground hover:bg-brand/90"
           >
-            WhatsApp Me
+            WhatsApp Megan
             <MessageCircle class="ml-2 size-4" />
           </Button>
           <Button href="/contact" variant="outline" size="lg">
-            Contact Form
+            Send an Enquiry
           </Button>
         </div>
       </section>
@@ -206,10 +206,11 @@
     <CardHeader>
       <CardTitle class="flex items-center gap-2">
         <Phone class="size-4 text-brand" />
-        Book your makeup
+        Need help with your booking?
       </CardTitle>
       <CardDescription>
-        Send a message to check availability for your date.
+        Send your date, your area, and the type of event, and I’ll point you in
+        the right direction.
       </CardDescription>
     </CardHeader>
     <CardContent class="grid gap-6">
@@ -232,11 +233,11 @@
           href={whatsappLink}
           class="w-full bg-brand text-brand-foreground hover:bg-brand/90"
         >
-          WhatsApp Primary
+          WhatsApp Megan
           <MessageCircle class="ml-2 size-4" />
         </Button>
         <Button href="/contact" variant="outline" class="w-full">
-          Contact Details
+          Send an Enquiry
         </Button>
       </div>
     </CardContent>

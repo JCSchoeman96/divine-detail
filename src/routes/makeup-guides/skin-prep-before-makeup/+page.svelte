@@ -181,9 +181,9 @@
           (Wedding, Matric & Special Events)
         </p>
         <p class="text-lg leading-relaxed text-muted-foreground">
-          Perfect makeup starts with skin that is calm, hydrated, and smooth.
-          Use this checklist to prep your skin so your makeup sits beautifully,
-          photographs well, and lasts longer — with fewer touch-ups.
+          Perfect makeup starts with skin that feels calm, hydrated, and
+          comfortable. This guide will help you prep properly so your makeup
+          sits better, lasts longer, and feels smoother on the day.
         </p>
 
         <div
@@ -421,7 +421,7 @@
             ></div>
             <CardContent class="p-8 text-center relative">
               <h3 class="font-display text-2xl font-semibold mb-3">
-                Book your makeup appointment
+                Ready to book your makeup?
               </h3>
               <p class="text-muted-foreground mb-6">
                 Megan offers professional <a
@@ -718,15 +718,12 @@
       <section class="border-t pt-12">
         <div class="flex flex-col items-center text-center">
           <div class="mb-6 h-px w-12 bg-brand"></div>
-          <h2 class="font-display text-4xl font-semibold tracking-tight">
-            Book <span class="heading-gradient">Megan</span> (Pretoria & surrounds)
+      <h2 class="font-display text-4xl font-semibold tracking-tight">
+            Ready to <span class="heading-gradient">book?</span>
           </h2>
           <p class="mt-4 text-muted-foreground max-w-lg">
-            Use the <a
-              href="/contact"
-              class="text-brand font-medium hover:underline"
-              >Contact Divine Detail</a
-            > page or WhatsApp with your event type, date, area, and number of guests.
+            If you’re ready to book, send me your event type, date, area, and
+            how many people need makeup.
           </p>
           <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
             <Button
@@ -743,7 +740,7 @@
               size="lg"
               class="px-8 h-12"
             >
-              Send Enquiry
+              Send an Enquiry
             </Button>
           </div>
         </div>
@@ -764,10 +761,10 @@
     <CardHeader class="bg-brand/5 border-b border-brand/10">
       <CardTitle class="flex items-center gap-2 text-xl">
         <Phone class="size-5 text-brand" />
-        Book your GLAM
+        Ready to book your makeup?
       </CardTitle>
       <CardDescription class="text-brand/80 font-medium"
-        >Check availability for your date</CardDescription
+        >Send your date, area, and event type and I’ll let you know what’s available.</CardDescription
       >
     </CardHeader>
     <CardContent class="grid gap-8 p-6">
@@ -810,7 +807,7 @@
           href={whatsappLink}
           class="w-full h-12 bg-brand text-brand-foreground hover:bg-brand/90 shadow-md"
         >
-          WhatsApp Enquire
+          WhatsApp Megan
           <MessageCircle class="ml-2 size-4" />
         </Button>
         <Button
@@ -818,7 +815,7 @@
           variant="ghost"
           class="w-full text-muted-foreground hover:text-brand"
         >
-          Other Contact Methods
+          Send an Enquiry
         </Button>
       </div>
     </CardContent>

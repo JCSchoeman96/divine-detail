@@ -198,7 +198,9 @@
           (Bridal Makeup Timeline for Pretoria & Gauteng)
         </p>
         <p class="text-lg leading-relaxed text-muted-foreground">
-          {guide.description}
+          Planning your wedding morning in Pretoria? Here’s the calm, realistic
+          timeline I use so your makeup feels beautiful and your morning doesn’t
+          feel frantic.
         </p>
 
         <div
@@ -263,11 +265,11 @@
         <Card class="border-brand/20 bg-brand/5">
           <CardContent class="p-6">
             <p class="font-semibold mb-3">
-              Ready to lock this in?
+              Ready to check your date?
             </p>
             <p class="text-sm text-muted-foreground mb-4">
-              WhatsApp me the details and I'll reply as soon as I can to
-              confirm the next available slot.
+              WhatsApp me your wedding date, venue area, ceremony time, and how
+              many people need makeup.
             </p>
             <Button
               href={whatsappLink}
@@ -877,15 +879,11 @@
         <div class="flex flex-col items-center text-center">
           <div class="mb-6 h-px w-12 bg-brand"></div>
           <h2 class="font-display text-4xl font-semibold tracking-tight">
-            Book <span class="heading-gradient">Megan</span> (Pretoria &
-            surrounds)
+            Ready to <span class="heading-gradient">book?</span>
           </h2>
           <p class="mt-4 text-muted-foreground max-w-lg">
-            Use the <a
-              href="/contact"
-              class="text-brand font-medium hover:underline"
-              >Contact Divine Detail</a
-            > page or WhatsApp with your event type, date, area, and number of guests.
+            Use the contact page or WhatsApp me your wedding date, venue area,
+            ceremony time, and how many people need makeup.
           </p>
           <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
             <Button
@@ -902,7 +900,7 @@
               size="lg"
               class="px-8 h-12"
             >
-              Send Enquiry
+              Send an Enquiry
             </Button>
           </div>
         </div>
@@ -923,7 +921,7 @@
     <CardHeader class="bg-brand/5 border-b border-brand/10">
       <CardTitle class="flex items-center gap-2 text-xl">
         <Phone class="size-5 text-brand" />
-        Book your bridal GLAM
+        Ready to check your date?
       </CardTitle>
       <CardDescription class="text-brand/80 font-medium"
         >Check availability for your wedding date</CardDescription
@@ -969,7 +967,7 @@
           href={whatsappLink}
           class="w-full h-12 bg-brand text-brand-foreground hover:bg-brand/90 shadow-md"
         >
-          WhatsApp Enquire
+          WhatsApp Megan
           <MessageCircle class="ml-2 size-4" />
         </Button>
         <Button
@@ -977,7 +975,7 @@
           variant="ghost"
           class="w-full text-muted-foreground hover:text-brand"
         >
-          Other Contact Methods
+          Send an Enquiry
         </Button>
       </div>
     </CardContent>

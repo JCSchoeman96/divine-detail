@@ -22,7 +22,7 @@
       icon: Gem,
       title: 'Bridal Makeup',
       description:
-        'Your wedding day deserves a flawless, lasting look. From trials to the final touch, every detail is considered.',
+        'Calm, timeless bridal makeup that enhances your features and stays beautiful from your first photo to your last dance.',
       badge: 'Most Popular',
       href: '/services/bridal-makeup',
     },
@@ -30,7 +30,7 @@
       icon: Sparkles,
       title: 'Events & Special Occasions',
       description:
-        'Birthdays, engagements, photo shoots. Professional makeup that photographs beautifully and lasts all night.',
+        'Soft glam or fuller glam for birthdays, engagements, shoots, and special events when you want to feel confident and beautifully put together.',
       badge: null,
       href: '/services/special-events',
     },
@@ -38,7 +38,7 @@
       icon: Star,
       title: 'Matric Farewell',
       description:
-        'A once-in-a-lifetime evening calls for a look you\'ll love in every photo. Age-appropriate glam, done right.',
+        'Fresh, age-appropriate glam that still feels like you and looks amazing in every farewell photo.',
       badge: null,
       href: '/services/matric-farewell',
     },
@@ -69,7 +69,7 @@
   const socialImage = abs_url('/og-default.svg');
   const pageTitle = 'Divine Detail | Bridal Makeup Artist Pretoria';
   const pageDescription =
-    'Professional bridal and event makeup artist based in Pretoria, Gauteng. Flawless looks for weddings, matric farewells, and special occasions.';
+    'Bridal, matric, and special event makeup in Pretoria and Gauteng. Soft, timeless glam that feels comfortable, looks beautiful in person, and photographs beautifully.';
 </script>
 
 <svelte:head>
@@ -107,15 +107,16 @@
       <h1
         class="font-display text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
       >
-        Your Day,<br />
-        <span class="heading-gradient italic">Perfected</span>
+        Makeup that still<br />
+        <span class="heading-gradient italic">feels like you</span>
       </h1>
 
       <p
-        class="mx-auto mt-6 max-w-lg text-base leading-relaxed text-muted-foreground sm:text-lg"
+        class="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted-foreground sm:text-lg"
       >
-        Professional makeup artistry for brides, events, and milestone moments.
-        Based in Pretoria, available across Gauteng.
+        For brides, matric girls, and women celebrating special moments. Soft,
+        beautiful makeup that feels comfortable, lasts well, and looks stunning
+        both in person and in photos.
       </p>
 
       <!-- Decorative rule -->
@@ -123,15 +124,15 @@
 
       <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
         <Button
-          href="/contact"
+          href={WHATSAPP_URL}
           size="lg"
           class="GA4_BookingBtn bg-brand text-brand-foreground hover:bg-brand/90"
         >
-          Get in Touch
+          Book on WhatsApp
           <ArrowRight class="size-4" />
         </Button>
         <Button href="/services" variant="outline" size="lg">
-          View Services
+          See Services
         </Button>
       </div>
     </div>
@@ -145,12 +146,12 @@
   <div class="mx-auto max-w-5xl px-4">
     <div class="mb-14 text-center">
       <p class="text-sm font-medium uppercase tracking-widest text-brand">
-        What I Offer
+        How I Can Help
       </p>
       <h2
         class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
       >
-        <span class="heading-gradient">Services</span>
+        Makeup for the <span class="heading-gradient">moments that matter</span>
       </h2>
     </div>
 
@@ -239,13 +240,16 @@
       <h2
         class="font-display text-3xl font-semibold tracking-tight sm:text-4xl"
       >
-        Ready to <span class="heading-gradient">Book?</span>
+        Ready when <span class="heading-gradient">you are</span>
       </h2>
       <p
         class="mx-auto mt-4 max-w-md text-base leading-relaxed text-muted-foreground"
       >
-        Let's discuss your look. Whether it's a wedding, farewell, or special
-        event, I'd love to hear from you.
+        Tell me a little about your date, your event, and the kind of look you
+        love. I'll guide you from there and make the process feel simple.
+      </p>
+      <p class="mt-2 text-sm text-muted-foreground">
+        Not sure what to book yet? That's completely fine.
       </p>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-4">
         <Button
@@ -253,11 +257,11 @@
           size="lg"
           class="GA4_BookingBtn bg-brand text-brand-foreground hover:bg-brand/90"
         >
-          Book a Consultation
+          Send an Enquiry
           <ArrowRight class="size-4" />
         </Button>
         <Button href={WHATSAPP_URL} variant="outline" size="lg">
-          WhatsApp Me
+          WhatsApp Megan
         </Button>
       </div>
     </div>
