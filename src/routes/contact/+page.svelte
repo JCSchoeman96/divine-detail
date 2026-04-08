@@ -23,6 +23,8 @@
 	let submitting = $state(false);
 	let intent = $state<'inquiry' | 'booking'>('inquiry');
 	let loadTime = $state(0);
+	let turnstileToken = $state('');
+	let clientFormError = $state<string | null>(null);
 	const turnstileCallbackNames = {
 		success: 'contactTurnstileSuccess',
 		error: 'contactTurnstileError',
@@ -30,6 +32,8 @@
 	} as const;
 	const turnstileCallbacks = {
 		success(token: string) {
+			turnstileToken = token;
+			clientFormError = null;
 			console.log('[Contact Debug] Turnstile token received', {
 				tokenLength: token.length,
 				intent,
@@ -37,6 +41,7 @@
 			});
 		},
 		error(code: string) {
+			turnstileToken = '';
 			console.error('[Contact Debug] Turnstile error callback', {
 				code,
 				intent,
@@ -44,6 +49,7 @@
 			});
 		},
 		expired() {
+			turnstileToken = '';
 			console.warn('[Contact Debug] Turnstile token expired', {
 				intent,
 				timestamp: new Date().toISOString(),
@@ -148,10 +154,19 @@
 					<form
 						id="GA4_Form"
 						method="POST"
-						use:enhance={({ formData }) => {
+						use:enhance={({ formData, cancel }) => {
 							submitting = true;
+							clientFormError = null;
 							formData.append('load_time', String(loadTime));
 							const token = formData.get('cf-turnstile-response')?.toString() ?? '';
+							if (token.length === 0) {
+								cancel();
+								submitting = false;
+								clientFormError =
+									'Please complete security verification first, then submit again.';
+								console.warn('[Contact Debug] Submission blocked: missing turnstile token');
+								return;
+							}
 							console.log('[Contact Debug] Submitting form', {
 								intent,
 								hasToken: token.length > 0,
@@ -354,6 +369,9 @@
 
 						{#if form?.errors?.form}
 							<p class="text-sm text-destructive">{form.errors.form}</p>
+						{/if}
+						{#if clientFormError}
+							<p class="text-sm text-destructive">{clientFormError}</p>
 						{/if}
 
 						<!-- Submit -->

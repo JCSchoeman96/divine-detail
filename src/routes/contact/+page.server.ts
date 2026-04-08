@@ -140,8 +140,13 @@ export const actions = {
 			);
 			const verifyData = await verifyRes.json();
 			if (!verifyData.success) {
+				console.error('[Turnstile Verify Error]', {
+					errorCodes: verifyData['error-codes'] ?? [],
+					action: verifyData.action ?? null,
+					hasResponse: turnstileResponse.length > 0,
+				});
 				return fail(403, {
-					errors: { form: 'Security verification failed. Please try again.' } as Record<string, string>,
+					errors: { form: 'Security verification failed. Please try again. [TS_VERIFY]' } as Record<string, string>,
 					values,
 				});
 			}
@@ -193,6 +198,7 @@ export const actions = {
 
 		const intentLabel = intent === 'booking' ? 'Booking Request' : 'General Inquiry';
 		const persisted = Boolean(submissionId);
+		let listSubscriptionSucceeded = false;
 
 		if (!spId || !spSecret) {
 			console.warn(
@@ -263,6 +269,9 @@ export const actions = {
 						.eq('id', submissionId);
 				}
 			}
+			if (listRes.ok) {
+				listSubscriptionSucceeded = true;
+			}
 			if (listRes.ok && phone) {
 				const phoneRes = await fetch(
 					`https://api.sendpulse.com/addressbooks/${listId}/emails/phone`,
@@ -326,9 +335,12 @@ export const actions = {
 						})
 						.eq('id', submissionId);
 				}
-				if (persisted) return { success: true };
+				// If we already captured the lead (Supabase or SendPulse list), do not block the user.
+				if (persisted || listSubscriptionSucceeded) return { success: true };
 				return fail(500, {
-					errors: { form: 'Could not send your message. Please try again or WhatsApp us.' } as Record<string, string>,
+					errors: {
+						form: `Could not send your message. Please try again or WhatsApp us. [SP_SMTP_${sendRes.status}]`,
+					} as Record<string, string>,
 					values,
 				});
 			}
@@ -355,9 +367,9 @@ export const actions = {
 					})
 					.eq('id', submissionId);
 			}
-			if (persisted) return { success: true };
+			if (persisted || listSubscriptionSucceeded) return { success: true };
 			return fail(500, {
-				errors: { form: 'Something went wrong. Please try again or WhatsApp us.' } as Record<string, string>,
+				errors: { form: 'Something went wrong. Please try again or WhatsApp us. [CONTACT_RUNTIME]' } as Record<string, string>,
 				values,
 			});
 		}
