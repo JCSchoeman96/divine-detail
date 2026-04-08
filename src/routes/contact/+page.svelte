@@ -25,11 +25,25 @@
 	let loadTime = $state(0);
 	let turnstileToken = $state('');
 	let clientFormError = $state<string | null>(null);
-	const turnstileCallbackNames = {
-		success: 'contactTurnstileSuccess',
-		error: 'contactTurnstileError',
-		expired: 'contactTurnstileExpired',
-	} as const;
+	let turnstileContainer = $state<HTMLElement | null>(null);
+	let turnstileRendered = $state(false);
+	let turnstileWidgetId = $state<string | null>(null);
+	const TURNSTILE_SCRIPT_ID = 'cf-turnstile-script';
+	const TURNSTILE_SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+
+	type TurnstileApi = {
+		render: (
+			container: HTMLElement,
+			options: {
+				sitekey: string;
+				callback: (token: string) => void;
+				'error-callback': (code: string) => void;
+				'expired-callback': () => void;
+			},
+		) => string;
+		remove?: (widgetId: string) => void;
+	};
+
 	const turnstileCallbacks = {
 		success(token: string) {
 			turnstileToken = token;
@@ -57,17 +71,87 @@
 		},
 	};
 
+	const getTurnstile = (): TurnstileApi | null => {
+		const windowWithTurnstile = window as unknown as Window & { turnstile?: TurnstileApi };
+		return windowWithTurnstile.turnstile ?? null;
+	};
+
+	const loadTurnstileScript = async (): Promise<void> => {
+		if (getTurnstile()) return;
+		const existing = document.getElementById(TURNSTILE_SCRIPT_ID) as HTMLScriptElement | null;
+		if (existing) {
+			await new Promise<void>((resolve) => {
+				existing.addEventListener('load', () => resolve(), { once: true });
+				existing.addEventListener('error', () => resolve(), { once: true });
+			});
+			return;
+		}
+
+		await new Promise<void>((resolve) => {
+			const script = document.createElement('script');
+			script.id = TURNSTILE_SCRIPT_ID;
+			script.src = TURNSTILE_SCRIPT_SRC;
+			script.async = true;
+			script.defer = true;
+			script.setAttribute('data-cfasync', 'false');
+			script.addEventListener('load', () => resolve(), { once: true });
+			script.addEventListener('error', () => resolve(), { once: true });
+			document.head.appendChild(script);
+		});
+	};
+
+	const renderTurnstile = (): boolean => {
+		const turnstile = getTurnstile();
+		if (!turnstile || !turnstileContainer || turnstileRendered) return false;
+		turnstileWidgetId = turnstile.render(turnstileContainer, {
+			sitekey: PUBLIC_TURNSTILE_SITE_KEY,
+			callback: turnstileCallbacks.success,
+			'error-callback': turnstileCallbacks.error,
+			'expired-callback': turnstileCallbacks.expired,
+		});
+		turnstileRendered = true;
+		console.log('[Contact Debug] Turnstile rendered', {
+			widgetId: turnstileWidgetId,
+			timestamp: new Date().toISOString(),
+		});
+		return true;
+	};
+
 	onMount(() => {
-		const windowWithCallbacks = window as unknown as Window & Record<string, unknown>;
-		windowWithCallbacks[turnstileCallbackNames.success] = turnstileCallbacks.success;
-		windowWithCallbacks[turnstileCallbackNames.error] = turnstileCallbacks.error;
-		windowWithCallbacks[turnstileCallbackNames.expired] = turnstileCallbacks.expired;
 		loadTime = Date.now();
 		console.log('[Contact Debug] Contact form mounted', {
 			path: window.location.pathname,
 			hasTurnstile: Boolean(PUBLIC_TURNSTILE_SITE_KEY),
 			siteKeyPreview: PUBLIC_TURNSTILE_SITE_KEY.slice(0, 8),
 		});
+
+		let retries = 0;
+		let cancelled = false;
+		const interval = window.setInterval(async () => {
+			if (cancelled || turnstileRendered) return;
+			retries += 1;
+			await loadTurnstileScript();
+			const rendered = renderTurnstile();
+			if (rendered || retries >= 10) {
+				window.clearInterval(interval);
+				if (!rendered) {
+					console.error('[Contact Debug] Turnstile failed to render after retries');
+				}
+			}
+		}, 600);
+
+		void loadTurnstileScript().then(() => {
+			if (!cancelled) renderTurnstile();
+		});
+
+		return () => {
+			cancelled = true;
+			window.clearInterval(interval);
+			const turnstile = getTurnstile();
+			if (turnstile?.remove && turnstileWidgetId) {
+				turnstile.remove(turnstileWidgetId);
+			}
+		};
 	});
 
 	const serviceOptions = [
@@ -360,11 +444,8 @@
 
 						<!-- Turnstile -->
 						<div
-							class="cf-turnstile"
-							data-sitekey={PUBLIC_TURNSTILE_SITE_KEY}
-							data-callback={turnstileCallbackNames.success}
-							data-error-callback={turnstileCallbackNames.error}
-							data-expired-callback={turnstileCallbackNames.expired}
+							class="cf-turnstile min-h-[66px]"
+							bind:this={turnstileContainer}
 						></div>
 
 						{#if form?.errors?.form}
