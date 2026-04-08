@@ -278,14 +278,6 @@
       <p class="text-center text-xs text-muted-foreground">
         &copy; {new Date().getFullYear()} Divine Detail. All rights reserved.
       </p>
-      <p class="mt-2 text-center text-xs text-muted-foreground">
-        Temporary DB test:
-        {#if data?.supabaseFooterProbe?.ok}
-          Connected ({data.supabaseFooterProbe.count} rows)
-        {:else}
-          Failed
-        {/if}
-      </p>
     </div>
   </footer>
 </div>

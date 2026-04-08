@@ -40,3 +40,22 @@ Set secrets with Wrangler:
 bunx wrangler secret put SENDPULSE_ID
 bunx wrangler secret put SENDPULSE_SECRET
 ```
+
+## Admin backend setup
+
+- Routes:
+  - `/admin/login`
+  - `/admin/submissions`
+- Access control:
+  - Supabase Auth session is required.
+  - User must exist in `public.admin_users`.
+
+### One-time database setup
+
+- Run SQL in `supabase/admin_setup.sql`.
+- Insert at least one admin:
+
+```sql
+insert into public.admin_users (user_id, notes)
+values ('<auth-user-uuid>', 'Owner');
+```
