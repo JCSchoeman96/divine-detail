@@ -23,7 +23,46 @@
 	let submitting = $state(false);
 	let intent = $state<'inquiry' | 'booking'>('inquiry');
 	let loadTime = $state(0);
-	onMount(() => { loadTime = Date.now(); });
+	const turnstileCallbackNames = {
+		success: 'contactTurnstileSuccess',
+		error: 'contactTurnstileError',
+		expired: 'contactTurnstileExpired',
+	} as const;
+	const turnstileCallbacks = {
+		success(token: string) {
+			console.log('[Contact Debug] Turnstile token received', {
+				tokenLength: token.length,
+				intent,
+				timestamp: new Date().toISOString(),
+			});
+		},
+		error(code: string) {
+			console.error('[Contact Debug] Turnstile error callback', {
+				code,
+				intent,
+				timestamp: new Date().toISOString(),
+			});
+		},
+		expired() {
+			console.warn('[Contact Debug] Turnstile token expired', {
+				intent,
+				timestamp: new Date().toISOString(),
+			});
+		},
+	};
+
+	onMount(() => {
+		const windowWithCallbacks = window as unknown as Window & Record<string, unknown>;
+		windowWithCallbacks[turnstileCallbackNames.success] = turnstileCallbacks.success;
+		windowWithCallbacks[turnstileCallbackNames.error] = turnstileCallbacks.error;
+		windowWithCallbacks[turnstileCallbackNames.expired] = turnstileCallbacks.expired;
+		loadTime = Date.now();
+		console.log('[Contact Debug] Contact form mounted', {
+			path: window.location.pathname,
+			hasTurnstile: Boolean(PUBLIC_TURNSTILE_SITE_KEY),
+			siteKeyPreview: PUBLIC_TURNSTILE_SITE_KEY.slice(0, 8),
+		});
+	});
 
 	const serviceOptions = [
 		'Bridal Makeup',
@@ -112,9 +151,24 @@
 						use:enhance={({ formData }) => {
 							submitting = true;
 							formData.append('load_time', String(loadTime));
+							const token = formData.get('cf-turnstile-response')?.toString() ?? '';
+							console.log('[Contact Debug] Submitting form', {
+								intent,
+								hasToken: token.length > 0,
+								tokenLength: token.length,
+								hasName: Boolean(formData.get('name')),
+								hasEmail: Boolean(formData.get('email')),
+								timestamp: new Date().toISOString(),
+							});
 							return async ({ update }) => {
 								await update();
 								submitting = false;
+								console.log('[Contact Debug] Form update completed', {
+									intent,
+									wasSuccess: Boolean(form?.success),
+									formError: form?.errors?.form ?? null,
+									timestamp: new Date().toISOString(),
+								});
 							};
 						}}
 						class="space-y-6"
@@ -290,7 +344,13 @@
 						</div>
 
 						<!-- Turnstile -->
-						<div class="cf-turnstile" data-sitekey={PUBLIC_TURNSTILE_SITE_KEY}></div>
+						<div
+							class="cf-turnstile"
+							data-sitekey={PUBLIC_TURNSTILE_SITE_KEY}
+							data-callback={turnstileCallbackNames.success}
+							data-error-callback={turnstileCallbackNames.error}
+							data-expired-callback={turnstileCallbackNames.expired}
+						></div>
 
 						{#if form?.errors?.form}
 							<p class="text-sm text-destructive">{form.errors.form}</p>
