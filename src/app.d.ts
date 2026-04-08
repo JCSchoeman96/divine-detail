@@ -8,6 +8,8 @@ declare global {
 				TURNSTILE_SECRET_KEY?: string;
 				SENDPULSE_ID?: string;
 				SENDPULSE_SECRET?: string;
+				SENDPULSE_CLIENT_ID?: string;
+				SENDPULSE_CLIENT_SECRET?: string;
 				ADMIN_EMAIL?: string;
 				SENDPULSE_INQUIRY_LIST_ID?: string;
 				SENDPULSE_BOOKING_LIST_ID?: string;

@@ -31,7 +31,10 @@ async function getSendPulseToken(clientId: string, clientSecret: string): Promis
 	});
 
 	const data = await res.json();
-	if (!data.access_token) throw new Error('SendPulse auth failed');
+	if (!res.ok) {
+		throw new Error(`SendPulse auth request failed (${res.status})`);
+	}
+	if (!data.access_token) throw new Error('SendPulse auth failed (no access token returned)');
 	return data.access_token as string;
 }
 
@@ -65,9 +68,16 @@ async function ensureSendPulseVariables(
 export const actions = {
 	default: async ({ request, platform }) => {
 		const env = platform?.env;
-		// #region agent log
-		fetch('http://127.0.0.1:7289/ingest/56c587ad-bf21-4b45-b64c-958ae56e2365',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'41a93a'},body:JSON.stringify({sessionId:'41a93a',runId:'pre-fix',hypothesisId:'H1',location:'contact/+page.server.ts:action:start',message:'Server env presence snapshot',data:{hasPlatformEnv:!!env,hasTurnstileSecret:!!(env?.TURNSTILE_SECRET_KEY ?? dynamicEnv.TURNSTILE_SECRET_KEY),hasSendpulseId:!!(env?.SENDPULSE_ID ?? dynamicEnv.SENDPULSE_ID),hasSendpulseSecret:!!(env?.SENDPULSE_SECRET ?? dynamicEnv.SENDPULSE_SECRET),hasSupabaseServiceRole:!!(env?.SUPABASE_SERVICE_ROLE_KEY ?? dynamicEnv.SUPABASE_SERVICE_ROLE_KEY),hasPublicSupabaseAnon:!!(env?.PUBLIC_SUPABASE_ANON_KEY ?? dynamicEnv.PUBLIC_SUPABASE_ANON_KEY)},timestamp:Date.now()})}).catch(()=>{});
-		// #endregion
+		const getPrivateEnv = (...keys: string[]): string => {
+			for (const key of keys) {
+				const platformValue = env?.[key as keyof typeof env];
+				if (typeof platformValue === 'string' && platformValue.trim().length > 0) return platformValue;
+
+				const runtimeValue = dynamicEnv[key as keyof typeof dynamicEnv];
+				if (typeof runtimeValue === 'string' && runtimeValue.trim().length > 0) return runtimeValue;
+			}
+			return '';
+		};
 
 		const data = await request.formData();
 		const name = data.get('name')?.toString().trim() ?? '';
@@ -111,14 +121,11 @@ export const actions = {
 		}
 
 		if (Object.keys(errors).length > 0) {
-			// #region agent log
-			fetch('http://127.0.0.1:7289/ingest/56c587ad-bf21-4b45-b64c-958ae56e2365',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'41a93a'},body:JSON.stringify({sessionId:'41a93a',runId:'pre-fix',hypothesisId:'H2',location:'contact/+page.server.ts:validation:fail',message:'Validation fail payload safety',data:{errorKeys:Object.keys(errors),valueKeys:Object.keys(values),containsSecretLikeKeys:Object.keys(values).some((k)=>/secret|token|key/i.test(k))},timestamp:Date.now()})}).catch(()=>{});
-			// #endregion
 			return fail(400, { errors, values });
 		}
 
 		// ── Verify Turnstile ─────────────────────────────────────────────
-		const turnstileSecret = env?.TURNSTILE_SECRET_KEY;
+		const turnstileSecret = env?.TURNSTILE_SECRET_KEY ?? dynamicEnv.TURNSTILE_SECRET_KEY;
 		if (turnstileSecret) {
 			const verifyRes = await fetch(
 				'https://challenges.cloudflare.com/turnstile/v0/siteverify',
@@ -177,20 +184,40 @@ export const actions = {
 		}
 
 		// ── SendPulse ────────────────────────────────────────────────────
-		const spId = env?.SENDPULSE_ID ?? dynamicEnv.SENDPULSE_ID ?? '';
-		const spSecret = env?.SENDPULSE_SECRET ?? dynamicEnv.SENDPULSE_SECRET ?? '';
-		const adminEmail = env?.ADMIN_EMAIL ?? 'megan@divinedetail.co.za';
+		const spId = getPrivateEnv('SENDPULSE_ID', 'SENDPULSE_CLIENT_ID');
+		const spSecret = getPrivateEnv('SENDPULSE_SECRET', 'SENDPULSE_CLIENT_SECRET');
+		const adminEmail = env?.ADMIN_EMAIL ?? dynamicEnv.ADMIN_EMAIL ?? 'megan@divinedetail.co.za';
 		const listId = intent === 'booking'
-			? (env?.SENDPULSE_BOOKING_LIST_ID ?? '597823')
-			: (env?.SENDPULSE_INQUIRY_LIST_ID ?? '597820');
+			? (env?.SENDPULSE_BOOKING_LIST_ID ?? dynamicEnv.SENDPULSE_BOOKING_LIST_ID ?? '597823')
+			: (env?.SENDPULSE_INQUIRY_LIST_ID ?? dynamicEnv.SENDPULSE_INQUIRY_LIST_ID ?? '597820');
 
 		const intentLabel = intent === 'booking' ? 'Booking Request' : 'General Inquiry';
+		const persisted = Boolean(submissionId);
+
+		if (!spId || !spSecret) {
+			console.warn(
+				'[Contact Form] SendPulse credentials missing (expected SENDPULSE_ID/SENDPULSE_SECRET or SENDPULSE_CLIENT_ID/SENDPULSE_CLIENT_SECRET). Submission will not be forwarded.',
+			);
+			if (supabase && submissionId) {
+				await supabase
+					.from('contact_submissions')
+					.update({
+						status: 'sendpulse_unconfigured',
+						sendpulse_status: 'skipped',
+						sendpulse_error: 'Missing SENDPULSE_ID or SENDPULSE_SECRET',
+					})
+					.eq('id', submissionId);
+			}
+
+			if (persisted) return { success: true };
+			return fail(500, {
+				errors: { form: 'Message service is temporarily unavailable. Please WhatsApp us directly.' } as Record<string, string>,
+				values,
+			});
+		}
 
 		try {
 			const token = await getSendPulseToken(spId, spSecret);
-			// #region agent log
-			fetch('http://127.0.0.1:7289/ingest/56c587ad-bf21-4b45-b64c-958ae56e2365',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'41a93a'},body:JSON.stringify({sessionId:'41a93a',runId:'pre-fix',hypothesisId:'H3',location:'contact/+page.server.ts:sendpulse:start',message:'Outbound sendpulse request safety',data:{hasOAuthToken:!!token,listIdType:typeof listId,variableKeys:['Name','message','service','event_date','venue','intent'],phoneIncluded:!!phone},timestamp:Date.now()})}).catch(()=>{});
-			// #endregion
 			await ensureSendPulseVariables(token, listId, [
 				'Name',
 				'service',
@@ -299,6 +326,7 @@ export const actions = {
 						})
 						.eq('id', submissionId);
 				}
+				if (persisted) return { success: true };
 				return fail(500, {
 					errors: { form: 'Could not send your message. Please try again or WhatsApp us.' } as Record<string, string>,
 					values,
@@ -327,14 +355,12 @@ export const actions = {
 					})
 					.eq('id', submissionId);
 			}
+			if (persisted) return { success: true };
 			return fail(500, {
 				errors: { form: 'Something went wrong. Please try again or WhatsApp us.' } as Record<string, string>,
 				values,
 			});
 		}
-		// #region agent log
-		fetch('http://127.0.0.1:7289/ingest/56c587ad-bf21-4b45-b64c-958ae56e2365',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'41a93a'},body:JSON.stringify({sessionId:'41a93a',runId:'pre-fix',hypothesisId:'H4',location:'contact/+page.server.ts:success:return',message:'Success response safety',data:{returnsOnlySuccess:true,includesSensitivePayload:false},timestamp:Date.now()})}).catch(()=>{});
-		// #endregion
 
 		return { success: true };
 	},

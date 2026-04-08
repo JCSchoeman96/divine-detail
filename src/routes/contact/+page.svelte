@@ -44,11 +44,6 @@
 <svelte:head>
 	<title>{pageTitle}</title>
 	<meta name="description" content={pageDescription} />
-	<script
-		src="https://challenges.cloudflare.com/turnstile/v0/api.js"
-		async
-		defer
-	></script>
 	<link rel="canonical" href={pageUrl} />
 	<meta property="og:title" content={pageTitle} />
 	<meta property="og:description" content={pageDescription} />

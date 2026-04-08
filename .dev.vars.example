@@ -1,0 +1,8 @@
+TURNSTILE_SECRET_KEY=your_turnstile_secret_key
+SUPABASE_URL=https://your-project-ref.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
+SENDPULSE_ID=your_sendpulse_client_id
+SENDPULSE_SECRET=your_sendpulse_client_secret
+# Alternative naming also supported by code:
+# SENDPULSE_CLIENT_ID=your_sendpulse_client_id
+# SENDPULSE_CLIENT_SECRET=your_sendpulse_client_secret
