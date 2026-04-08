@@ -44,6 +44,11 @@
 <svelte:head>
 	<title>{pageTitle}</title>
 	<meta name="description" content={pageDescription} />
+	<script
+		src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+		async
+		defer
+	></script>
 	<link rel="canonical" href={pageUrl} />
 	<meta property="og:title" content={pageTitle} />
 	<meta property="og:description" content={pageDescription} />
@@ -201,6 +206,32 @@
 							</div>
 						</div>
 
+						<!-- Phone -->
+						<div class="space-y-2">
+							<Label for="phone">
+								Phone Number
+								{#if intent === 'booking'}
+									<span class="text-brand" aria-hidden="true">*</span>
+								{/if}
+							</Label>
+							<Input
+								id="phone"
+								name="phone"
+								type="tel"
+								autocomplete="tel"
+								placeholder="+27 81 609 8157"
+								required={intent === 'booking'}
+								value={form?.values?.phone ?? ''}
+								aria-invalid={form?.errors?.phone ? 'true' : undefined}
+								aria-describedby={form?.errors?.phone ? 'phone-error' : undefined}
+							/>
+							{#if form?.errors?.phone}
+								<p id="phone-error" class="text-sm text-destructive">
+									{form.errors.phone}
+								</p>
+							{/if}
+						</div>
+
 						<!-- Service & Date Row -->
 						<div class="grid gap-6 sm:grid-cols-2">
 							<div class="space-y-2">
@@ -208,13 +239,14 @@
 								<select
 									id="service"
 									name="service"
-									class="border-input bg-transparent dark:bg-input/30 placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] md:text-sm"
+									class="border-input bg-transparent text-foreground dark:bg-zinc-900 dark:text-zinc-100 placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 flex h-9 w-full rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] md:text-sm"
 								>
-									<option value="">Select a service...</option>
+									<option value="" class="bg-white text-black dark:bg-zinc-900 dark:text-zinc-100">Select a service...</option>
 									{#each serviceOptions as option}
 										<option
 											value={option}
 											selected={form?.values?.service === option}
+											class="bg-white text-black dark:bg-zinc-900 dark:text-zinc-100"
 										>
 											{option}
 										</option>
@@ -228,8 +260,14 @@
 									id="date"
 									name="date"
 									type="date"
+									class="contact-date-input"
 									value={form?.values?.date ?? ''}
 								/>
+								{#if form?.errors?.date}
+									<p class="text-sm text-destructive">
+										{form.errors.date}
+									</p>
+								{/if}
 							</div>
 						</div>
 

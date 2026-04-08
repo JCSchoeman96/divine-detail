@@ -176,4 +176,16 @@
     background-clip: text;
     color: transparent;
   }
+
+  .dark .contact-date-input,
+  .dark input[type="date"] {
+    color-scheme: dark;
+  }
+
+  .dark .contact-date-input::-webkit-calendar-picker-indicator,
+  .dark input[type="date"]::-webkit-calendar-picker-indicator {
+    -webkit-filter: invert(1) brightness(1.6) contrast(1.2) !important;
+    filter: invert(1) brightness(1.6) contrast(1.2) !important;
+    opacity: 1 !important;
+  }
 }
