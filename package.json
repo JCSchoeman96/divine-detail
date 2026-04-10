@@ -6,7 +6,7 @@
 	"packageManager": "bun@1.2.22",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build",
+		"build": "bun install --frozen-lockfile && vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check:head": "bun scripts/check-head.mjs --base http://localhost:5173"
