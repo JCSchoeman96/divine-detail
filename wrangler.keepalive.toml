@@ -1,0 +1,15 @@
+name = "supabase-keepalive"
+main = "workers/supabase-keepalive/index.js"
+compatibility_date = "2026-05-23"
+workers_dev = true
+
+[observability]
+enabled = true
+head_sampling_rate = 1
+
+[vars]
+SUPABASE_URL = "https://htruzpxyffvqithlbiac.supabase.co"
+PUBLIC_SUPABASE_ANON_KEY = "sb_publishable_eJFP58J0LLpZ4EqMlFpgRg_Hcl2nH3H"
+
+[triggers]
+crons = ["0 3 * * *"]
