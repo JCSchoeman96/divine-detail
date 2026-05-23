@@ -2,6 +2,7 @@ import { fail } from '@sveltejs/kit';
 import type { Actions } from './$types';
 import { env as dynamicEnv } from '$env/dynamic/private';
 import { createClient } from '@supabase/supabase-js';
+import { createContactNotificationPayload } from '$lib/server/sendpulse';
 
 type ContactSubmissionInsert = {
 	intent: 'inquiry' | 'booking';
@@ -192,6 +193,7 @@ export const actions = {
 		const spId = getPrivateEnv('SENDPULSE_ID', 'SENDPULSE_CLIENT_ID');
 		const spSecret = getPrivateEnv('SENDPULSE_SECRET', 'SENDPULSE_CLIENT_SECRET');
 		const adminEmail = env?.ADMIN_EMAIL ?? dynamicEnv.ADMIN_EMAIL ?? 'megan@divinedetail.co.za';
+		const fromEmail = getPrivateEnv('SENDPULSE_FROM_EMAIL') || adminEmail;
 		const listId = intent === 'booking'
 			? (env?.SENDPULSE_BOOKING_LIST_ID ?? dynamicEnv.SENDPULSE_BOOKING_LIST_ID ?? '597823')
 			: (env?.SENDPULSE_INQUIRY_LIST_ID ?? dynamicEnv.SENDPULSE_INQUIRY_LIST_ID ?? '597820');
@@ -295,23 +297,18 @@ export const actions = {
 			}
 
 			// 2. Send immediate SMTP notification to admin
-			const emailPayload = {
-				email: {
-					subject: `[${intentLabel}] ${name}`,
-					from: { name: 'Divine Detail Website', email: 'noreply@divinedetail.co.za' },
-					to: [{ name: 'Megan', email: adminEmail }],
-					html: `
-						<h2>${intentLabel}</h2>
-						<p><strong>Name:</strong> ${name}</p>
-						<p><strong>Email:</strong> ${email}</p>
-						<p><strong>Service:</strong> ${service || 'Not specified'}</p>
-						<p><strong>Event Date:</strong> ${date || 'Not specified'}</p>
-						${venue ? `<p><strong>Venue:</strong> ${venue}</p>` : ''}
-						<p><strong>Message:</strong></p>
-						<p>${message.replace(/\n/g, '<br>')}</p>
-					`,
-				},
-			};
+			const emailPayload = createContactNotificationPayload({
+				adminEmail,
+				date,
+				email,
+				fromEmail,
+				intent,
+				intentLabel,
+				message,
+				name,
+				service,
+				venue,
+			});
 
 			const sendRes = await fetch('https://api.sendpulse.com/smtp/emails', {
 				method: 'POST',
