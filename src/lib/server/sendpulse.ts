@@ -1,5 +1,6 @@
 type ContactNotificationInput = {
 	adminEmail: string;
+	notificationEmails: string[];
 	date: string;
 	email: string;
 	fromEmail: string;
@@ -51,11 +52,21 @@ export function createContactNotificationPayload(
 		<p>${escapeHtml(input.message).replace(/\n/g, '<br>')}</p>
 	`;
 
+	const recipients = [
+		{ name: 'Megan', email: input.adminEmail },
+		...input.notificationEmails
+			.filter((notificationEmail) => notificationEmail !== input.adminEmail)
+			.map((notificationEmail) => ({
+				name: 'Notification Recipient',
+				email: notificationEmail,
+			})),
+	];
+
 	return {
 		email: {
 			subject: `[${input.intentLabel}] ${input.name}`,
 			from: { name: 'Divine Detail Website', email: input.fromEmail },
-			to: [{ name: 'Megan', email: input.adminEmail }],
+			to: recipients,
 			reply_to: { name: input.name, email: input.email },
 			html: encodeBase64(html),
 		},

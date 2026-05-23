@@ -193,6 +193,13 @@ export const actions = {
 		const spId = getPrivateEnv('SENDPULSE_ID', 'SENDPULSE_CLIENT_ID');
 		const spSecret = getPrivateEnv('SENDPULSE_SECRET', 'SENDPULSE_CLIENT_SECRET');
 		const adminEmail = env?.ADMIN_EMAIL ?? dynamicEnv.ADMIN_EMAIL ?? 'megan@divinedetail.co.za';
+		const notificationEmails = (
+			getPrivateEnv('NOTIFICATION_EMAILS', 'ADMIN_NOTIFICATION_EMAILS') ||
+			'meganuys2000@gmail.com'
+		)
+			.split(',')
+			.map((notificationEmail) => notificationEmail.trim())
+			.filter(Boolean);
 		const fromEmail = getPrivateEnv('SENDPULSE_FROM_EMAIL') || adminEmail;
 		const listId = intent === 'booking'
 			? (env?.SENDPULSE_BOOKING_LIST_ID ?? dynamicEnv.SENDPULSE_BOOKING_LIST_ID ?? '597823')
@@ -299,6 +306,7 @@ export const actions = {
 			// 2. Send immediate SMTP notification to admin
 			const emailPayload = createContactNotificationPayload({
 				adminEmail,
+				notificationEmails,
 				date,
 				email,
 				fromEmail,
