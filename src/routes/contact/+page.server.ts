@@ -152,7 +152,7 @@ export const actions = {
 			}
 		}
 
-		const supabaseUrl = env?.SUPABASE_URL ?? dynamicEnv.SUPABASE_URL ?? '';
+		const supabaseUrl = getPrivateEnv('SUPABASE_URL', 'PUBLIC_SUPABASE_URL');
 		const supabaseServiceRoleKey = env?.SUPABASE_SERVICE_ROLE_KEY ?? dynamicEnv.SUPABASE_SERVICE_ROLE_KEY ?? '';
 		const supabase = supabaseUrl && supabaseServiceRoleKey
 			? createClient(supabaseUrl, supabaseServiceRoleKey)

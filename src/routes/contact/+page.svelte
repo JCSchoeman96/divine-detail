@@ -13,7 +13,7 @@
 	import CheckCircle from '@lucide/svelte/icons/check-circle-2';
 	import Send from '@lucide/svelte/icons/send';
 	import CalendarHeart from '@lucide/svelte/icons/calendar-heart';
-	import { PUBLIC_TURNSTILE_SITE_KEY } from '$env/static/public';
+	import { env as publicEnv } from '$env/dynamic/public';
 	import type { ActionData } from './$types';
 	import { WHATSAPP_URL } from '$lib/config/social.js';
 	import { abs_url } from '$lib/config/site.js';
@@ -30,6 +30,7 @@
 	let turnstileWidgetId = $state<string | null>(null);
 	const TURNSTILE_SCRIPT_ID = 'cf-turnstile-script';
 	const TURNSTILE_SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+	const turnstileSiteKey = publicEnv.PUBLIC_TURNSTILE_SITE_KEY ?? '';
 
 	type TurnstileApi = {
 		render: (
@@ -104,7 +105,7 @@
 		const turnstile = getTurnstile();
 		if (!turnstile || !turnstileContainer || turnstileRendered) return false;
 		turnstileWidgetId = turnstile.render(turnstileContainer, {
-			sitekey: PUBLIC_TURNSTILE_SITE_KEY,
+			sitekey: turnstileSiteKey,
 			callback: turnstileCallbacks.success,
 			'error-callback': turnstileCallbacks.error,
 			'expired-callback': turnstileCallbacks.expired,
@@ -121,8 +122,8 @@
 		loadTime = Date.now();
 		console.log('[Contact Debug] Contact form mounted', {
 			path: window.location.pathname,
-			hasTurnstile: Boolean(PUBLIC_TURNSTILE_SITE_KEY),
-			siteKeyPreview: PUBLIC_TURNSTILE_SITE_KEY.slice(0, 8),
+			hasTurnstile: Boolean(turnstileSiteKey),
+			siteKeyPreview: turnstileSiteKey.slice(0, 8),
 		});
 
 		let retries = 0;

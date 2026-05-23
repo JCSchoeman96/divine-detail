@@ -19,6 +19,7 @@ declare global {
 				ADMIN_EMAIL?: string;
 				SENDPULSE_INQUIRY_LIST_ID?: string;
 				SENDPULSE_BOOKING_LIST_ID?: string;
+				PUBLIC_SUPABASE_URL?: string;
 				SUPABASE_URL?: string;
 				SUPABASE_SERVICE_ROLE_KEY?: string;
 			};
