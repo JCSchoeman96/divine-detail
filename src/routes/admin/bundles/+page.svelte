@@ -8,6 +8,7 @@
 		parsePriceToZar,
 		sumBundleLines,
 	} from '$lib/pricing/bundles';
+	import { compareCatalogRows } from '$lib/pricing/serviceOrder';
 	import type { PricingCatalogGroup, BundleRecord, PricingCatalogRow } from '$lib/server/pricingBundles';
 
 	let { data, form } = $props();
@@ -70,16 +71,17 @@
 
 	const catalogMap = $derived(new Map(Object.entries(data.catalogMap) as [string, PricingCatalogRow][]));
 
-	const selectedLines = $derived(
-		Object.entries(quantities)
+	const selectedLines = $derived.by(() => {
+		const lines = Object.entries(quantities)
 			.filter(([, quantity]) => quantity >= 1)
-			.map(([pricingRowId, quantity]) => {
+			.flatMap(([pricingRowId, quantity]) => {
 				const row = catalogMap.get(pricingRowId);
-				if (!row) return null;
-				return { row, quantity };
-			})
-			.filter(Boolean) as { row: PricingCatalogRow; quantity: number }[],
-	);
+				return row ? [{ row, quantity }] : [];
+			});
+
+		lines.sort((a, b) => compareCatalogRows(a.row, b.row));
+		return lines;
+	});
 
 	const regularTotalZar = $derived(
 		sumBundleLines(
@@ -155,7 +157,7 @@
 	<form
 		method="POST"
 		action={data.editing ? '?/updateBundle' : '?/createBundle'}
-		class="space-y-6 rounded-lg border p-4"
+		class="rounded-lg border p-4 lg:grid lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-start lg:gap-6"
 	>
 		{#if data.editing}
 			<input type="hidden" name="id" value={data.editing.id} />
@@ -163,167 +165,201 @@
 		<input type="hidden" name="sort_order" value={sortOrder} />
 		<input type="hidden" name="is_active" value={isActive ? 'true' : 'false'} />
 
-		<div class="grid gap-4 sm:grid-cols-2">
-			<div class="space-y-1 sm:col-span-2">
-				<label for="name" class="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-					Bundle name
-				</label>
-				<input
-					id="name"
-					name="name"
-					bind:value={bundleName}
-					required
-					class="border-input bg-background h-9 w-full rounded-md border px-3 text-sm"
-					placeholder="Bridal party makeup special"
-				/>
-			</div>
-			<div class="space-y-1 sm:col-span-2">
-				<label for="description" class="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-					Description
-				</label>
-				<textarea
-					id="description"
-					name="description"
-					bind:value={bundleDescription}
-					rows="2"
-					class="border-input bg-background w-full rounded-md border px-3 py-2 text-sm"
-					placeholder="Optional short description for the public offer card"
-				></textarea>
-			</div>
-			<div class="space-y-1">
-				<label for="bundle_price" class="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-					Bundle price
-				</label>
-				<input
-					id="bundle_price"
-					name="bundle_price"
-					bind:value={bundlePrice}
-					required
-					class="border-input bg-background h-9 w-full rounded-md border px-3 text-sm"
-					placeholder="R4,000"
-				/>
-			</div>
-			<div class="space-y-1">
-				<p class="text-xs font-medium uppercase tracking-wide text-muted-foreground">Regular total</p>
-				<p class="flex h-9 items-center text-sm font-semibold tabular-nums">{formatZar(regularTotalZar)}</p>
-				{#if savingsZar > 0}
-					<p class="text-xs font-medium text-brand">Save {formatZar(savingsZar)}</p>
-				{:else if bundleAmountZar !== null && regularTotalZar > 0}
-					<p class="text-xs text-muted-foreground">Package price (no discount shown)</p>
-				{/if}
-			</div>
-			<div class="space-y-1">
-				<label for="starts_at" class="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-					Start date (optional)
-				</label>
-				<input
-					id="starts_at"
-					name="starts_at"
-					type="date"
-					bind:value={startsAt}
-					class="border-input bg-background h-9 w-full rounded-md border px-3 text-sm"
-				/>
-			</div>
-			<div class="space-y-1">
-				<label for="ends_at" class="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-					End date (optional)
-				</label>
-				<input
-					id="ends_at"
-					name="ends_at"
-					type="date"
-					bind:value={endsAt}
-					class="border-input bg-background h-9 w-full rounded-md border px-3 text-sm"
-				/>
-			</div>
-		</div>
+		<div class="order-last min-w-0 space-y-6 lg:order-1">
+			<div class="space-y-3">
+				<div class="flex flex-wrap items-center justify-between gap-2">
+					<p class="text-sm font-medium">Catalog items</p>
+					<p class="text-xs text-muted-foreground">Fixed-price rows only. Set quantity to 0 to exclude.</p>
+				</div>
 
-		<div class="space-y-3 border-t pt-4">
-			<div class="flex flex-wrap items-center justify-between gap-2">
-				<p class="text-sm font-medium">Catalog items</p>
-				<p class="text-xs text-muted-foreground">Fixed-price rows only. Set quantity to 0 to exclude.</p>
-			</div>
-
-			<div class="space-y-4">
-				{#each data.catalog as group (group.service_slug + group.group_label + group.is_add_on)}
-					<section class="rounded-md border p-3">
-						<p class="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-							{group.service_title} · {group.group_label}{group.is_add_on ? ' (add-on)' : ''}
-						</p>
-						<div class="mt-2 space-y-2">
-							{#each group.rows as row (row.id)}
-								<div class="flex flex-wrap items-center justify-between gap-2 text-sm">
-									<div>
-										<p>{row.item}</p>
-										<p class="text-xs text-muted-foreground">{row.price}</p>
+				<div class="space-y-4">
+					{#each data.catalog as group (group.service_slug + group.group_label + group.is_add_on)}
+						<section class="rounded-md border p-3">
+							<p class="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+								{group.service_title} · {group.group_label}{group.is_add_on ? ' (add-on)' : ''}
+							</p>
+							<div class="mt-2 space-y-2">
+								{#each group.rows as row (row.id)}
+									<div class="flex flex-wrap items-center justify-between gap-2 text-sm">
+										<div>
+											<p>{row.item}</p>
+											<p class="text-xs text-muted-foreground">{row.price}</p>
+										</div>
+										<label class="flex items-center gap-2">
+											<span class="text-xs text-muted-foreground">Qty</span>
+											<input
+												type="number"
+												name="qty_{row.id}"
+												min="0"
+												bind:value={quantities[row.id]}
+												class="border-input bg-background h-8 w-20 rounded-md border px-2 text-sm"
+											/>
+										</label>
 									</div>
-									<label class="flex items-center gap-2">
-										<span class="text-xs text-muted-foreground">Qty</span>
-										<input
-											type="number"
-											name="qty_{row.id}"
-											min="0"
-											bind:value={quantities[row.id]}
-											class="border-input bg-background h-8 w-20 rounded-md border px-2 text-sm"
-										/>
-									</label>
-								</div>
-							{/each}
-						</div>
-					</section>
-				{/each}
+								{/each}
+							</div>
+						</section>
+					{/each}
+				</div>
 			</div>
 		</div>
 
-		<div class="space-y-3 border-t pt-4">
-			<div class="flex flex-wrap items-center justify-between gap-2">
-				<p class="text-sm font-medium">Visibility</p>
-				<button
-					type="button"
-					class="text-xs text-brand hover:underline"
-					onclick={applyDefaultSlugs}
-				>
-					Use services from selected items
-				</button>
-			</div>
-			<label class="flex items-center gap-2 text-sm">
-				<input type="checkbox" name="show_on_homepage" bind:checked={showOnHomepage} class="size-4 rounded border-input" />
-				Show on homepage
-			</label>
-			<div class="grid gap-2 sm:grid-cols-2">
-				{#each data.services as service (service.slug)}
+		<aside class="order-first space-y-4 lg:sticky lg:top-4 lg:order-2 lg:self-start">
+			<div class="rounded-lg border bg-muted/30 p-4 space-y-4">
+				<div>
+					<p class="text-xs font-medium uppercase tracking-wide text-muted-foreground">Bundle summary</p>
+					<p class="mt-1 text-sm text-muted-foreground">Updates live as you change quantities.</p>
+				</div>
+
+				<div class="space-y-1">
+					<label for="name" class="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+						Bundle name
+					</label>
+					<input
+						id="name"
+						name="name"
+						bind:value={bundleName}
+						required
+						class="border-input bg-background h-9 w-full rounded-md border px-3 text-sm"
+						placeholder="Bridal party makeup special"
+					/>
+				</div>
+
+				<div class="space-y-1">
+					<label for="description" class="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+						Description
+					</label>
+					<textarea
+						id="description"
+						name="description"
+						bind:value={bundleDescription}
+						rows="2"
+						class="border-input bg-background w-full rounded-md border px-3 py-2 text-sm"
+						placeholder="Optional short description for the public offer card"
+					></textarea>
+				</div>
+
+				<div class="grid grid-cols-2 gap-3 rounded-md border bg-background/80 p-3">
+					<div>
+						<p class="text-xs font-medium uppercase tracking-wide text-muted-foreground">Regular total</p>
+						<p class="mt-1 text-lg font-semibold tabular-nums">{formatZar(regularTotalZar)}</p>
+					</div>
+					<div>
+						<p class="text-xs font-medium uppercase tracking-wide text-muted-foreground">Items</p>
+						<p class="mt-1 text-lg font-semibold tabular-nums">{selectedLines.length}</p>
+					</div>
+				</div>
+
+				{#if selectedLines.length > 0}
+					<ul class="max-h-40 space-y-1 overflow-y-auto text-xs text-muted-foreground">
+						{#each selectedLines as line (line.row.id)}
+							<li>{line.quantity}× {line.row.item}</li>
+						{/each}
+					</ul>
+				{/if}
+
+				<div class="space-y-1">
+					<label for="bundle_price" class="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+						Bundle price
+					</label>
+					<input
+						id="bundle_price"
+						name="bundle_price"
+						bind:value={bundlePrice}
+						required
+						class="border-input bg-background h-9 w-full rounded-md border px-3 text-sm"
+						placeholder="R4,500"
+					/>
+					{#if savingsZar > 0}
+						<p class="text-xs font-medium text-brand">Save {formatZar(savingsZar)}</p>
+					{:else if bundleAmountZar !== null && regularTotalZar > 0}
+						<p class="text-xs text-muted-foreground">Package price (no discount badge)</p>
+					{/if}
+				</div>
+
+				<div class="grid grid-cols-2 gap-3">
+					<div class="space-y-1">
+						<label for="starts_at" class="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+							Start
+						</label>
+						<input
+							id="starts_at"
+							name="starts_at"
+							type="date"
+							bind:value={startsAt}
+							class="border-input bg-background h-9 w-full rounded-md border px-2 text-sm"
+						/>
+					</div>
+					<div class="space-y-1">
+						<label for="ends_at" class="text-xs font-medium uppercase tracking-wide text-muted-foreground">
+							End
+						</label>
+						<input
+							id="ends_at"
+							name="ends_at"
+							type="date"
+							bind:value={endsAt}
+							class="border-input bg-background h-9 w-full rounded-md border px-2 text-sm"
+						/>
+					</div>
+				</div>
+
+				<div class="space-y-3 border-t pt-3">
+					<div class="flex items-center justify-between gap-2">
+						<p class="text-xs font-medium uppercase tracking-wide text-muted-foreground">Visibility</p>
+						<button
+							type="button"
+							class="text-xs text-brand hover:underline"
+							onclick={applyDefaultSlugs}
+						>
+							Auto-select
+						</button>
+					</div>
 					<label class="flex items-center gap-2 text-sm">
 						<input
 							type="checkbox"
-							name="service_slugs"
-							value={service.slug}
-							checked={selectedSlugs.has(service.slug)}
-							onchange={(event) =>
-								toggleSlug(service.slug, (event.currentTarget as HTMLInputElement).checked)}
+							name="show_on_homepage"
+							bind:checked={showOnHomepage}
 							class="size-4 rounded border-input"
 						/>
-						{service.title}
+						Show on homepage
 					</label>
-				{/each}
-			</div>
-		</div>
+					<div class="space-y-2">
+						{#each data.services as service (service.slug)}
+							<label class="flex items-center gap-2 text-sm">
+								<input
+									type="checkbox"
+									name="service_slugs"
+									value={service.slug}
+									checked={selectedSlugs.has(service.slug)}
+									onchange={(event) =>
+										toggleSlug(service.slug, (event.currentTarget as HTMLInputElement).checked)}
+									class="size-4 rounded border-input"
+								/>
+								<span class="text-xs sm:text-sm">{service.title}</span>
+							</label>
+						{/each}
+					</div>
+				</div>
 
-		<div class="flex flex-wrap gap-2 border-t pt-4">
-			<button
-				type="submit"
-				class="bg-brand text-brand-foreground hover:bg-brand/90 inline-flex h-9 items-center rounded-md px-4 text-sm"
-			>
-				{data.editing ? 'Save bundle' : 'Create bundle'}
-			</button>
-			{#if data.editing}
-				<a
-					href="/admin/bundles"
-					class="border-input bg-background hover:bg-accent inline-flex h-9 items-center rounded-md border px-4 text-sm"
-				>
-					New bundle
-				</a>
-			{/if}
-		</div>
+				<div class="flex flex-col gap-2 border-t pt-3">
+					<button
+						type="submit"
+						class="bg-brand text-brand-foreground hover:bg-brand/90 inline-flex h-9 w-full items-center justify-center rounded-md px-4 text-sm"
+					>
+						{data.editing ? 'Save bundle' : 'Create bundle'}
+					</button>
+					{#if data.editing}
+						<a
+							href="/admin/bundles"
+							class="border-input bg-background hover:bg-accent inline-flex h-9 w-full items-center justify-center rounded-md border px-4 text-sm"
+						>
+							New bundle
+						</a>
+					{/if}
+				</div>
+			</div>
+		</aside>
 	</form>
 
 	<div class="space-y-3">

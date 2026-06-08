@@ -54,7 +54,9 @@
 				{formatZar(bundle.regular_total_zar)}
 			</p>
 		{/if}
-		<p class="text-2xl font-semibold tabular-nums text-brand">{bundle.bundle_price}</p>
+		<p class="text-2xl font-semibold tabular-nums text-brand">
+			{bundle.bundle_price.trim().startsWith('R') ? bundle.bundle_price : formatZar(bundle.bundle_amount_zar)}
+		</p>
 	</div>
 
 	{#if validUntil}

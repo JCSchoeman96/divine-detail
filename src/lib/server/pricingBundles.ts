@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 import { serviceList } from '$lib/data/services';
 import { formatDateInput, getBundleStatus, bundleHasStaleCatalogPrices } from '$lib/pricing/bundles';
 import { parsePriceToZar, sumBundleLines } from '$lib/pricing/money';
+import { compareBundleItems, compareCatalogRows, sortCatalogGroups } from '$lib/pricing/serviceOrder';
 
 export { formatDateInput, getBundleStatus, bundleHasStaleCatalogPrices };
 
@@ -100,10 +101,17 @@ const bundleSelect = `
 	)
 `;
 
-const mapBundle = (row: BundleQueryRow): BundleRecord => ({
-	...row,
-	items: [...(row.pricing_bundle_items ?? [])].sort((a, b) => a.sort_order - b.sort_order),
-});
+const mapBundle = (row: BundleQueryRow, catalog?: Map<string, PricingCatalogRow>): BundleRecord => {
+	const items = [...(row.pricing_bundle_items ?? [])];
+
+	if (catalog && catalog.size > 0) {
+		items.sort((a, b) => compareBundleItems(a, b, catalog));
+	} else {
+		items.sort((a, b) => a.sort_order - b.sort_order);
+	}
+
+	return { ...row, items };
+};
 
 /** Convert YYYY-MM-DD to start-of-day SAST (UTC+2). */
 export function dateInputToStartsAt(value: string): string | null {
@@ -160,12 +168,7 @@ export async function loadPricingCatalog(supabase: SupabaseClient): Promise<Pric
 		groups.set(key, existing);
 	}
 
-	return [...groups.values()].sort((a, b) => {
-		const slugCompare = a.service_slug.localeCompare(b.service_slug);
-		if (slugCompare !== 0) return slugCompare;
-		if (a.is_add_on !== b.is_add_on) return a.is_add_on ? 1 : -1;
-		return a.group_label.localeCompare(b.group_label);
-	});
+	return sortCatalogGroups([...groups.values()]);
 }
 
 export async function loadAllBundles(supabase: SupabaseClient): Promise<BundleRecord[]> {
@@ -179,7 +182,8 @@ export async function loadAllBundles(supabase: SupabaseClient): Promise<BundleRe
 		return [];
 	}
 
-	return ((data ?? []) as BundleQueryRow[]).map(mapBundle);
+	const catalog = await loadCatalogMap(supabase);
+	return ((data ?? []) as BundleQueryRow[]).map((row) => mapBundle(row, catalog));
 }
 
 export async function loadActiveBundles(
@@ -203,7 +207,8 @@ export async function loadActiveBundles(
 		return [];
 	}
 
-	return ((data ?? []) as BundleQueryRow[]).map(mapBundle);
+	const catalog = await loadCatalogMap(supabase);
+	return ((data ?? []) as BundleQueryRow[]).map((row) => mapBundle(row, catalog));
 }
 
 export async function loadCatalogMap(supabase: SupabaseClient): Promise<Map<string, PricingCatalogRow>> {
@@ -264,10 +269,17 @@ export function validateBundleInput(
 		return { ok: false, error: 'Choose at least one service page to show this offer on.' };
 	}
 
+	const sortedSelections = [...selections].sort((a, b) => {
+		const rowA = catalog.get(a.pricing_row_id);
+		const rowB = catalog.get(b.pricing_row_id);
+		if (!rowA || !rowB) return 0;
+		return compareCatalogRows(rowA, rowB);
+	});
+
 	const itemPayload: Omit<BundleItemRecord, 'id' | 'bundle_id'>[] = [];
 	let sortOrder = 0;
 
-	for (const selection of selections) {
+	for (const selection of sortedSelections) {
 		const row = catalog.get(selection.pricing_row_id);
 		if (!row) {
 			return { ok: false, error: 'One or more selected items are no longer in the catalog.' };
