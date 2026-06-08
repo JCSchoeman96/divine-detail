@@ -7,6 +7,8 @@
   import { abs_url } from '$lib/config/site.js';
   import { build_whatsapp_url } from '$lib/config/social.js';
 
+  let { data } = $props();
+
   const pageUrl = abs_url('/services');
   const socialImage = abs_url('/og-default.svg');
   const pageTitle = 'Makeup & Hair Services Hub Pretoria | Divine Detail';
@@ -17,7 +19,7 @@
     "Hi Megan! I'd like to book makeup. Service: _____. Date: _____. Area: Pretoria. Please confirm availability."
   );
 
-  const teaserPriceBySlug = {
+  const teaserPriceFallbackBySlug = {
     'bridal-makeup': 'R1,500',
     'bridal-hair': 'R450',
     'bridal-hair-and-makeup': 'R1,950',
@@ -26,7 +28,34 @@
     'matric-farewell': 'R500',
   } as const;
 
-  type ServiceSlug = keyof typeof teaserPriceBySlug;
+  type ServiceSlug = keyof typeof teaserPriceFallbackBySlug;
+
+  const teaserItemBySlug: Record<ServiceSlug, string> = {
+    'bridal-makeup': 'Bridal Makeup',
+    'bridal-hair': 'Blow wave (short hair)',
+    'bridal-hair-and-makeup': 'Bridal Hair & Makeup',
+    'wedding-packages': 'Wedding Package — Hair',
+    'special-events': 'Special Event Makeup',
+    'matric-farewell': 'Matric Farewell Makeup',
+  };
+
+  const normalizeTeaserPrice = (price: string) => price.replace(/^From\s+/i, '');
+
+  const teaserPriceBySlug = $derived.by(() => {
+    const prices = { ...teaserPriceFallbackBySlug };
+    for (const service of data.services ?? []) {
+      const slug = service.slug as ServiceSlug;
+      const teaserItem = teaserItemBySlug[slug];
+      const row = service.pricing
+        ?.flatMap((group) => group.rows)
+        .find((item) => item.item.includes(teaserItem));
+
+      if (row?.price) {
+        prices[slug] = normalizeTeaserPrice(row.price);
+      }
+    }
+    return prices;
+  });
 
   const hubBlurbBySlug: Record<ServiceSlug, string> = {
     'bridal-makeup': 'Timeless bridal makeup that feels comfortable, lasts beautifully, and still feels like you.',
