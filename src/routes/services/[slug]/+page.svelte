@@ -27,9 +27,13 @@
   import { WHATSAPP_URL, build_whatsapp_url } from "$lib/config/social.js";
   import { abs_url } from "$lib/config/site.js";
   import { guides } from "$lib/data/guides";
+  import BundleOfferCard from "$lib/components/BundleOfferCard.svelte";
+  import { bundleOfferSchema } from "$lib/pricing/bundles";
+  import { parsePriceToZar, zarToOfferPrice } from "$lib/pricing/money";
 
   let { data }: { data: PageData } = $props();
   const service = $derived(data.service);
+  const bundles = $derived(data.bundles ?? []);
 
   const iconMap: Record<string, Component> = {
     gem: Gem,
@@ -48,33 +52,40 @@
   const pageImage = abs_url("/og-default.svg");
 
   const parsePrice = (value: string) => {
-    const numeric = value.replace(/[^0-9.]/g, "");
-    if (!numeric) {
+    const amountZar = parsePriceToZar(value);
+    if (amountZar === null) {
       return undefined;
     }
 
-    return Number.parseFloat(numeric).toFixed(2);
+    return zarToOfferPrice(amountZar);
   };
 
-  const serviceOffers = $derived(
-    service.pricing
-      .flatMap((group) => group.rows)
-      .map((row) => {
-        const normalizedPrice = parsePrice(row.price);
-        if (!normalizedPrice) {
-          return undefined;
-        }
+  const bundleOffers = $derived(
+    bundles.map((bundle) => bundleOfferSchema(bundle, abs_url("/contact"))),
+  );
 
-        return {
-          "@type": "Offer",
-          priceCurrency: "ZAR",
-          price: normalizedPrice,
-          availability: "https://schema.org/InStock",
-          description: row.item,
-          url: pageUrl,
-        };
-      })
-      .filter(Boolean),
+  const serviceOffers = $derived(
+    [
+      ...service.pricing
+        .flatMap((group) => group.rows)
+        .map((row) => {
+          const normalizedPrice = parsePrice(row.price);
+          if (!normalizedPrice) {
+            return undefined;
+          }
+
+          return {
+            "@type": "Offer",
+            priceCurrency: "ZAR",
+            price: normalizedPrice,
+            availability: "https://schema.org/InStock",
+            description: row.item,
+            url: pageUrl,
+          };
+        })
+        .filter(Boolean),
+      ...bundleOffers,
+    ],
   );
 
   const timingTextBySlug: Record<string, string> = {
@@ -453,6 +464,32 @@
 </section>
 
 <Separator />
+
+{#if bundles.length > 0}
+  <!-- Limited Offers -->
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-5xl px-4">
+      <div class="mb-14 text-center">
+        <p class="text-sm font-medium uppercase tracking-widest text-brand">
+          Limited Time
+        </p>
+        <h2
+          class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
+        >
+          Special <span class="heading-gradient">Offers</span>
+        </h2>
+      </div>
+
+      <div class="mx-auto grid max-w-3xl gap-6">
+        {#each bundles as bundle (bundle.id)}
+          <BundleOfferCard {bundle} offerUrl="/contact" />
+        {/each}
+      </div>
+    </div>
+  </section>
+
+  <Separator />
+{/if}
 
 <!-- Pricing -->
 <section class="py-20 sm:py-24">

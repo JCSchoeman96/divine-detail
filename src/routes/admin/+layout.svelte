@@ -6,6 +6,7 @@
 	const navItems = [
 		{ href: '/admin/submissions', label: 'Submissions' },
 		{ href: '/admin/pricing', label: 'Pricing' },
+		{ href: '/admin/bundles', label: 'Bundles' },
 	];
 </script>
 

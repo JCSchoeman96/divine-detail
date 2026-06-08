@@ -9,6 +9,7 @@
   } from '$lib/components/ui/card/index.js';
   import { Badge } from '$lib/components/ui/badge/index.js';
   import { Separator } from '$lib/components/ui/separator/index.js';
+  import BundleOfferCard from '$lib/components/BundleOfferCard.svelte';
   import Gem from '@lucide/svelte/icons/gem';
   import Sparkles from '@lucide/svelte/icons/sparkles';
   import Star from '@lucide/svelte/icons/star';
@@ -16,6 +17,11 @@
   import ArrowRight from '@lucide/svelte/icons/arrow-right';
   import { WHATSAPP_URL } from '$lib/config/social.js';
   import { abs_url } from '$lib/config/site.js';
+  import { bundleOfferSchema } from '$lib/pricing/bundles';
+  import type { PageData } from './$types';
+
+  let { data }: { data: PageData } = $props();
+  const bundles = $derived(data.bundles ?? []);
 
   const services = [
     {
@@ -70,6 +76,13 @@
   const pageTitle = 'Divine Detail | Bridal Makeup Artist Pretoria';
   const pageDescription =
     'Bridal, matric, and special event makeup in Pretoria and Gauteng. Soft, timeless glam that feels comfortable, looks beautiful in person, and photographs beautifully.';
+
+  const bundleOffersSchema = $derived(
+    bundles.map((bundle) => ({
+      '@context': 'https://schema.org',
+      ...bundleOfferSchema(bundle, abs_url('/contact')),
+    })),
+  );
 </script>
 
 <svelte:head>
@@ -85,6 +98,10 @@
   <meta name="twitter:title" content={pageTitle} />
   <meta name="twitter:description" content={pageDescription} />
   <meta name="twitter:image" content={socialImage} />
+  {#if bundleOffersSchema.length > 0}
+    <!-- eslint-disable-next-line svelte/no-at-html-tags -->
+    {@html `<script type="application/ld+json">${JSON.stringify(bundleOffersSchema)}</script>`}
+  {/if}
 </svelte:head>
 
 <!-- Hero -->
@@ -191,6 +208,32 @@
     </div>
   </div>
 </section>
+
+{#if bundles.length > 0}
+  <Separator />
+
+  <!-- Limited Offers -->
+  <section class="py-20 sm:py-24">
+    <div class="mx-auto max-w-5xl px-4">
+      <div class="mb-14 text-center">
+        <p class="text-sm font-medium uppercase tracking-widest text-brand">
+          Limited Time
+        </p>
+        <h2
+          class="font-display mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
+        >
+          Special <span class="heading-gradient">Offers</span>
+        </h2>
+      </div>
+
+      <div class="mx-auto grid max-w-3xl gap-6">
+        {#each bundles as bundle (bundle.id)}
+          <BundleOfferCard {bundle} offerUrl="/contact" />
+        {/each}
+      </div>
+    </div>
+  </section>
+{/if}
 
 <Separator />
 
